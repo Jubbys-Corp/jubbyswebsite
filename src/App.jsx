@@ -5,8 +5,16 @@ function App() {
     <main className="welcome-page">
       <div className="garage-scene" aria-hidden="true">
         <video
-          className="bg-video"
+          className="bg-video bg-video--desktop"
           src="/bg-video.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        <video
+          className="bg-video bg-video--mobile"
+          src="/bg-video-mobile.mp4"
           autoPlay
           loop
           muted

@@ -23,6 +23,15 @@
   object-position: center;
 }
 
+.bg-video--mobile {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bg-video--desktop { display: none; }
+  .bg-video--mobile  { display: block; }
+}
+
 .pink-filter {
   position: absolute;
   inset: 0;
