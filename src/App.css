@@ -1,6 +1,7 @@
 .welcome-page {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -8,7 +9,7 @@
 }
 
 .garage-scene {
-  position: absolute;
+  position: fixed;
   inset: 0;
   filter: brightness(0.45) contrast(1.05);
 }
