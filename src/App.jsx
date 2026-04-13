@@ -6,6 +6,7 @@ function App() {
       <div className="garage-scene" aria-hidden="true">
         <img className="bg-video bg-video--desktop" src="/bg.gif" alt="" />
         <img className="bg-video bg-video--mobile" src="/bg-mobile.gif" alt="" />
+        <img className="graffiti-logo" src="/logo-graffiti.svg" alt="" />
         <div className="pink-filter"></div>
         <div className="smoke">
           <span className="smoke-cloud smoke-cloud-1"></span>
