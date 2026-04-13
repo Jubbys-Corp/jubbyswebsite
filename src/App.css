@@ -48,7 +48,7 @@
 @media (max-width: 640px) {
   .graffiti-logo {
     width: min(560px, 85vw);
-    bottom: 14%;
+    bottom: 7%;
     transform: translateX(-50%) rotate(-14deg);
     opacity: 0.50;
     mix-blend-mode: overlay;
