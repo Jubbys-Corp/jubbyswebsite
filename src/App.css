@@ -111,6 +111,13 @@
   line-height: 1.25;
   color: #ffe6f4;
   text-shadow: 0 3px 15px rgba(26, 4, 17, 0.75);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .welcome-content h1 {
+    white-space: normal;
+  }
 }
 
 .description {
