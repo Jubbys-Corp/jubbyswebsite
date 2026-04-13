@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  font-family: 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+  color: #ffe3f2;
+  background: #180613;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
