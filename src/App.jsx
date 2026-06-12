@@ -113,9 +113,6 @@ function App() {
               <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp" alt="" />
               <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp" alt="" />
               <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp" alt="" />
-              <img className="hero-mini hero-mini--1" src="/products/poset-mango.webp" alt="" />
-              <img className="hero-mini hero-mini--2" src="/products/poset-muz.webp" alt="" />
-              <img className="hero-mini hero-mini--3" src="/products/poset-ananas.webp" alt="" />
               <span className="sprinkle sprinkle--1"></span>
               <span className="sprinkle sprinkle--2"></span>
               <span className="sprinkle sprinkle--3"></span>
