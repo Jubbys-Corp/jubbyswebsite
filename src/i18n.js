@@ -1,6 +1,6 @@
 export const STRINGS = {
   tr: {
-    title: 'Jubbys — Peelies | Soyulabilir Meyveli Yumuşak Şeker',
+    title: 'Jubbys Peelies | Soyulabilir Meyveli Yumuşak Şeker',
     brandAria: 'Jubbys ana sayfa',
     navAria: 'Site içi gezinme',
     langAria: 'Dil seçimi',
@@ -14,7 +14,7 @@ export const STRINGS = {
       badge: '🧃 Gerçek meyve sulu',
       h1a: 'Soy &',
       h1b: 'Tadını Çıkar!',
-      sub: ' — soyulabilir meyveli yumuşak şeker. Mango, muz ve ananas lezzetleriyle; soyması da yemesi kadar eğlenceli!',
+      sub: ', soyulabilir meyveli yumuşak şeker. Mango, muz ve ananas lezzetleriyle; soyması da yemesi kadar eğlenceli!',
       ctaFlavors: 'Lezzetleri Keşfet',
       ctaMix: 'Mix Kutu 🎁',
       chipsAria: 'Öne çıkanlar',
@@ -44,7 +44,7 @@ export const STRINGS = {
         {
           id: 'ananas',
           title: 'Peelies Ananas',
-          desc: 'Tropik bir esinti! Dilim dilim ananas tadı — soy, keşfet, tadını çıkar.',
+          desc: 'Tropik bir esinti! Dilim dilim ananas tadı. Soy, keşfet, tadını çıkar.',
           weight: '55 g (1.94 oz)',
           imgAlt: 'Jubbys Peelies Ananas paketi',
         },
@@ -55,9 +55,9 @@ export const STRINGS = {
       h2: 'Peelies Mix Kutu',
       leadPre: 'Tek kutuda ',
       leadStrong: '100 mini poşet',
-      leadPost: '! Her biri 5,5 g — mango, muz ve ananas bir arada. Paylaşması kolay, bitirmesi zor.',
+      leadPost: '! Her biri 5,5 g. Mango, muz ve ananas bir arada. Paylaşması kolay, bitirmesi zor.',
       list: ['🍬 100 × 5,5 g mini poşet', '🥭🍌🍍 Üç lezzet tek kutuda', '🏪 Tezgah üstü stantlı kutu'],
-      imgAlt: 'Jubbys Peelies Mix Kutu — 100 mini poşet',
+      imgAlt: 'Jubbys Peelies Mix Kutu - 100 mini poşet',
     },
     features: {
       kicker: 'Neden Jubbys?',
@@ -80,8 +80,8 @@ export const STRINGS = {
         },
         {
           icon: '🎁',
-          title: 'Her Ana Uygun Boy',
-          desc: '55 g paketler ve 5,5 g mini poşetli Mix Kutu — okulda, yolda, her yerde.',
+          title: 'Her An İçin Uygun Boy',
+          desc: '55 g paketler ve 5,5 g mini poşetli Mix Kutu - okulda, yolda, her yerde.',
         },
       ],
     },
@@ -128,13 +128,13 @@ export const STRINGS = {
       ],
     },
     footer: {
-      tag: 'Meyve aromalı soyulabilir yumuşak şeker — Soy & tadını çıkar!',
+      tag: 'Meyve aromalı soyulabilir yumuşak şeker - Soy & tadını çıkar!',
       note: '© 2026 Jubbys. Tüm hakları saklıdır.',
     },
   },
 
   en: {
-    title: 'Jubbys — Peelies | Peelable Fruit Gummy Candy',
+    title: 'Jubbys Peelies | Peelable Fruit Gummy Candy',
     brandAria: 'Jubbys home',
     navAria: 'Site navigation',
     langAria: 'Language',
@@ -148,7 +148,7 @@ export const STRINGS = {
       badge: '🧃 Made with real fruit juice',
       h1a: 'Peel &',
       h1b: 'Enjoy!',
-      sub: ' — peelable fruit gummy candy. Mango, banana and pineapple flavours; peeling it is as fun as eating it!',
+      sub: ', the peelable fruit gummy candy. Mango, banana and pineapple flavours. Peeling it is as fun as eating it!',
       ctaFlavors: 'Explore the Flavours',
       ctaMix: 'Mix Box 🎁',
       chipsAria: 'Highlights',
@@ -178,7 +178,7 @@ export const STRINGS = {
         {
           id: 'ananas',
           title: 'Peelies Pineapple',
-          desc: 'A tropical breeze! Pineapple flavour slice by slice — peel, discover, enjoy.',
+          desc: 'A tropical breeze! Pineapple flavour slice by slice. Peel, discover, enjoy.',
           weight: '55 g (1.94 oz)',
           imgAlt: 'Jubbys Peelies Pineapple pack',
         },
@@ -189,13 +189,13 @@ export const STRINGS = {
       h2: 'Peelies Mix Box',
       leadPre: 'One box, ',
       leadStrong: '100 mini sachets',
-      leadPost: '! Each one 5.5 g — mango, banana and pineapple together. Easy to share, hard to finish.',
+      leadPost: '! Each one 5.5 g. Mango, banana and pineapple together. Easy to share, hard to finish.',
       list: [
         '🍬 100 × 5.5 g mini sachets',
         '🥭🍌🍍 Three flavours in one box',
         '🏪 Counter-top display box',
       ],
-      imgAlt: 'Jubbys Peelies Mix Box — 100 mini sachets',
+      imgAlt: 'Jubbys Peelies Mix Box - 100 mini sachets',
     },
     features: {
       kicker: 'Why Jubbys?',
@@ -214,12 +214,12 @@ export const STRINGS = {
         {
           icon: '✅',
           title: 'Halal Certified',
-          desc: 'All of our products are halal certified — enjoy with peace of mind.',
+          desc: 'All of our products are halal certified - enjoy with peace of mind.',
         },
         {
           icon: '🎁',
           title: 'A Size for Every Moment',
-          desc: '55 g packs and the Mix Box with 5.5 g mini sachets — at school, on the go, everywhere.',
+          desc: '55 g packs and the Mix Box with 5.5 g mini sachets - at school, on the go, everywhere.',
         },
       ],
     },
@@ -266,7 +266,7 @@ export const STRINGS = {
       ],
     },
     footer: {
-      tag: 'Fruit flavoured peelable gummy — Peel & enjoy!',
+      tag: 'Fruit-flavoured peelable gummy - Peel & enjoy!',
       note: '© 2026 Jubbys. All rights reserved.',
     },
   },
