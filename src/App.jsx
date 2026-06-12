@@ -1,86 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
+import { STRINGS } from './i18n.js'
 
-const FLAVORS = [
-  {
-    id: 'mango',
-    name: 'Mango',
-    title: 'Peelies Mango',
-    img: '/products/doypack-mango.webp',
-    desc: 'Güneş gibi parlak, bal gibi tatlı. Soydukça ortaya çıkan tropik mango keyfi!',
-    weight: '55 g (1.94 oz)',
-  },
-  {
-    id: 'muz',
-    name: 'Muz',
-    title: 'Peelies Muz',
-    img: '/products/doypack-muz.webp',
-    desc: 'Tıpkı gerçeği gibi soyulur! Yumuşacık dokusuyla muz aromalı soyulabilir eğlence.',
-    weight: '55 g (1.94 oz)',
-  },
-  {
-    id: 'ananas',
-    name: 'Ananas',
-    title: 'Peelies Ananas',
-    img: '/products/doypack-ananas.webp',
-    desc: 'Tropik bir esinti! Dilim dilim ananas tadı — soy, keşfet, tadını çıkar.',
-    weight: '55 g (1.94 oz)',
-  },
-]
-
-const FEATURES = [
-  {
-    icon: '🧃',
-    title: 'Gerçek Meyve Sulu',
-    desc: 'Her Peelies, gerçek meyve suyu ile hazırlanır. Tadı meyvenin ta kendisi!',
-  },
-  {
-    icon: '🍌',
-    title: 'Soyulabilir Eğlence',
-    desc: 'Önce soy, sonra ye! Yemesi kadar soyması da eğlenceli yumuşak şeker.',
-  },
-  {
-    icon: '✅',
-    title: 'Helal Sertifikalı',
-    desc: 'Tüm ürünlerimiz helal sertifikalıdır, gönül rahatlığıyla tüketebilirsiniz.',
-  },
-  {
-    icon: '🎁',
-    title: 'Her Ana Uygun Boy',
-    desc: '55 g paketler ve 5,5 g mini poşetli Mix Kutu — okulda, yolda, her yerde.',
-  },
-]
-
-const SPECS = [
-  {
-    name: 'Peelies Mix Kutu',
-    packaging: '5,5 g × 100 × 8',
-    carton: '375 × 175 × 335 mm',
-    weight: '4,4 kg',
-    volume: '0,022 m³',
-  },
-  {
-    name: 'Peelies Mango',
-    packaging: '55 g (1.94 oz) × 12 × 6',
-    carton: '375 × 290 × 335 mm',
-    weight: '3,96 kg',
-    volume: '0,036 m³',
-  },
-  {
-    name: 'Peelies Muz',
-    packaging: '55 g (1.94 oz) × 12 × 6',
-    carton: '375 × 290 × 335 mm',
-    weight: '3,96 kg',
-    volume: '0,036 m³',
-  },
-  {
-    name: 'Peelies Ananas',
-    packaging: '55 g (1.94 oz) × 12 × 6',
-    carton: '375 × 290 × 335 mm',
-    weight: '3,96 kg',
-    volume: '0,036 m³',
-  },
-]
+const FLAVOR_IMGS = {
+  mango: '/products/doypack-mango.webp',
+  muz: '/products/doypack-muz.webp',
+  ananas: '/products/doypack-ananas.webp',
+}
 
 function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
   return (
@@ -96,6 +22,18 @@ function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
 }
 
 function App() {
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('jubbys-lang')
+    return saved === 'en' ? 'en' : 'tr'
+  })
+  const t = STRINGS[lang]
+
+  useEffect(() => {
+    localStorage.setItem('jubbys-lang', lang)
+    document.documentElement.lang = lang
+    document.title = t.title
+  }, [lang, t])
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -115,41 +53,59 @@ function App() {
   return (
     <>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Jubbys ana sayfa">
+        <a className="brand" href="#top" aria-label={t.brandAria}>
           <img src="/logo.webp" alt="Jubbys" />
         </a>
-        <nav className="site-nav" aria-label="Site içi gezinme">
-          <a href="#lezzetler">Lezzetler</a>
-          <a href="#mix-kutu">Mix Kutu</a>
-          <a href="#neden-jubbys">Neden Jubbys?</a>
-          <a href="#toptan">Toptan</a>
+        <nav className="site-nav" aria-label={t.navAria}>
+          <a href="#lezzetler">{t.nav.flavors}</a>
+          <a href="#mix-kutu">{t.nav.mixbox}</a>
+          <a href="#neden-jubbys">{t.nav.why}</a>
+          <a href="#toptan">{t.nav.wholesale}</a>
         </nav>
+        <div className="lang-switch" role="group" aria-label={t.langAria}>
+          <button
+            type="button"
+            className={lang === 'tr' ? 'active' : ''}
+            aria-pressed={lang === 'tr'}
+            onClick={() => setLang('tr')}
+          >
+            TR
+          </button>
+          <button
+            type="button"
+            className={lang === 'en' ? 'active' : ''}
+            aria-pressed={lang === 'en'}
+            onClick={() => setLang('en')}
+          >
+            EN
+          </button>
+        </div>
       </header>
 
       <main id="top">
         <section className="hero">
           <div className="hero-inner">
             <div className="hero-copy">
-              <span className="hero-badge">🧃 Gerçek meyve sulu</span>
+              <span className="hero-badge">{t.hero.badge}</span>
               <h1>
-                Soy &amp; <span className="squiggle">Tadını Çıkar!</span>
+                {t.hero.h1a} <span className="squiggle">{t.hero.h1b}</span>
               </h1>
               <p className="hero-sub">
-                Jubbys <strong>Peelies</strong> — soyulabilir meyveli yumuşak şeker. Mango, muz ve
-                ananas lezzetleriyle; soyması da yemesi kadar eğlenceli!
+                Jubbys <strong>Peelies</strong>
+                {t.hero.sub}
               </p>
               <div className="hero-actions">
                 <a className="btn btn--primary" href="#lezzetler">
-                  Lezzetleri Keşfet
+                  {t.hero.ctaFlavors}
                 </a>
                 <a className="btn btn--ghost" href="#mix-kutu">
-                  Mix Kutu 🎁
+                  {t.hero.ctaMix}
                 </a>
               </div>
-              <ul className="hero-chips" aria-label="Öne çıkanlar">
-                <li>🥭 Mango</li>
-                <li>🍌 Muz</li>
-                <li>🍍 Ananas</li>
+              <ul className="hero-chips" aria-label={t.hero.chipsAria}>
+                {t.hero.chips.map((chip) => (
+                  <li key={chip}>{chip}</li>
+                ))}
               </ul>
             </div>
             <div className="hero-stage" aria-hidden="true">
@@ -157,6 +113,9 @@ function App() {
               <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp" alt="" />
               <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp" alt="" />
               <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp" alt="" />
+              <img className="hero-mini hero-mini--1" src="/products/poset-mango.webp" alt="" />
+              <img className="hero-mini hero-mini--2" src="/products/poset-muz.webp" alt="" />
+              <img className="hero-mini hero-mini--3" src="/products/poset-ananas.webp" alt="" />
               <span className="sprinkle sprinkle--1"></span>
               <span className="sprinkle sprinkle--2"></span>
               <span className="sprinkle sprinkle--3"></span>
@@ -170,26 +129,26 @@ function App() {
 
         <section className="flavors" id="lezzetler">
           <div className="section-head reveal">
-            <span className="kicker">Lezzetlerimiz</span>
-            <h2>Hangisini önce soyacaksın?</h2>
-            <p>Her paket 55 g saf eğlence. Gerçek meyve suyuyla hazırlanan üç tropik lezzet.</p>
+            <span className="kicker">{t.flavors.kicker}</span>
+            <h2>{t.flavors.h2}</h2>
+            <p>{t.flavors.p}</p>
           </div>
           <div className="flavor-grid">
-            {FLAVORS.map((flavor, i) => (
+            {t.flavors.items.map((flavor, i) => (
               <article
                 className={`flavor-card flavor-card--${flavor.id} reveal`}
                 style={{ transitionDelay: `${i * 90}ms` }}
                 key={flavor.id}
               >
                 <div className="flavor-art">
-                  <img src={flavor.img} alt={`Jubbys ${flavor.title} paketi`} loading="lazy" />
+                  <img src={FLAVOR_IMGS[flavor.id]} alt={flavor.imgAlt} loading="lazy" />
                 </div>
                 <h3>{flavor.title}</h3>
                 <p>{flavor.desc}</p>
                 <div className="flavor-meta">
                   <span className="chip">{flavor.weight}</span>
-                  <span className="chip">Doypack</span>
-                  <span className="chip">Helal</span>
+                  <span className="chip">{t.flavors.chipPack}</span>
+                  <span className="chip">{t.flavors.chipHalal}</span>
                 </div>
               </article>
             ))}
@@ -201,19 +160,20 @@ function App() {
         <section className="mixbox" id="mix-kutu">
           <div className="mixbox-inner">
             <div className="mixbox-art reveal">
-              <img src="/products/mix-kutu.webp" alt="Jubbys Peelies Mix Kutu — 100 mini poşet" />
+              <img src="/products/mix-kutu.webp" alt={t.mixbox.imgAlt} />
             </div>
             <div className="mixbox-copy reveal">
-              <span className="kicker kicker--light">Karar veremeyenlere</span>
-              <h2>Peelies Mix Kutu</h2>
+              <span className="kicker kicker--light">{t.mixbox.kicker}</span>
+              <h2>{t.mixbox.h2}</h2>
               <p className="mixbox-lead">
-                Tek kutuda <strong>100 mini poşet</strong>! Her biri 5,5 g — mango, muz ve ananas
-                bir arada. Paylaşması kolay, bitirmesi zor.
+                {t.mixbox.leadPre}
+                <strong>{t.mixbox.leadStrong}</strong>
+                {t.mixbox.leadPost}
               </p>
               <ul className="mixbox-list">
-                <li>🍬 100 × 5,5 g mini poşet</li>
-                <li>🥭🍌🍍 Üç lezzet tek kutuda</li>
-                <li>🏪 Tezgah üstü stantlı kutu</li>
+                {t.mixbox.list.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
               <div className="sachet-row" aria-hidden="true">
                 <img src="/products/poset-mango.webp" alt="" loading="lazy" />
@@ -228,15 +188,15 @@ function App() {
 
         <section className="features" id="neden-jubbys">
           <div className="section-head reveal">
-            <span className="kicker">Neden Jubbys?</span>
-            <h2>Çünkü şeker dediğin eğlenceli olmalı</h2>
+            <span className="kicker">{t.features.kicker}</span>
+            <h2>{t.features.h2}</h2>
           </div>
           <div className="feature-grid">
-            {FEATURES.map((f, i) => (
+            {t.features.items.map((f, i) => (
               <article
                 className="feature-card reveal"
                 style={{ transitionDelay: `${i * 90}ms` }}
-                key={f.title}
+                key={f.icon}
               >
                 <span className="feature-icon" aria-hidden="true">
                   {f.icon}
@@ -250,23 +210,23 @@ function App() {
 
         <section className="specs reveal" id="toptan">
           <div className="section-head">
-            <span className="kicker">Toptan &amp; İhracat</span>
-            <h2>Koli Bilgileri</h2>
-            <p>Bayilik ve ihracat talepleriniz için ürün ve koli detaylarımız.</p>
+            <span className="kicker">{t.specs.kicker}</span>
+            <h2>{t.specs.h2}</h2>
+            <p>{t.specs.p}</p>
           </div>
           <div className="specs-table-wrap">
             <table className="specs-table">
               <thead>
                 <tr>
-                  <th>Ürün</th>
-                  <th>Paketleme</th>
-                  <th>Koli Ölçüsü</th>
-                  <th>Net Ağırlık</th>
-                  <th>Hacim</th>
+                  <th>{t.specs.headers.name}</th>
+                  <th>{t.specs.headers.packaging}</th>
+                  <th>{t.specs.headers.carton}</th>
+                  <th>{t.specs.headers.weight}</th>
+                  <th>{t.specs.headers.volume}</th>
                 </tr>
               </thead>
               <tbody>
-                {SPECS.map((s) => (
+                {t.specs.rows.map((s) => (
                   <tr key={s.name}>
                     <td>{s.name}</td>
                     <td>{s.packaging}</td>
@@ -283,8 +243,8 @@ function App() {
 
       <footer className="site-footer">
         <img className="footer-logo" src="/logo.webp" alt="Jubbys" />
-        <p className="footer-tag">Meyve aromalı soyulabilir yumuşak şeker — Soy &amp; tadını çıkar!</p>
-        <p className="footer-note">© 2026 Jubbys. Tüm hakları saklıdır.</p>
+        <p className="footer-tag">{t.footer.tag}</p>
+        <p className="footer-note">{t.footer.note}</p>
       </footer>
     </>
   )
