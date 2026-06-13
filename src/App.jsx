@@ -211,6 +211,17 @@ function HomePage({ t }) {
             </article>
           ))}
         </div>
+
+        <div className="local-badge reveal">
+          <span className="local-flag" aria-hidden="true">
+            {t.features.local.flag}
+          </span>
+          <div className="local-text">
+            <span className="kicker kicker--light">{t.features.local.kicker}</span>
+            <h3>{t.features.local.title}</h3>
+            <p>{t.features.local.desc}</p>
+          </div>
+        </div>
       </section>
 
       <section className="specs reveal" id="toptan">
