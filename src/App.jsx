@@ -70,7 +70,21 @@ function App() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              🛒 {t.buyLabel}
+              <svg
+                className="buy-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="9" cy="20" r="1.4" />
+                <circle cx="18" cy="20" r="1.4" />
+                <path d="M2.5 3.5h2.3l2.15 10.9a1.6 1.6 0 0 0 1.57 1.3h7.9a1.6 1.6 0 0 0 1.57-1.27L21 7.5H6" />
+              </svg>
+              {t.buyLabel}
             </a>
           )}
           <div className="lang-switch" role="group" aria-label={t.langAria}>

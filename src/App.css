@@ -71,6 +71,13 @@
   box-shadow: 0 3px 0 rgba(168, 18, 27, 0.3);
 }
 
+.buy-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
 .lang-switch {
   display: flex;
   gap: 2px;
