@@ -341,7 +341,7 @@
   position: absolute;
   left: 50%;
   top: 13%;
-  width: clamp(108px, 13.5vw, 180px);
+  width: clamp(128px, 16vw, 212px);
   filter: drop-shadow(0 16px 22px rgba(74, 32, 23, 0.32));
   /* z-index lives in its own keyframes: mixing it into the transform
      animation would force the whole animation off the compositor, and
@@ -384,10 +384,10 @@
     transform: translate(-50%, 32%) scale(1.16) rotate(0deg);
   }
   25% {
-    transform: translate(-120%, 8%) scale(0.8) rotate(-6deg);
+    transform: translate(-145%, 8%) scale(0.8) rotate(-6deg);
   }
   44% {
-    transform: translate(-120%, 8%) scale(0.8) rotate(-6deg);
+    transform: translate(-145%, 8%) scale(0.8) rotate(-6deg);
   }
   50% {
     transform: translate(-50%, -16%) scale(0.72) rotate(0deg);
@@ -396,10 +396,10 @@
     transform: translate(-50%, -16%) scale(0.72) rotate(0deg);
   }
   75% {
-    transform: translate(20%, 8%) scale(0.8) rotate(6deg);
+    transform: translate(45%, 8%) scale(0.8) rotate(6deg);
   }
   94% {
-    transform: translate(20%, 8%) scale(0.8) rotate(6deg);
+    transform: translate(45%, 8%) scale(0.8) rotate(6deg);
   }
   100% {
     transform: translate(-50%, 32%) scale(1.12) rotate(0deg);
@@ -933,7 +933,7 @@
   }
 
   .hero-pack {
-    width: clamp(92px, 23vw, 140px);
+    width: clamp(104px, 25vw, 158px);
   }
 
   .mixbox-inner {
@@ -1039,7 +1039,7 @@
   }
 
   .hero-pack--2 {
-    transform: translate(-120%, 8%) scale(0.8) rotate(-6deg);
+    transform: translate(-145%, 8%) scale(0.8) rotate(-6deg);
     z-index: 5;
   }
 
@@ -1049,7 +1049,7 @@
   }
 
   .hero-pack--4 {
-    transform: translate(20%, 8%) scale(0.8) rotate(6deg);
+    transform: translate(45%, 8%) scale(0.8) rotate(6deg);
     z-index: 5;
   }
 }
