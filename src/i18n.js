@@ -53,7 +53,7 @@ export const STRINGS = {
         {
           id: 'karpuz',
           title: 'Peelies Karpuz',
-          desc: 'Yaz sıcağında ferahlatan karpuz! Kırmızısı tatlı, kabuğu eğlenceli — soy ve serinle.',
+          desc: 'Yaz sıcağında ferahlatan karpuz! Kırmızısı tatlı, kabuğu eğlenceli. Soy ve serinle.',
           weight: '55 g (1.94 oz)',
           imgAlt: 'Jubbys Peelies Karpuz paketi',
         },
@@ -251,7 +251,7 @@ export const STRINGS = {
         {
           id: 'karpuz',
           title: 'Peelies Watermelon',
-          desc: 'A summer cooler! Sweet on the red, fun on the rind — peel it and refresh.',
+          desc: 'A summer cooler! Sweet on the red, fun on the rind. Peel it and refresh.',
           weight: '55 g (1.94 oz)',
           imgAlt: 'Jubbys Peelies Watermelon pack',
         },

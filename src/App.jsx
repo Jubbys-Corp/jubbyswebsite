@@ -6,7 +6,7 @@ const FLAVOR_IMGS = {
   mango: '/products/flavor-mango.webp?v=6',
   muz: '/products/flavor-muz.webp?v=6',
   ananas: '/products/flavor-ananas.webp?v=6',
-  karpuz: '/products/flavor-karpuz.webp?v=6',
+  karpuz: '/products/flavor-karpuz.webp?v=8',
 }
 
 const ABOUT_HASH = '#/hakkimizda'
