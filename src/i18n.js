@@ -49,14 +49,6 @@ export const STRINGS = {
           imgAlt: 'Jubbys Peelies Ananas paketi',
         },
       ],
-      standsTitle: 'Teşhir Standları',
-      standsSub: 'Tezgah üstü satışa hazır, 12 paketlik teşhir kutuları.',
-      standPiece: '12 × 55 g paket',
-      stands: [
-        { id: 'mango', title: 'Mango Standı', imgAlt: 'Jubbys Peelies Mango teşhir standı' },
-        { id: 'muz', title: 'Muz Standı', imgAlt: 'Jubbys Peelies Muz teşhir standı' },
-        { id: 'ananas', title: 'Ananas Standı', imgAlt: 'Jubbys Peelies Ananas teşhir standı' },
-      ],
     },
     mixbox: {
       kicker: 'Karar veremeyenlere',
@@ -190,14 +182,6 @@ export const STRINGS = {
           weight: '55 g (1.94 oz)',
           imgAlt: 'Jubbys Peelies Pineapple pack',
         },
-      ],
-      standsTitle: 'Display Stands',
-      standsSub: 'Counter-top display boxes of 12 packs, ready for retail.',
-      standPiece: '12 × 55 g packs',
-      stands: [
-        { id: 'mango', title: 'Mango Stand', imgAlt: 'Jubbys Peelies Mango display stand' },
-        { id: 'muz', title: 'Banana Stand', imgAlt: 'Jubbys Peelies Banana display stand' },
-        { id: 'ananas', title: 'Pineapple Stand', imgAlt: 'Jubbys Peelies Pineapple display stand' },
       ],
     },
     mixbox: {
