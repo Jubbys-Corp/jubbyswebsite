@@ -940,6 +940,32 @@
   }
 }
 
+/* Tablet & down: nav drops to its own full-width row so every link
+   stays visible (single-row header gets too tight ~561-960px). */
+@media (max-width: 1024px) {
+  .site-header {
+    flex-wrap: wrap;
+    row-gap: 0.45rem;
+  }
+
+  .site-nav {
+    order: 3;
+    flex-basis: 100%;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow: visible;
+    justify-content: space-between;
+    gap: clamp(0.2rem, 1.2vw, 1.1rem);
+    font-size: clamp(0.72rem, 1.7vw, 1rem);
+  }
+
+  .site-nav a {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.25rem clamp(0.3rem, 1vw, 0.9rem);
+  }
+}
+
 @media (max-width: 560px) {
   .site-header {
     flex-wrap: wrap;
