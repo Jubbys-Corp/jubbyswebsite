@@ -3,9 +3,9 @@ import './App.css'
 import { STRINGS } from './i18n.js'
 
 const FLAVOR_IMGS = {
-  mango: '/products/doypack-mango.webp',
-  muz: '/products/doypack-muz.webp',
-  ananas: '/products/doypack-ananas.webp',
+  mango: '/products/doypack-mango.webp?v=2',
+  muz: '/products/doypack-muz.webp?v=2',
+  ananas: '/products/doypack-ananas.webp?v=2',
 }
 
 const ABOUT_HASH = '#/hakkimizda'
@@ -118,9 +118,9 @@ function HomePage({ t }) {
           </div>
           <div className="hero-stage" aria-hidden="true">
             <div className="hero-blob"></div>
-            <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp" alt="" />
-            <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp" alt="" />
-            <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp" alt="" />
+            <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp?v=2" alt="" />
+            <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp?v=2" alt="" />
+            <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp?v=2" alt="" />
             <span className="sprinkle sprinkle--1"></span>
             <span className="sprinkle sprinkle--2"></span>
             <span className="sprinkle sprinkle--3"></span>
@@ -165,7 +165,7 @@ function HomePage({ t }) {
       <section className="mixbox" id="mix-kutu">
         <div className="mixbox-inner">
           <div className="mixbox-art reveal">
-            <img src="/products/mix-kutu.webp" alt={t.mixbox.imgAlt} />
+            <img src="/products/mix-kutu.webp?v=2" alt={t.mixbox.imgAlt} />
           </div>
           <div className="mixbox-copy reveal">
             <span className="kicker kicker--light">{t.mixbox.kicker}</span>
@@ -181,9 +181,9 @@ function HomePage({ t }) {
               ))}
             </ul>
             <div className="sachet-row" aria-hidden="true">
-              <img src="/products/poset-mango.webp" alt="" loading="lazy" />
-              <img src="/products/poset-muz.webp" alt="" loading="lazy" />
-              <img src="/products/poset-ananas.webp" alt="" loading="lazy" />
+              <img src="/products/poset-mango.webp?v=2" alt="" loading="lazy" />
+              <img src="/products/poset-muz.webp?v=2" alt="" loading="lazy" />
+              <img src="/products/poset-ananas.webp?v=2" alt="" loading="lazy" />
             </div>
           </div>
         </div>
