@@ -85,13 +85,12 @@ export const STRINGS = {
           title: 'Her An İçin Uygun Boy',
           desc: '55 g paketler ve 5,5 g mini poşetli Mix Kutu - okulda, yolda, her yerde.',
         },
+        {
+          icon: '🇹🇷',
+          title: '%100 Yerli Üretim',
+          desc: 'Tüm ürünler, AB standartlarına uygun şekilde %100 Türkiye’de üretilir.',
+        },
       ],
-      local: {
-        flag: '🇹🇷',
-        kicker: 'Yerli Üretim',
-        title: '%100 Türkiye’de Üretim',
-        desc: 'Tüm Jubbys ürünleri, tam izlenebilirlik ve AB standartlarına uygun sıkı kalite kontrolüyle %100 Türkiye’de üretilir.',
-      },
     },
     specs: {
       kicker: 'Toptan & İhracat',
@@ -281,13 +280,12 @@ export const STRINGS = {
           title: 'A Size for Every Moment',
           desc: '55 g packs and the Mix Box with 5.5 g mini sachets - at school, on the go, everywhere.',
         },
+        {
+          icon: '🇹🇷',
+          title: '100% Made in Türkiye',
+          desc: 'All products are manufactured 100% in Türkiye, in line with EU standards.',
+        },
       ],
-      local: {
-        flag: '🇹🇷',
-        kicker: 'Made in Türkiye',
-        title: '100% Produced in Türkiye',
-        desc: 'Every Jubbys product is manufactured 100% in Türkiye, with full traceability and strict quality control aligned with EU standards.',
-      },
     },
     specs: {
       kicker: 'Wholesale & Export',
