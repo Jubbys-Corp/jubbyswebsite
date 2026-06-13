@@ -4,6 +4,7 @@ export const STRINGS = {
     brandAria: 'Jubbys ana sayfa',
     navAria: 'Site içi gezinme',
     langAria: 'Dil seçimi',
+    buyLabel: 'Satın Al',
     nav: {
       flavors: 'Lezzetler',
       mixbox: 'Mix Kutu',
@@ -138,6 +139,7 @@ export const STRINGS = {
     brandAria: 'Jubbys home',
     navAria: 'Site navigation',
     langAria: 'Language',
+    buyLabel: 'Buy Now',
     nav: {
       flavors: 'Flavours',
       mixbox: 'Mix Box',

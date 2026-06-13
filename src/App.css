@@ -38,6 +38,39 @@
   display: none;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.buy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  line-height: 1.1;
+  color: #fff;
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-deep) 100%);
+  padding: 0.45rem 1.05rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 5px 0 rgba(168, 18, 27, 0.32);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.buy-btn:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 0 8px 0 rgba(168, 18, 27, 0.26);
+}
+
+.buy-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 rgba(168, 18, 27, 0.3);
+}
+
 .lang-switch {
   display: flex;
   gap: 2px;
@@ -797,17 +830,18 @@
 
 @media (max-width: 560px) {
   .site-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
     padding-bottom: 0.5rem;
   }
 
   .brand img {
-    height: 38px;
+    height: 36px;
   }
 
   .site-nav {
+    order: 3;
+    flex-basis: 100%;
     width: 100%;
     justify-content: center;
     font-size: 0.9rem;
@@ -817,10 +851,9 @@
     padding: 0.25rem 0.6rem;
   }
 
-  .lang-switch {
-    position: absolute;
-    top: 0.6rem;
-    right: 0.7rem;
+  .buy-btn {
+    font-size: 0.84rem;
+    padding: 0.4rem 0.85rem;
   }
 
   .lang-switch button {

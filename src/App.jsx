@@ -62,23 +62,35 @@ function App() {
           <a href="#neden-jubbys">{t.nav.why}</a>
           <a href="#toptan">{t.nav.wholesale}</a>
         </nav>
-        <div className="lang-switch" role="group" aria-label={t.langAria}>
-          <button
-            type="button"
-            className={lang === 'tr' ? 'active' : ''}
-            aria-pressed={lang === 'tr'}
-            onClick={() => setLang('tr')}
-          >
-            TR
-          </button>
-          <button
-            type="button"
-            className={lang === 'en' ? 'active' : ''}
-            aria-pressed={lang === 'en'}
-            onClick={() => setLang('en')}
-          >
-            EN
-          </button>
+        <div className="header-actions">
+          {lang === 'tr' && (
+            <a
+              className="buy-btn"
+              href="https://www.trendyol.com/magaza/jubbys-m-436723?sst=0&channelId=1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🛒 {t.buyLabel}
+            </a>
+          )}
+          <div className="lang-switch" role="group" aria-label={t.langAria}>
+            <button
+              type="button"
+              className={lang === 'tr' ? 'active' : ''}
+              aria-pressed={lang === 'tr'}
+              onClick={() => setLang('tr')}
+            >
+              TR
+            </button>
+            <button
+              type="button"
+              className={lang === 'en' ? 'active' : ''}
+              aria-pressed={lang === 'en'}
+              onClick={() => setLang('en')}
+            >
+              EN
+            </button>
+          </div>
         </div>
       </header>
 
