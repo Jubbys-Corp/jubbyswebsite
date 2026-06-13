@@ -295,7 +295,18 @@ function App() {
   useEffect(() => {
     localStorage.setItem('jubbys-lang', lang)
     document.documentElement.lang = lang
-    document.title = route === 'about' ? `${t.about.kicker} | Jubbys` : t.title
+    const title = route === 'about' ? `${t.about.kicker} | Jubbys` : t.title
+    document.title = title
+    const setMeta = (selector, content) => {
+      const el = document.head.querySelector(selector)
+      if (el) el.setAttribute('content', content)
+    }
+    setMeta('meta[name="description"]', t.metaDescription)
+    setMeta('meta[property="og:title"]', title)
+    setMeta('meta[property="og:description"]', t.metaDescription)
+    setMeta('meta[name="twitter:title"]', title)
+    setMeta('meta[name="twitter:description"]', t.metaDescription)
+    setMeta('meta[property="og:locale"]', lang === 'tr' ? 'tr_TR' : 'en_US')
   }, [lang, t, route])
 
   useEffect(() => {

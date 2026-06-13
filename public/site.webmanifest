@@ -1,0 +1,16 @@
+{
+  "name": "Jubbys Peelies — Soyulabilir Meyveli Yumuşak Şeker",
+  "short_name": "Jubbys",
+  "description": "Gerçek meyve suyuyla hazırlanan soyulabilir yumuşak şeker & jelibon. Mango, muz, ananas, karpuz; %100 helal.",
+  "lang": "tr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff6e6",
+  "theme_color": "#ffc83d",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
