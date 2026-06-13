@@ -10,6 +10,7 @@ export const STRINGS = {
       mixbox: 'Mix Kutu',
       why: 'Neden Jubbys?',
       wholesale: 'Toptan',
+      about: 'Biz Kimiz',
     },
     hero: {
       badge: '🧃 Gerçek meyve sulu',
@@ -132,6 +133,56 @@ export const STRINGS = {
       tag: 'Meyve aromalı soyulabilir yumuşak şeker - Soy & tadını çıkar!',
       note: '© 2026 Jubbys. Tüm hakları saklıdır.',
     },
+    about: {
+      back: 'Ana Sayfa',
+      kicker: 'Biz Kimiz',
+      title: 'CCN Foods',
+      lead: 'Jubbys, CCN Foods ailesinin bir markasıdır.',
+      sections: [
+        {
+          h: 'Hakkımızda',
+          p: [
+            'CCN Foods, İstanbul merkezli dinamik bir şekerleme üreticisidir. Yenilikçi yumuşak şeker (gummy) ve özgün şekerleme ürünlerinde uzmanlaşan firmamız; uluslararası pazarlardaki müşterilerine yüksek kaliteli, yaratıcı ve pazar odaklı çözümler sunmayı taahhüt eder.',
+            "Tüm üretim sürecimiz gururla Türkiye'de gerçekleştirilir; bu da kalite, tutarlılık ve AB standartlarına uyum üzerinde tam kontrol sağlar.",
+          ],
+        },
+        {
+          h: 'Üretimimiz',
+          p: [
+            "CCN Foods'ta geleneği ileri teknolojiyle birleştiriyoruz. Tesisimiz son teknoloji üretim makineleriyle donatılmıştır ve bu sayede:",
+          ],
+          list: [
+            'Yüksek verimlilik ve ölçeklenebilirlik sağlıyoruz',
+            'Tutarlı ürün kalitesini garanti ediyoruz',
+            'Yenilikçi ve özelleştirilmiş şekerleme çözümleri geliştiriyoruz',
+            'Büyük hacimli üretim taleplerini karşılıyoruz',
+          ],
+          after:
+            "Tüm ürünler, AB düzenlemeleriyle uyumlu sıkı kalite kontrol sistemleri altında %100 Türkiye'de üretilir.",
+        },
+        {
+          h: 'Kalite & Standartlar',
+          p: [
+            'Kalite, yaptığımız her şeyin merkezindedir. Üretim süreçlerimiz katı Avrupa standartlarını karşılayacak şekilde tasarlanmıştır ve şunları sağlar:',
+          ],
+          list: [
+            'Tutarlı ürün güvenliği ve hijyeni',
+            'Güvenilir tedarik zinciri standartları',
+            'Uluslararası düzenlemelere uyum',
+          ],
+        },
+        {
+          h: 'Güçlü Yönlerimiz',
+          list: [
+            '%100 Türk üretimi ve tam izlenebilirlik (Asya’ya kıyasla gümrük ve nakliye avantajları)',
+            'Modern, yüksek kapasiteli üretim tesisi',
+            'Özel projeler için esnek üretim kabiliyeti',
+            'Yenilik ve ürün geliştirmeye güçlü odak',
+            'Hem özel etiket hem markalı ürünler için hızlı teslimatla güvenilir iş ortağı',
+          ],
+        },
+      ],
+    },
   },
 
   en: {
@@ -145,6 +196,7 @@ export const STRINGS = {
       mixbox: 'Mix Box',
       why: 'Why Jubbys?',
       wholesale: 'Wholesale',
+      about: 'About Us',
     },
     hero: {
       badge: '🧃 Made with real fruit juice',
@@ -270,6 +322,56 @@ export const STRINGS = {
     footer: {
       tag: 'Fruit-flavoured peelable gummy - Peel & enjoy!',
       note: '© 2026 Jubbys. All rights reserved.',
+    },
+    about: {
+      back: 'Home',
+      kicker: 'About Us',
+      title: 'CCN Foods',
+      lead: 'Jubbys is a brand of the CCN Foods family.',
+      sections: [
+        {
+          h: 'About Us',
+          p: [
+            'CCN Foods is a dynamic confectionery manufacturer based in Istanbul, Turkey. Specialising in innovative gummy and novelty confectionery products, we are committed to delivering high-quality, creative, and market-driven solutions to customers across international markets.',
+            'Our entire production process is proudly carried out in Turkey, ensuring full control over quality, consistency, and compliance with EU standards.',
+          ],
+        },
+        {
+          h: 'Our Production',
+          p: [
+            'At CCN Foods, we combine tradition with advanced technology. Our facility is equipped with state-of-the-art production machinery, allowing us to:',
+          ],
+          list: [
+            'Maintain high efficiency and scalability',
+            'Ensure consistent product quality',
+            'Develop innovative and customised confectionery solutions',
+            'Meet large-volume production demands',
+          ],
+          after:
+            'All products are manufactured 100% in Turkey under strict quality control systems aligned with EU regulations.',
+        },
+        {
+          h: 'Quality & Standards',
+          p: [
+            'Quality is at the core of everything we do. Our production processes are designed to meet stringent European standards, ensuring:',
+          ],
+          list: [
+            'Consistent product safety and hygiene',
+            'Reliable supply chain standards',
+            'Compliance with international regulations',
+          ],
+        },
+        {
+          h: 'Our Strengths',
+          list: [
+            '100% Turkish production with full traceability (duty and transport advantages over Asia)',
+            'Modern, high-capacity manufacturing facility',
+            'Flexible production capabilities for custom projects',
+            'Strong focus on innovation and product development',
+            'Reliable partner for both private label and branded products with quick lead times',
+          ],
+        },
+      ],
     },
   },
 }

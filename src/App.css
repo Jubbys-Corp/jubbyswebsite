@@ -762,6 +762,111 @@
   color: var(--red-deep);
 }
 
+/* ---------- About / Biz Kimiz page ---------- */
+
+.about-page {
+  min-height: 60vh;
+}
+
+.about-hero {
+  position: relative;
+  text-align: center;
+  padding: clamp(2.4rem, 6vw, 4.2rem) clamp(1.2rem, 5vw, 3rem) clamp(1.6rem, 4vw, 2.4rem);
+  background: var(--sun);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 3px, transparent 3px);
+  background-size: 44px 44px;
+}
+
+.about-back {
+  position: absolute;
+  top: clamp(1rem, 3vw, 1.6rem);
+  left: clamp(1rem, 4vw, 2.4rem);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--red-deep);
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(168, 18, 27, 0.25);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.about-back:hover {
+  transform: translateX(-3px);
+  background: #fff;
+}
+
+.about-hero h1 {
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 0.3rem;
+}
+
+.about-lead {
+  max-width: 38rem;
+  margin: 0.9rem auto 0;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.about-body {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.4rem) clamp(1.2rem, 5vw, 2rem) clamp(2.6rem, 6vw, 4rem);
+  display: grid;
+  gap: clamp(1.1rem, 3vw, 1.8rem);
+}
+
+.about-section {
+  background: var(--paper);
+  border-radius: 26px;
+  border: 3px solid rgba(74, 32, 23, 0.08);
+  padding: clamp(1.4rem, 4vw, 2.2rem);
+  box-shadow: 0 10px 24px rgba(74, 32, 23, 0.07);
+}
+
+.about-section h2 {
+  font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+  font-weight: 800;
+  color: var(--red);
+  margin-bottom: 0.7rem;
+}
+
+.about-section p {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-bottom: 0.7rem;
+}
+
+.about-section p:last-child {
+  margin-bottom: 0;
+}
+
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.about-list li {
+  position: relative;
+  padding-left: 1.9rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.about-list li::before {
+  content: '🍬';
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
