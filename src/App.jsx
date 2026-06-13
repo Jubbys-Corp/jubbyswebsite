@@ -261,16 +261,16 @@ function AboutPage({ t }) {
         <p className="about-lead">{a.lead}</p>
       </section>
       <div className="about-body">
-        {a.sections.map((s) => (
-          <section className="about-section reveal" key={s.h}>
+        {a.sections.map((s, i) => (
+          <section className="about-section reveal" key={i}>
             <h2>{s.h}</h2>
-            {s.p?.map((para) => (
-              <p key={para}>{para}</p>
+            {s.p?.map((para, j) => (
+              <p key={j}>{para}</p>
             ))}
             {s.list && (
               <ul className="about-list">
-                {s.list.map((li) => (
-                  <li key={li}>{li}</li>
+                {s.list.map((li, j) => (
+                  <li key={j}>{li}</li>
                 ))}
               </ul>
             )}

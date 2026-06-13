@@ -955,12 +955,15 @@
     order: 3;
     flex-basis: 100%;
     width: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
     justify-content: center;
-    font-size: 0.9rem;
+    gap: 0.25rem 0.35rem;
+    font-size: 0.86rem;
   }
 
   .site-nav a {
-    padding: 0.25rem 0.6rem;
+    padding: 0.22rem 0.55rem;
   }
 
   .buy-btn {
