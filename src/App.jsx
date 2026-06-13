@@ -119,10 +119,10 @@ function HomePage({ t }) {
           </div>
           <div className="hero-stage" aria-hidden="true">
             <div className="hero-blob"></div>
-            <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp?v=6" alt="" />
-            <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp?v=6" alt="" />
-            <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp?v=6" alt="" />
-            <img className="hero-pack hero-pack--4" src="/products/doypack-karpuz.webp?v=6" alt="" />
+            <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp?v=9" alt="" />
+            <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp?v=9" alt="" />
+            <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp?v=9" alt="" />
+            <img className="hero-pack hero-pack--4" src="/products/doypack-karpuz.webp?v=9" alt="" />
             <span className="sprinkle sprinkle--1"></span>
             <span className="sprinkle sprinkle--2"></span>
             <span className="sprinkle sprinkle--3"></span>
