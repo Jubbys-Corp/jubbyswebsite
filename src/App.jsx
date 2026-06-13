@@ -167,7 +167,7 @@ function HomePage({ t }) {
       <section className="mixbox" id="mix-kutu">
         <div className="mixbox-inner">
           <div className="mixbox-art reveal">
-            <img src="/products/mix-kutu.webp?v=6" alt={t.mixbox.imgAlt} />
+            <img src="/products/mix-kutu.webp?v=7" alt={t.mixbox.imgAlt} />
           </div>
           <div className="mixbox-copy reveal">
             <span className="kicker kicker--light">{t.mixbox.kicker}</span>
