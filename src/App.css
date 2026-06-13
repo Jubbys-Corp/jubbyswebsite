@@ -16,7 +16,7 @@
 }
 
 .brand img {
-  height: 56px;
+  height: 42px;
   width: auto;
   transition: transform 0.25s ease;
 }
@@ -325,10 +325,11 @@
   animation-delay: -8s;
 }
 
-/* 3-slot carousel: front (low, grows then shrinks) -> left -> behind the top
-   -> right -> front. The three packs share the keyframes, offset by -4s/-8s
-   so exactly one pack occupies each slot, and every transition sits in the
-   same global 1s window so all three packs rotate simultaneously. */
+/* 3-slot carousel: front (low, grows then shrinks) -> left -> straight across
+   to the right (behind the front pack) -> front. The three packs share the
+   keyframes, offset by -4s/-8s so exactly one pack occupies each slot, and
+   every transition sits in the same global 1s window so all three packs
+   rotate simultaneously. */
 @keyframes hero-carousel {
   0% {
     transform: translate(-50%, 32%) scale(1.12) rotate(0deg);
@@ -346,13 +347,13 @@
     transform: translate(-128%, 14%) scale(0.88) rotate(-7deg);
   }
   62.5% {
-    transform: translate(-50%, -30%) scale(0.8) rotate(0deg);
+    transform: translate(-50%, 13%) scale(0.84) rotate(0deg);
   }
   66.67% {
-    transform: translate(28%, 15%) scale(0.88) rotate(7deg);
+    transform: translate(28%, 14%) scale(0.88) rotate(7deg);
   }
   91.67% {
-    transform: translate(28%, 15%) scale(0.88) rotate(7deg);
+    transform: translate(28%, 14%) scale(0.88) rotate(7deg);
   }
   100% {
     transform: translate(-50%, 32%) scale(1.12) rotate(0deg);
@@ -552,6 +553,121 @@
   margin-top: 1rem;
 }
 
+/* ---------- Display stands ---------- */
+
+.stands-head {
+  max-width: 720px;
+  margin: clamp(2.6rem, 6vw, 4rem) auto 1.8rem;
+  text-align: center;
+  padding: 0 1.2rem;
+}
+
+.stands-head h3 {
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.stands-head p {
+  margin-top: 0.5rem;
+  font-size: 1.02rem;
+  color: var(--ink-soft);
+}
+
+.stand-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: clamp(1.2rem, 3vw, 2rem);
+}
+
+.stand-card {
+  background: var(--paper);
+  border-radius: 30px;
+  border: 3px solid rgba(74, 32, 23, 0.08);
+  padding: 1.4rem 1.2rem 1.3rem;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(74, 32, 23, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.6s ease;
+}
+
+.stand-card:hover {
+  transform: translateY(-8px) rotate(-0.6deg);
+  box-shadow: 0 22px 34px rgba(74, 32, 23, 0.16);
+}
+
+.stand-art {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 280px;
+}
+
+.stand-art::before {
+  content: '';
+  position: absolute;
+  inset: auto 8% 6% 8%;
+  height: 62%;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.stand-card--mango .stand-art::before {
+  background: radial-gradient(circle, rgba(255, 154, 31, 0.45), rgba(211, 34, 42, 0.14) 70%);
+}
+
+.stand-card--muz .stand-art::before {
+  background: radial-gradient(circle, rgba(255, 200, 61, 0.5), rgba(239, 95, 167, 0.18) 70%);
+}
+
+.stand-card--ananas .stand-art::before {
+  background: radial-gradient(circle, rgba(255, 224, 74, 0.45), rgba(124, 194, 66, 0.2) 70%);
+}
+
+.stand-art img {
+  position: relative;
+  z-index: 1;
+  height: 280px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 14px 18px rgba(74, 32, 23, 0.26));
+  transition: transform 0.3s ease;
+}
+
+.stand-card:hover .stand-art img {
+  transform: scale(1.05) rotate(1deg);
+}
+
+.stand-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.stand-foot h4 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.stand-card--mango .stand-foot h4 {
+  color: var(--red);
+}
+
+.stand-card--muz .stand-foot h4 {
+  color: var(--pink);
+}
+
+.stand-card--ananas .stand-foot h4 {
+  color: var(--leaf-deep);
+}
+
 /* ---------- Mix Kutu ---------- */
 
 .mixbox {
@@ -731,7 +847,7 @@
 }
 
 .footer-logo {
-  height: 84px;
+  height: 60px;
   width: auto;
   margin: 0 auto 0.9rem;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
@@ -803,7 +919,7 @@
   }
 
   .brand img {
-    height: 48px;
+    height: 38px;
   }
 
   .site-nav {

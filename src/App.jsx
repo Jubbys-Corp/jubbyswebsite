@@ -8,6 +8,12 @@ const FLAVOR_IMGS = {
   ananas: '/products/doypack-ananas.webp',
 }
 
+const STAND_IMGS = {
+  mango: '/products/stand-mango.webp',
+  muz: '/products/stand-muz.webp',
+  ananas: '/products/stand-ananas.webp',
+}
+
 function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
   return (
     <div className={`wave-divider${flip ? ' wave-divider--flip' : ''}`} aria-hidden="true">
@@ -146,6 +152,28 @@ function App() {
                   <span className="chip">{flavor.weight}</span>
                   <span className="chip">{t.flavors.chipPack}</span>
                   <span className="chip">{t.flavors.chipHalal}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="stands-head reveal">
+            <h3>{t.flavors.standsTitle}</h3>
+            <p>{t.flavors.standsSub}</p>
+          </div>
+          <div className="stand-grid">
+            {t.flavors.stands.map((stand, i) => (
+              <article
+                className={`stand-card stand-card--${stand.id} reveal`}
+                style={{ transitionDelay: `${i * 90}ms` }}
+                key={stand.id}
+              >
+                <div className="stand-art">
+                  <img src={STAND_IMGS[stand.id]} alt={stand.imgAlt} loading="lazy" />
+                </div>
+                <div className="stand-foot">
+                  <h4>{stand.title}</h4>
+                  <span className="chip">{t.flavors.standPiece}</span>
                 </div>
               </article>
             ))}
