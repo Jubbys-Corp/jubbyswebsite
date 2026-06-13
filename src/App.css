@@ -341,7 +341,7 @@
   position: absolute;
   left: 50%;
   top: 13%;
-  width: clamp(150px, 19.5vw, 255px);
+  width: clamp(118px, 15vw, 196px);
   filter: drop-shadow(0 16px 22px rgba(74, 32, 23, 0.32));
   /* z-index lives in its own keyframes: mixing it into the transform
      animation would force the whole animation off the compositor, and
@@ -919,7 +919,7 @@
   }
 
   .hero-pack {
-    width: clamp(132px, 34vw, 200px);
+    width: clamp(104px, 26vw, 152px);
   }
 
   .mixbox-inner {
@@ -962,9 +962,13 @@
     width: 100%;
     flex-wrap: nowrap;
     overflow: visible;
-    justify-content: center;
+    justify-content: space-between;
     gap: clamp(0.08rem, 0.9vw, 0.45rem);
     font-size: clamp(0.56rem, 2.7vw, 0.86rem);
+  }
+
+  .site-nav a {
+    flex-shrink: 0;
   }
 
   .site-nav a {
