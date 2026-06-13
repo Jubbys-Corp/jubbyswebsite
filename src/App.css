@@ -1002,19 +1002,25 @@
     height: 36px;
   }
 
+  .site-header {
+    padding-left: clamp(0.5rem, 2.5vw, 2.5rem);
+    padding-right: clamp(0.5rem, 2.5vw, 2.5rem);
+  }
+
   .site-nav {
     order: 3;
     flex-basis: 100%;
     width: 100%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     overflow: visible;
     justify-content: center;
-    gap: 0.25rem 0.35rem;
-    font-size: 0.86rem;
+    gap: clamp(0.08rem, 0.9vw, 0.45rem);
+    font-size: clamp(0.56rem, 2.7vw, 0.86rem);
   }
 
   .site-nav a {
-    padding: 0.22rem 0.55rem;
+    padding: 0.2rem clamp(0.15rem, 0.9vw, 0.55rem);
+    white-space: nowrap;
   }
 
   .buy-btn {
