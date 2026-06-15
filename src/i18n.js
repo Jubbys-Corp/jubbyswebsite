@@ -12,7 +12,8 @@ export const STRINGS = {
       mixbox: 'Mix Kutu',
       why: 'Neden Jubbys?',
       wholesale: 'Toptan',
-      about: 'Biz Kimiz',
+      about: 'Biz Kimiz?',
+      contact: 'İletişim',
     },
     hero: {
       badge: '🧃 Gerçek meyve sulu',
@@ -101,6 +102,37 @@ export const STRINGS = {
         },
       ],
     },
+    faq: {
+      kicker: 'Sıkça Sorulanlar',
+      h2: 'Merak edilenler',
+      lead: 'Soyulabilir jelibon, helal sertifika ve üretim hakkında en çok merak edilenler.',
+      items: [
+        {
+          q: 'Jubbys Peelies (soyulabilir jelibon) nedir?',
+          a: 'Jubbys Peelies; gerçek meyve suyuyla hazırlanan, soyulabilir meyveli yumuşak şekerdir (jelibon). Tıpkı gerçek meyve gibi soyulan bu 3D jelibon, hem soyması hem yemesiyle eğlenceli bir şekerleme deneyimi sunar — soft candy / peelable gummy (peelerz) kategorisinde yenilikçi bir üründür.',
+        },
+        {
+          q: 'Jubbys jelibonları helal mi?',
+          a: 'Evet, tüm Jubbys ürünleri %100 helal sertifikalıdır. Helal soyulabilir jelibon (halal gummy / halal peelerz) arayan herkes gönül rahatlığıyla tüketebilir.',
+        },
+        {
+          q: 'Soyulabilir jelibon nasıl yenir?',
+          a: 'Önce paketten çıkarıp tıpkı bir meyve gibi soyuyorsun, sonra yiyorsun. Soyulabilir jel dokusu sayesinde her dilim ayrı bir keyif. Soy & tadını çıkar!',
+        },
+        {
+          q: 'Hangi lezzetler var?',
+          a: 'Mango, muz, ananas ve karpuz. Ayrıca üç lezzeti bir arada sunan, 100 mini poşetli Mix Kutu seçeneğimiz de var.',
+        },
+        {
+          q: 'Ürünler nerede üretiliyor?',
+          a: 'Tüm ürünler %100 Türkiye’de, AB standartlarına uygun üretilir — Türk üretimi jelibon, Peelerz made in Türkiye. Üretici, İstanbul merkezli şekerleme ve novelty confectionery firması CCN Food’dur.',
+        },
+        {
+          q: 'Nereden satın alabilirim?',
+          a: 'Perakende satış için Trendyol mağazamızı ziyaret edebilir; toptan, özel etiket (private label) ve ihracat talepleriniz için bizimle iletişime geçebilirsiniz.',
+        },
+      ],
+    },
     specs: {
       kicker: 'Toptan & İhracat',
       h2: 'Koli Bilgileri',
@@ -147,23 +179,38 @@ export const STRINGS = {
       tag: 'Meyve aromalı soyulabilir yumuşak şeker - Soy & tadını çıkar!',
       note: '© 2026 Jubbys. Tüm hakları saklıdır.',
     },
+    contact: {
+      kicker: 'İletişim',
+      h2: 'Bize Ulaşın',
+      lead: 'Toptan, ihracat, özel etiket veya aklınızdaki her soru için bize yazın.',
+      formName: 'Adınız',
+      formEmail: 'E-posta adresiniz',
+      formMessage: 'Mesajınız',
+      formSend: 'Mesajı Gönder',
+      emailLabel: 'E-posta',
+      email: 'rumeysa.k@candycargo.com.tr',
+      addressLabel: 'Fabrika Adresi',
+      address: 'Osmangazi Mahallesi, 3141. Sokak No: 5 İç Kapı No: 2, Esenyurt / İstanbul',
+      directions: 'Yol tarifi al',
+      mapAria: 'Jubbys fabrika konumu haritası',
+    },
     about: {
       back: 'Ana Sayfa',
-      kicker: 'Biz Kimiz',
-      title: 'CCN Foods',
-      lead: 'Jubbys, CCN Foods ailesinin bir markasıdır.',
+      kicker: 'Biz Kimiz?',
+      title: 'CCN Food',
+      lead: 'Jubbys, CCN Food ailesinin bir markasıdır.',
       sections: [
         {
           h: 'Hakkımızda',
           p: [
-            'CCN Foods, İstanbul merkezli dinamik bir şekerleme üreticisidir. Yenilikçi yumuşak şeker (gummy) ve özgün şekerleme ürünlerinde uzmanlaşan firmamız; uluslararası pazarlardaki müşterilerine yüksek kaliteli, yaratıcı ve pazar odaklı çözümler sunmayı taahhüt eder.',
+            'CCN Food, İstanbul merkezli dinamik bir şekerleme üreticisidir. Yenilikçi yumuşak şeker (gummy) ve özgün şekerleme ürünlerinde uzmanlaşan firmamız; uluslararası pazarlardaki müşterilerine yüksek kaliteli, yaratıcı ve pazar odaklı çözümler sunmayı taahhüt eder.',
             "Tüm üretim sürecimiz gururla Türkiye'de gerçekleştirilir; bu da kalite, tutarlılık ve AB standartlarına uyum üzerinde tam kontrol sağlar.",
           ],
         },
         {
           h: 'Üretimimiz',
           p: [
-            "CCN Foods'ta geleneği ileri teknolojiyle birleştiriyoruz. Tesisimiz son teknoloji üretim makineleriyle donatılmıştır ve bu sayede:",
+            "CCN Food'da geleneği ileri teknolojiyle birleştiriyoruz. Tesisimiz son teknoloji üretim makineleriyle donatılmıştır ve bu sayede:",
           ],
           list: [
             'Yüksek verimlilik ve ölçeklenebilirlik sağlıyoruz',
@@ -213,6 +260,7 @@ export const STRINGS = {
       why: 'Why Jubbys?',
       wholesale: 'Wholesale',
       about: 'About Us',
+      contact: 'Contact',
     },
     hero: {
       badge: '🧃 Made with real fruit juice',
@@ -305,6 +353,37 @@ export const STRINGS = {
         },
       ],
     },
+    faq: {
+      kicker: 'FAQ',
+      h2: 'Good to know',
+      lead: 'The questions we hear most — about our peelable gummy, halal certification and where it’s made.',
+      items: [
+        {
+          q: 'What is Jubbys Peelies (peelable gummy)?',
+          a: 'Jubbys Peelies is a peelable fruit gummy candy made with real fruit juice. Just like real fruit, you peel this 3D gummy before you eat it — a fun, novelty soft candy (peelerz) you won’t find everywhere.',
+        },
+        {
+          q: 'Are Jubbys gummies halal?',
+          a: 'Yes — all Jubbys products are 100% halal certified. A halal gummy / halal peelerz you can enjoy with complete peace of mind.',
+        },
+        {
+          q: 'How do you eat a peelable gummy?',
+          a: 'First you peel it like a real piece of fruit, then you eat it. The soft, peelable texture makes every slice fun. Peel & enjoy!',
+        },
+        {
+          q: 'Which flavours are there?',
+          a: 'Mango, banana, pineapple and watermelon — plus a Mix Box with 100 mini sachets that brings three flavours together.',
+        },
+        {
+          q: 'Where are Jubbys products made?',
+          a: 'Everything is made 100% in Türkiye, in line with EU standards — Peelerz made in Türkiye, by Istanbul-based confectionery and novelty candy maker CCN Food.',
+        },
+        {
+          q: 'Where can I buy them?',
+          a: 'Retail via our Trendyol store; for wholesale, private label and export enquiries, get in touch with us.',
+        },
+      ],
+    },
     specs: {
       kicker: 'Wholesale & Export',
       h2: 'Carton Details',
@@ -351,23 +430,38 @@ export const STRINGS = {
       tag: 'Fruit-flavoured peelable gummy - Peel & enjoy!',
       note: '© 2026 Jubbys. All rights reserved.',
     },
+    contact: {
+      kicker: 'Contact',
+      h2: 'Get in Touch',
+      lead: 'For wholesale, export, private label or any question on your mind — drop us a line.',
+      formName: 'Your name',
+      formEmail: 'Your email',
+      formMessage: 'Your message',
+      formSend: 'Send message',
+      emailLabel: 'Email',
+      email: 'rumeysa.k@candycargo.com.tr',
+      addressLabel: 'Factory Address',
+      address: 'Osmangazi Mahallesi, 3141. Sokak No: 5 Interior No: 2, Esenyurt / Istanbul',
+      directions: 'Get directions',
+      mapAria: 'Jubbys factory location map',
+    },
     about: {
       back: 'Home',
       kicker: 'About Us',
-      title: 'CCN Foods',
-      lead: 'Jubbys is a brand of the CCN Foods family.',
+      title: 'CCN Food',
+      lead: 'Jubbys is a brand of the CCN Food family.',
       sections: [
         {
           h: 'About Us',
           p: [
-            'CCN Foods is a dynamic confectionery manufacturer based in Istanbul, Turkey. Specialising in innovative gummy and novelty confectionery products, we are committed to delivering high-quality, creative, and market-driven solutions to customers across international markets.',
+            'CCN Food is a dynamic confectionery manufacturer based in Istanbul, Turkey. Specialising in innovative gummy and novelty confectionery products, we are committed to delivering high-quality, creative, and market-driven solutions to customers across international markets.',
             'Our entire production process is proudly carried out in Turkey, ensuring full control over quality, consistency, and compliance with EU standards.',
           ],
         },
         {
           h: 'Our Production',
           p: [
-            'At CCN Foods, we combine tradition with advanced technology. Our facility is equipped with state-of-the-art production machinery, allowing us to:',
+            'At CCN Food, we combine tradition with advanced technology. Our facility is equipped with state-of-the-art production machinery, allowing us to:',
           ],
           list: [
             'Maintain high efficiency and scalability',

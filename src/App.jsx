@@ -10,9 +10,15 @@ const FLAVOR_IMGS = {
 }
 
 const ABOUT_HASH = '#/hakkimizda'
+const FAQ_HASH = '#/sss'
+const CONTACT_HASH = '#/iletisim'
 
 function getRoute() {
-  return window.location.hash.startsWith(ABOUT_HASH) ? 'about' : 'home'
+  const hash = window.location.hash
+  if (hash.startsWith(ABOUT_HASH)) return 'about'
+  if (hash.startsWith(FAQ_HASH)) return 'faq'
+  if (hash.startsWith(CONTACT_HASH)) return 'contact'
+  return 'home'
 }
 
 function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
@@ -40,6 +46,7 @@ function Header({ lang, setLang, t }) {
         <a href="#neden-jubbys">{t.nav.why}</a>
         <a href="#toptan">{t.nav.wholesale}</a>
         <a href={ABOUT_HASH}>{t.nav.about}</a>
+        <a href={CONTACT_HASH}>{t.nav.contact}</a>
       </nav>
       <div className="header-actions">
         {lang === 'tr' && (
@@ -284,6 +291,120 @@ function AboutPage({ t }) {
   )
 }
 
+function FaqPage({ t }) {
+  const f = t.faq
+  return (
+    <main className="about-page faq-page" id="top">
+      <section className="about-hero">
+        <a className="about-back" href="#top">
+          ← {t.about.back}
+        </a>
+        <span className="kicker">{f.kicker}</span>
+        <h1>{f.h2}</h1>
+        <p className="about-lead">{f.lead}</p>
+      </section>
+      <div className="faq-page-body">
+        <div className="faq-list">
+          {f.items.map((qa, i) => (
+            <details
+              className="faq-item reveal"
+              style={{ transitionDelay: `${i * 60}ms` }}
+              key={i}
+            >
+              <summary>
+                <span>{qa.q}</span>
+                <span className="faq-mark" aria-hidden="true"></span>
+              </summary>
+              <p>{qa.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </main>
+  )
+}
+
+function ContactPage({ t }) {
+  const c = t.contact
+  const mapQuery = encodeURIComponent('Osmangazi Mahallesi 3141. Sokak No 5 Esenyurt İstanbul')
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const subject = encodeURIComponent(`Jubbys — ${form.name || c.kicker}`)
+    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
+    window.location.href = `mailto:${c.email}?subject=${subject}&body=${body}`
+  }
+
+  return (
+    <main className="about-page contact-page" id="top">
+      <section className="about-hero">
+        <a className="about-back" href="#top">
+          ← {t.about.back}
+        </a>
+        <span className="kicker">{c.kicker}</span>
+        <h1>{c.h2}</h1>
+        <p className="about-lead">{c.lead}</p>
+      </section>
+      <div className="contact-body">
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <label className="contact-field">
+            <span>{c.formName}</span>
+            <input
+              type="text"
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+              required
+            />
+          </label>
+          <label className="contact-field">
+            <span>{c.formEmail}</span>
+            <input
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+              required
+            />
+          </label>
+          <label className="contact-field">
+            <span>{c.formMessage}</span>
+            <textarea
+              rows="5"
+              value={form.message}
+              onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+              required
+            />
+          </label>
+          <button type="submit" className="btn btn--primary contact-submit">
+            {c.formSend}
+          </button>
+        </form>
+        <div className="contact-info">
+          <div className="contact-address">
+            <h2>{c.addressLabel}</h2>
+            <p>{c.address}</p>
+            <a
+              className="contact-directions"
+              href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {c.directions} →
+            </a>
+          </div>
+          <div className="contact-map">
+            <iframe
+              title={c.mapAria}
+              src="https://www.openstreetmap.org/export/embed.html?bbox=28.6237%2C41.0523%2C28.6397%2C41.0603&layer=mapnik&marker=41.0563%2C28.6317"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </main>
+  )
+}
+
 function App() {
   const [lang, setLang] = useState(() => {
     const saved = localStorage.getItem('jubbys-lang')
@@ -295,7 +416,14 @@ function App() {
   useEffect(() => {
     localStorage.setItem('jubbys-lang', lang)
     document.documentElement.lang = lang
-    const title = route === 'about' ? `${t.about.kicker} | Jubbys` : t.title
+    const title =
+      route === 'about'
+        ? `${t.about.kicker} | Jubbys`
+        : route === 'faq'
+          ? `${t.faq.kicker} | Jubbys`
+          : route === 'contact'
+            ? `${t.contact.kicker} | Jubbys`
+            : t.title
     document.title = title
     const setMeta = (selector, content) => {
       const el = document.head.querySelector(selector)
@@ -317,7 +445,7 @@ function App() {
 
   // On page switch: scroll appropriately and (re)observe reveal elements.
   useEffect(() => {
-    if (route === 'about') {
+    if (route === 'about' || route === 'faq' || route === 'contact') {
       window.scrollTo(0, 0)
     } else {
       const id = window.location.hash.slice(1)
@@ -348,10 +476,22 @@ function App() {
   return (
     <>
       <Header lang={lang} setLang={setLang} t={t} />
-      {route === 'about' ? <AboutPage t={t} /> : <HomePage t={t} />}
+      {route === 'about' ? (
+        <AboutPage t={t} />
+      ) : route === 'faq' ? (
+        <FaqPage t={t} />
+      ) : route === 'contact' ? (
+        <ContactPage t={t} />
+      ) : (
+        <HomePage t={t} />
+      )}
       <footer className="site-footer">
         <img className="footer-logo" src="/logo.webp" alt="Jubbys" />
         <p className="footer-tag">{t.footer.tag}</p>
+        <nav className="footer-nav" aria-label={t.navAria}>
+          <a href={FAQ_HASH}>{t.faq.kicker}</a>
+          <a href={ABOUT_HASH}>{t.nav.about}</a>
+        </nav>
         <p className="footer-note">{t.footer.note}</p>
       </footer>
     </>
