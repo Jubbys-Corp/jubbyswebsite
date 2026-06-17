@@ -202,7 +202,7 @@ export const STRINGS = {
     },
     news: {
       kicker: 'Haberler',
-      h2: 'Jubbys’tan Haberler',
+      h2: 'Jubbys’den Haberler',
       lead: 'Yeni lezzetler, fuarlar ve duyurular; Jubbys dünyasından en taze haberler.',
       items: [
         {
