@@ -331,8 +331,8 @@ function ContactPage({ t }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Jubbys — ${form.name || c.kicker}`)
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
+    const subject = encodeURIComponent(`Jubbys, ${form.name || c.kicker}`)
+    const body = encodeURIComponent(`${form.message}\n\n${form.name} (${form.email})`)
     window.location.href = `mailto:${c.email}?subject=${subject}&body=${body}`
   }
 

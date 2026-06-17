@@ -2,7 +2,7 @@ export const STRINGS = {
   tr: {
     title: 'Jubbys Peelies | Soyulabilir Meyveli Yumuşak Şeker & Jelibon',
     metaDescription:
-      'Jubbys Peelies — gerçek meyve suyuyla hazırlanan soyulabilir yumuşak şeker & jelibon. Mango, muz, ananas ve karpuz lezzetleri; %100 helal, her paket 55 g. Soyması da yemesi kadar eğlenceli!',
+      'Jubbys Peelies, gerçek meyve suyuyla hazırlanan soyulabilir yumuşak şeker & jelibon. Mango, muz, ananas ve karpuz lezzetleri; %100 helal, her paket 55 g. Soyması da yemesi kadar eğlenceli!',
     brandAria: 'Jubbys ana sayfa',
     navAria: 'Site içi gezinme',
     langAria: 'Dil seçimi',
@@ -37,28 +37,28 @@ export const STRINGS = {
           title: 'Peelies Mango',
           desc: 'Güneş gibi parlak, bal gibi tatlı. Soydukça ortaya çıkan tropik mango keyfi!',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Mango — mango aromalı soyulabilir yumuşak şeker / jelibon paketi',
+          imgAlt: 'Jubbys Peelies Mango, mango aromalı soyulabilir yumuşak şeker / jelibon paketi',
         },
         {
           id: 'muz',
           title: 'Peelies Muz',
           desc: 'Tıpkı gerçeği gibi soyulur! Yumuşacık dokusuyla muz aromalı soyulabilir eğlence.',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Muz — muz aromalı soyulabilir yumuşak şeker / jelibon paketi',
+          imgAlt: 'Jubbys Peelies Muz, muz aromalı soyulabilir yumuşak şeker / jelibon paketi',
         },
         {
           id: 'ananas',
           title: 'Peelies Ananas',
           desc: 'Tropik bir esinti! Dilim dilim ananas tadı. Soy, keşfet, tadını çıkar.',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Ananas — ananas aromalı soyulabilir yumuşak şeker / jelibon paketi',
+          imgAlt: 'Jubbys Peelies Ananas, ananas aromalı soyulabilir yumuşak şeker / jelibon paketi',
         },
         {
           id: 'karpuz',
           title: 'Peelies Karpuz',
           desc: 'Yaz sıcağında ferahlatan karpuz! Kırmızısı tatlı, kabuğu eğlenceli. Soy ve serinle.',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Karpuz — karpuz aromalı soyulabilir yumuşak şeker / jelibon paketi',
+          imgAlt: 'Jubbys Peelies Karpuz, karpuz aromalı soyulabilir yumuşak şeker / jelibon paketi',
         },
       ],
     },
@@ -109,7 +109,7 @@ export const STRINGS = {
       items: [
         {
           q: 'Jubbys Peelies (soyulabilir jelibon) nedir?',
-          a: 'Jubbys Peelies; gerçek meyve suyuyla hazırlanan, soyulabilir meyveli yumuşak şekerdir (jelibon). Tıpkı gerçek meyve gibi soyulan bu 3D jelibon, hem soyması hem yemesiyle eğlenceli bir şekerleme deneyimi sunar — soft candy / peelable gummy (peelerz) kategorisinde yenilikçi bir üründür.',
+          a: 'Jubbys Peelies; gerçek meyve suyuyla hazırlanan, soyulabilir meyveli yumuşak şekerdir (jelibon). Tıpkı gerçek meyve gibi soyulan bu 3D jelibon, hem soyması hem yemesiyle eğlenceli bir şekerleme deneyimi sunar, soft candy / peelable gummy (peelerz) kategorisinde yenilikçi bir üründür.',
         },
         {
           q: 'Jubbys jelibonları helal mi?',
@@ -125,7 +125,7 @@ export const STRINGS = {
         },
         {
           q: 'Ürünler nerede üretiliyor?',
-          a: 'Tüm ürünler %100 Türkiye’de, AB standartlarına uygun üretilir — Türk üretimi jelibon, Peelerz made in Türkiye. Üretici, İstanbul merkezli şekerleme ve novelty confectionery firması CCN Food’dur.',
+          a: 'Tüm ürünler %100 Türkiye’de, AB standartlarına uygun üretilir, Türk üretimi jelibon, Peelerz made in Türkiye. Üretici, İstanbul merkezli şekerleme ve novelty confectionery firması CCN Food’dur.',
         },
         {
           q: 'Nereden satın alabilirim?',
@@ -249,7 +249,7 @@ export const STRINGS = {
   en: {
     title: 'Jubbys Peelies | Peelable Fruit Gummy Candy',
     metaDescription:
-      'Jubbys Peelies — peelable fruit gummy candy made with real fruit juice. Mango, banana, pineapple and watermelon; 100% halal, 55 g packs. Peeling it is as fun as eating it!',
+      'Jubbys Peelies, peelable fruit gummy candy made with real fruit juice. Mango, banana, pineapple and watermelon; 100% halal, 55 g packs. Peeling it is as fun as eating it!',
     brandAria: 'Jubbys home',
     navAria: 'Site navigation',
     langAria: 'Language',
@@ -284,28 +284,28 @@ export const STRINGS = {
           title: 'Peelies Mango',
           desc: 'Bright as the sun, sweet as honey. Peel away to reveal pure tropical mango joy!',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Mango — peelable mango fruit gummy candy pack',
+          imgAlt: 'Jubbys Peelies Mango, peelable mango fruit gummy candy pack',
         },
         {
           id: 'muz',
           title: 'Peelies Banana',
           desc: 'Peels just like the real thing! Soft, banana-flavoured peelable fun.',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Banana — peelable banana fruit gummy candy pack',
+          imgAlt: 'Jubbys Peelies Banana, peelable banana fruit gummy candy pack',
         },
         {
           id: 'ananas',
           title: 'Peelies Pineapple',
           desc: 'A tropical breeze! Pineapple flavour slice by slice. Peel, discover, enjoy.',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Pineapple — peelable pineapple fruit gummy candy pack',
+          imgAlt: 'Jubbys Peelies Pineapple, peelable pineapple fruit gummy candy pack',
         },
         {
           id: 'karpuz',
           title: 'Peelies Watermelon',
           desc: 'A summer cooler! Sweet on the red, fun on the rind. Peel it and refresh.',
           weight: '55 g (1.94 oz)',
-          imgAlt: 'Jubbys Peelies Watermelon — peelable watermelon fruit gummy candy pack',
+          imgAlt: 'Jubbys Peelies Watermelon, peelable watermelon fruit gummy candy pack',
         },
       ],
     },
@@ -356,15 +356,15 @@ export const STRINGS = {
     faq: {
       kicker: 'FAQ',
       h2: 'Good to know',
-      lead: 'The questions we hear most — about our peelable gummy, halal certification and where it’s made.',
+      lead: 'The questions we hear most, about our peelable gummy, halal certification and where it’s made.',
       items: [
         {
           q: 'What is Jubbys Peelies (peelable gummy)?',
-          a: 'Jubbys Peelies is a peelable fruit gummy candy made with real fruit juice. Just like real fruit, you peel this 3D gummy before you eat it — a fun, novelty soft candy (peelerz) you won’t find everywhere.',
+          a: 'Jubbys Peelies is a peelable fruit gummy candy made with real fruit juice. Just like real fruit, you peel this 3D gummy before you eat it, a fun, novelty soft candy (peelerz) you won’t find everywhere.',
         },
         {
           q: 'Are Jubbys gummies halal?',
-          a: 'Yes — all Jubbys products are 100% halal certified. A halal gummy / halal peelerz you can enjoy with complete peace of mind.',
+          a: 'Yes, all Jubbys products are 100% halal certified. A halal gummy / halal peelerz you can enjoy with complete peace of mind.',
         },
         {
           q: 'How do you eat a peelable gummy?',
@@ -372,11 +372,11 @@ export const STRINGS = {
         },
         {
           q: 'Which flavours are there?',
-          a: 'Mango, banana, pineapple and watermelon — plus a Mix Box with 100 mini sachets that brings three flavours together.',
+          a: 'Mango, banana, pineapple and watermelon, plus a Mix Box with 100 mini sachets that brings three flavours together.',
         },
         {
           q: 'Where are Jubbys products made?',
-          a: 'Everything is made 100% in Türkiye, in line with EU standards — Peelerz made in Türkiye, by Istanbul-based confectionery and novelty candy maker CCN Food.',
+          a: 'Everything is made 100% in Türkiye, in line with EU standards, Peelerz made in Türkiye, by Istanbul-based confectionery and novelty candy maker CCN Food.',
         },
         {
           q: 'Where can I buy them?',
@@ -433,7 +433,7 @@ export const STRINGS = {
     contact: {
       kicker: 'Contact',
       h2: 'Get in Touch',
-      lead: 'For wholesale, export, private label or any question on your mind — drop us a line.',
+      lead: 'For wholesale, export, private label or any question on your mind, drop us a line.',
       formName: 'Your name',
       formEmail: 'Your email',
       formMessage: 'Your message',

@@ -406,7 +406,7 @@
   }
 }
 
-/* Stepped z swaps at the transition midpoints (22/47/72/97% — all the same
+/* Stepped z swaps at the transition midpoints (22/47/72/97%, all the same
    wall-clock instants across the four packs given the 1/4-cycle delays), so
    the front handoff never produces a z tie while packs overlap. */
 @keyframes hero-carousel-z {

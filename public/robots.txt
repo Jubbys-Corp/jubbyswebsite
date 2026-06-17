@@ -1,6 +1,6 @@
-# Jubbys — https://jubbys.com
+# Jubbys, https://jubbys.com
 User-agent: *
 Allow: /
 
-# Block nothing — full site is public.
+# Block nothing, full site is public.
 Sitemap: https://jubbys.com/sitemap.xml
