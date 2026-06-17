@@ -109,11 +109,11 @@ export const STRINGS = {
       items: [
         {
           q: 'Jubbys Peelies (soyulabilir jelibon) nedir?',
-          a: 'Jubbys Peelies; gerçek meyve suyuyla hazırlanan, soyulabilir meyveli yumuşak şekerdir (jelibon). Tıpkı gerçek meyve gibi soyulan bu 3D jelibon, hem soyması hem yemesiyle eğlenceli bir şekerleme deneyimi sunar, soft candy / peelable gummy (peelerz) kategorisinde yenilikçi bir üründür.',
+          a: 'Jubbys Peelies; gerçek meyve suyuyla hazırlanan, soyulabilir meyveli yumuşak şekerdir (jelibon). Tıpkı gerçek meyve gibi soyulan bu 3D jelibon, hem soyması hem yemesiyle eğlenceli bir şekerleme deneyimi sunar, soft candy / peelable gummy kategorisinde yenilikçi bir üründür.',
         },
         {
           q: 'Jubbys jelibonları helal mi?',
-          a: 'Evet, tüm Jubbys ürünleri %100 helal sertifikalıdır. Helal soyulabilir jelibon (halal gummy / halal peelerz) arayan herkes gönül rahatlığıyla tüketebilir.',
+          a: 'Evet, tüm Jubbys ürünleri %100 helal sertifikalıdır. Helal soyulabilir jelibon (halal gummy) arayan herkes gönül rahatlığıyla tüketebilir.',
         },
         {
           q: 'Soyulabilir jelibon nasıl yenir?',
@@ -125,7 +125,7 @@ export const STRINGS = {
         },
         {
           q: 'Ürünler nerede üretiliyor?',
-          a: 'Tüm ürünler %100 Türkiye’de, AB standartlarına uygun üretilir, Türk üretimi jelibon, Peelerz made in Türkiye. Üretici, İstanbul merkezli şekerleme ve novelty confectionery firması CCN Food’dur.',
+          a: 'Tüm ürünler %100 Türkiye’de, AB standartlarına uygun üretilir. Jubbys, İstanbul merkezli şekerleme üreticisi CCN Food’un markasıdır.',
         },
         {
           q: 'Nereden satın alabilirim?',
@@ -360,11 +360,11 @@ export const STRINGS = {
       items: [
         {
           q: 'What is Jubbys Peelies (peelable gummy)?',
-          a: 'Jubbys Peelies is a peelable fruit gummy candy made with real fruit juice. Just like real fruit, you peel this 3D gummy before you eat it, a fun, novelty soft candy (peelerz) you won’t find everywhere.',
+          a: 'Jubbys Peelies is a peelable fruit gummy candy made with real fruit juice. Just like real fruit, you peel this 3D gummy before you eat it, a fun, novelty soft candy you won’t find everywhere.',
         },
         {
           q: 'Are Jubbys gummies halal?',
-          a: 'Yes, all Jubbys products are 100% halal certified. A halal gummy / halal peelerz you can enjoy with complete peace of mind.',
+          a: 'Yes, all Jubbys products are 100% halal certified. A halal gummy you can enjoy with complete peace of mind.',
         },
         {
           q: 'How do you eat a peelable gummy?',
@@ -376,7 +376,7 @@ export const STRINGS = {
         },
         {
           q: 'Where are Jubbys products made?',
-          a: 'Everything is made 100% in Türkiye, in line with EU standards, Peelerz made in Türkiye, by Istanbul-based confectionery and novelty candy maker CCN Food.',
+          a: 'Everything is made 100% in Türkiye, in line with EU standards. Jubbys is a brand of CCN Food, an Istanbul-based confectionery maker.',
         },
         {
           q: 'Where can I buy them?',
