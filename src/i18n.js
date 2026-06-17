@@ -7,6 +7,11 @@ export const STRINGS = {
     navAria: 'Site içi gezinme',
     langAria: 'Dil seçimi',
     buyLabel: 'Satın Al',
+    popup: {
+      aria: 'Foodist Fuarı duyurusu',
+      alt: 'Jubbys Peelies Foodist Fuarı’nda: 1-4 Eylül 2026, TÜYAP Fuar ve Kongre Merkezi, Stand No: 1132A',
+      close: 'Kapat',
+    },
     nav: {
       flavors: 'Lezzetler',
       mixbox: 'Mix Kutu',
@@ -14,6 +19,7 @@ export const STRINGS = {
       wholesale: 'Toptan',
       about: 'Biz Kimiz?',
       contact: 'İletişim',
+      haberler: 'Haberler',
     },
     hero: {
       badge: '🧃 Gerçek meyve sulu',
@@ -194,6 +200,27 @@ export const STRINGS = {
       directions: 'Yol tarifi al',
       mapAria: 'Jubbys fabrika konumu haritası',
     },
+    news: {
+      kicker: 'Haberler',
+      h2: 'Jubbys’tan Haberler',
+      lead: 'Yeni lezzetler, fuarlar ve duyurular; Jubbys dünyasından en taze haberler.',
+      items: [
+        {
+          tag: 'Fuar',
+          date: '1-4 Eylül 2026',
+          title: 'Foodist Fuarı’ndayız!',
+          image: '/news/foodist-2026.webp',
+          body: 'Jubbys Peelies olarak Foodist Fuarı’nda yerimizi alıyoruz! 1-4 Eylül 2026 tarihlerinde TÜYAP Fuar ve Kongre Merkezi’nde, 1132A numaralı standımızda sizleri ağırlamaktan mutluluk duyacağız. Gerçek meyve suyuyla hazırlanan %100 helal soyulabilir yumuşak şekerlerimizi tatmak ve iş birliği görüşmeleri için standımıza bekleriz.',
+        },
+        {
+          tag: 'Resmî Duyuru',
+          date: '16 Haziran 2026',
+          title: 'Yetkili satış ve dağıtım hakkında bilgilendirme',
+          image: '/news/peel-the-freshness.webp',
+          body: 'İlgililerin dikkatine: CCN Food Dış Tic. Ltd. Şti. olarak ürettiğimiz Pappi ve Jubbys markalı ürünlerin iç piyasa satış ve pazarlaması Behic Gıda tarafından yürütülmektedir. İş ortaklarımızın ve müşterilerimizin ürün tedariğini BEHİC İTH. DAĞ. SAN. TİC. LTD. ŞTİ. üzerinden yapmasını rica ederiz. İnternet veya sosyal medya üzerinden ürünlerimizle ilgili size teklif veren hiçbir firma ya da şahsın teklifini dikkate almamanızı önemle hatırlatırız.',
+        },
+      ],
+    },
     about: {
       back: 'Ana Sayfa',
       kicker: 'Biz Kimiz?',
@@ -254,6 +281,11 @@ export const STRINGS = {
     navAria: 'Site navigation',
     langAria: 'Language',
     buyLabel: 'Buy Now',
+    popup: {
+      aria: 'Foodist fair announcement',
+      alt: 'Jubbys Peelies at the Foodist fair: 1-4 September 2026, TÜYAP Fair Convention and Congress Center, stand no. 1132A',
+      close: 'Close',
+    },
     nav: {
       flavors: 'Flavours',
       mixbox: 'Mix Box',
@@ -261,6 +293,7 @@ export const STRINGS = {
       wholesale: 'Wholesale',
       about: 'About Us',
       contact: 'Contact',
+      haberler: 'News',
     },
     hero: {
       badge: '🧃 Made with real fruit juice',
@@ -444,6 +477,27 @@ export const STRINGS = {
       address: 'Osmangazi Mahallesi, 3141. Sokak No: 5 Interior No: 2, Esenyurt / Istanbul',
       directions: 'Get directions',
       mapAria: 'Jubbys factory location map',
+    },
+    news: {
+      kicker: 'News',
+      h2: 'News from Jubbys',
+      lead: 'New flavours, trade fairs and announcements; the freshest news from the world of Jubbys.',
+      items: [
+        {
+          tag: 'Trade Fair',
+          date: '1-4 September 2026',
+          title: 'We are at Foodist!',
+          image: '/news/foodist-2026.webp',
+          body: 'Jubbys Peelies will be at the Foodist fair! Join us on 1-4 September 2026 at the TÜYAP Fair Convention and Congress Center, stand no. 1132A. Stop by to taste our 100% halal peelable soft candies made with real fruit juice and to discuss partnership opportunities.',
+        },
+        {
+          tag: 'Official Notice',
+          date: 'June 16, 2026',
+          title: 'Notice on authorised sales and distribution',
+          image: '/news/peel-the-freshness.webp',
+          body: 'To whom it may concern: the domestic sales and marketing of the Pappi and Jubbys branded products we manufacture as CCN Food Dış Tic. Ltd. Şti. are carried out by Behic Gıda. We kindly ask our business partners and customers to source products through BEHİC İTH. DAĞ. SAN. TİC. LTD. ŞTİ. Please disregard any offer from any company or person offering our products via the Internet or social media.',
+        },
+      ],
     },
     about: {
       back: 'Home',

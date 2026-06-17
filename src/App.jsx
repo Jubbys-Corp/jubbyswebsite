@@ -12,12 +12,14 @@ const FLAVOR_IMGS = {
 const ABOUT_HASH = '#/hakkimizda'
 const FAQ_HASH = '#/sss'
 const CONTACT_HASH = '#/iletisim'
+const NEWS_HASH = '#/haberler'
 
 function getRoute() {
   const hash = window.location.hash
   if (hash.startsWith(ABOUT_HASH)) return 'about'
   if (hash.startsWith(FAQ_HASH)) return 'faq'
   if (hash.startsWith(CONTACT_HASH)) return 'contact'
+  if (hash.startsWith(NEWS_HASH)) return 'news'
   return 'home'
 }
 
@@ -44,7 +46,7 @@ function Header({ lang, setLang, t }) {
         <a href="#lezzetler">{t.nav.flavors}</a>
         <a href="#mix-kutu">{t.nav.mixbox}</a>
         <a href="#neden-jubbys">{t.nav.why}</a>
-        <a href="#toptan">{t.nav.wholesale}</a>
+        <a href={NEWS_HASH}>{t.nav.haberler}</a>
         <a href={ABOUT_HASH}>{t.nav.about}</a>
         <a href={CONTACT_HASH}>{t.nav.contact}</a>
       </nav>
@@ -405,13 +407,66 @@ function ContactPage({ t }) {
   )
 }
 
+function NewsPage({ t }) {
+  const n = t.news
+  return (
+    <main className="about-page news-page" id="top">
+      <section className="about-hero">
+        <a className="about-back" href="#top">
+          ← {t.about.back}
+        </a>
+        <span className="kicker">{n.kicker}</span>
+        <h1>{n.h2}</h1>
+        <p className="about-lead">{n.lead}</p>
+      </section>
+      <div className="news-body">
+        <div className="news-list">
+          {n.items.map((item, i) => (
+            <article
+              className="news-card reveal"
+              style={{ transitionDelay: `${i * 70}ms` }}
+              key={i}
+            >
+              {item.image && (
+                <img className="news-image" src={item.image} alt={item.title} loading="lazy" />
+              )}
+              <div className="news-meta">
+                <time className="news-date">{item.date}</time>
+                {item.tag && <span className="news-tag">{item.tag}</span>}
+              </div>
+              <h2 className="news-title">{item.title}</h2>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
+  )
+}
+
 function App() {
   const [lang, setLang] = useState(() => {
     const saved = localStorage.getItem('jubbys-lang')
     return saved === 'en' ? 'en' : 'tr'
   })
   const [route, setRoute] = useState(getRoute)
+  const [showPopup, setShowPopup] = useState(() => {
+    try {
+      return !sessionStorage.getItem('jubbys-popup-foodist')
+    } catch {
+      return true
+    }
+  })
   const t = STRINGS[lang]
+
+  const closePopup = () => {
+    setShowPopup(false)
+    try {
+      sessionStorage.setItem('jubbys-popup-foodist', '1')
+    } catch {
+      /* sessionStorage unavailable */
+    }
+  }
 
   useEffect(() => {
     localStorage.setItem('jubbys-lang', lang)
@@ -423,7 +478,9 @@ function App() {
           ? `${t.faq.kicker} | Jubbys`
           : route === 'contact'
             ? `${t.contact.kicker} | Jubbys`
-            : t.title
+            : route === 'news'
+              ? `${t.news.kicker} | Jubbys`
+              : t.title
     document.title = title
     const setMeta = (selector, content) => {
       const el = document.head.querySelector(selector)
@@ -445,7 +502,7 @@ function App() {
 
   // On page switch: scroll appropriately and (re)observe reveal elements.
   useEffect(() => {
-    if (route === 'about' || route === 'faq' || route === 'contact') {
+    if (route === 'about' || route === 'faq' || route === 'contact' || route === 'news') {
       window.scrollTo(0, 0)
     } else {
       const id = window.location.hash.slice(1)
@@ -473,6 +530,26 @@ function App() {
     return () => observer.disconnect()
   }, [route])
 
+  useEffect(() => {
+    if (!showPopup) return
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setShowPopup(false)
+        try {
+          sessionStorage.setItem('jubbys-popup-foodist', '1')
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [showPopup])
+
   return (
     <>
       <Header lang={lang} setLang={setLang} t={t} />
@@ -482,6 +559,8 @@ function App() {
         <FaqPage t={t} />
       ) : route === 'contact' ? (
         <ContactPage t={t} />
+      ) : route === 'news' ? (
+        <NewsPage t={t} />
       ) : (
         <HomePage t={t} />
       )}
@@ -494,6 +573,27 @@ function App() {
         </nav>
         <p className="footer-note">{t.footer.note}</p>
       </footer>
+      {showPopup && (
+        <div
+          className="popup-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.popup.aria}
+          onClick={closePopup}
+        >
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="popup-close"
+              onClick={closePopup}
+              aria-label={t.popup.close}
+            >
+              ×
+            </button>
+            <img src="/news/foodist-2026.webp" alt={t.popup.alt} />
+          </div>
+        </div>
+      )}
     </>
   )
 }
