@@ -154,7 +154,7 @@ export const STRINGS = {
         {
           name: 'Peelies Mix Kutu',
           packaging: '5,5 g × 100 × 8',
-          carton: '375 × 175 × 335 mm',
+          carton: '375 × 175 × 345 mm',
           weight: '4,4 kg',
           volume: '0,022 m³',
         },
@@ -432,7 +432,7 @@ export const STRINGS = {
         {
           name: 'Peelies Mix Box',
           packaging: '5.5 g × 100 × 8',
-          carton: '375 × 175 × 335 mm',
+          carton: '375 × 175 × 345 mm',
           weight: '4.4 kg',
           volume: '0.022 m³',
         },
