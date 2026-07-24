@@ -9,18 +9,37 @@ const FLAVOR_IMGS = {
   karpuz: '/products/flavor-karpuz.webp?v=8',
 }
 
-const ABOUT_HASH = '#/hakkimizda'
-const FAQ_HASH = '#/sss'
-const CONTACT_HASH = '#/iletisim'
-const NEWS_HASH = '#/haberler'
+// FormSubmit alias for info@jubbys.com (keeps the raw address out of scraped JS).
+const FORMSUBMIT_ID = 'c644e149454ddaec2493f37625b39227'
+
+const ABOUT_PATH = '/hakkimizda'
+const FAQ_PATH = '/sss'
+const CONTACT_PATH = '/iletisim'
+const NEWS_PATH = '/haberler'
 
 function getRoute() {
-  const hash = window.location.hash
-  if (hash.startsWith(ABOUT_HASH)) return 'about'
-  if (hash.startsWith(FAQ_HASH)) return 'faq'
-  if (hash.startsWith(CONTACT_HASH)) return 'contact'
-  if (hash.startsWith(NEWS_HASH)) return 'news'
+  const path = window.location.pathname
+  if (path.startsWith(ABOUT_PATH)) return 'about'
+  if (path.startsWith(FAQ_PATH)) return 'faq'
+  if (path.startsWith(CONTACT_PATH)) return 'contact'
+  if (path.startsWith(NEWS_PATH)) return 'news'
   return 'home'
+}
+
+// Old links used hash routes (jubbys.com/#/iletisim); rewrite them to real paths.
+{
+  const legacy = window.location.hash.match(/^#\/(hakkimizda|sss|iletisim|haberler)/)
+  if (legacy && window.location.pathname === '/') {
+    window.history.replaceState(null, '', `/${legacy[1]}`)
+  }
+}
+
+// SPA navigation: intercept plain left-clicks, push the URL, notify listeners.
+function goTo(e, to) {
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
+  e.preventDefault()
+  window.history.pushState(null, '', to)
+  window.dispatchEvent(new PopStateEvent('popstate'))
 }
 
 function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
@@ -39,16 +58,16 @@ function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
 function Header({ lang, setLang, t }) {
   return (
     <header className="site-header">
-      <a className="brand" href="#top" aria-label={t.brandAria}>
+      <a className="brand" href="/" onClick={(e) => goTo(e, '/')} aria-label={t.brandAria}>
         <img src="/logo.webp" alt="Jubbys" />
       </a>
       <nav className="site-nav" aria-label={t.navAria}>
-        <a href="#lezzetler">{t.nav.flavors}</a>
-        <a href="#mix-kutu">{t.nav.mixbox}</a>
-        <a href="#neden-jubbys">{t.nav.why}</a>
-        <a href={NEWS_HASH}>{t.nav.haberler}</a>
-        <a href={ABOUT_HASH}>{t.nav.about}</a>
-        <a href={CONTACT_HASH}>{t.nav.contact}</a>
+        <a href="/#lezzetler" onClick={(e) => goTo(e, '/#lezzetler')}>{t.nav.flavors}</a>
+        <a href="/#mix-kutu" onClick={(e) => goTo(e, '/#mix-kutu')}>{t.nav.mixbox}</a>
+        <a href="/#neden-jubbys" onClick={(e) => goTo(e, '/#neden-jubbys')}>{t.nav.why}</a>
+        <a href={NEWS_PATH} onClick={(e) => goTo(e, NEWS_PATH)}>{t.nav.haberler}</a>
+        <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>{t.nav.about}</a>
+        <a href={CONTACT_PATH} onClick={(e) => goTo(e, CONTACT_PATH)}>{t.nav.contact}</a>
       </nav>
       <div className="header-actions">
         {lang === 'tr' && (
@@ -264,7 +283,7 @@ function AboutPage({ t }) {
   return (
     <main className="about-page" id="top">
       <section className="about-hero">
-        <a className="about-back" href="#top">
+        <a className="about-back" href="/" onClick={(e) => goTo(e, '/')}>
           ← {a.back}
         </a>
         <span className="kicker">{a.kicker}</span>
@@ -298,7 +317,7 @@ function FaqPage({ t }) {
   return (
     <main className="about-page faq-page" id="top">
       <section className="about-hero">
-        <a className="about-back" href="#top">
+        <a className="about-back" href="/" onClick={(e) => goTo(e, '/')}>
           ← {t.about.back}
         </a>
         <span className="kicker">{f.kicker}</span>
@@ -330,18 +349,37 @@ function ContactPage({ t }) {
   const c = t.contact
   const mapQuery = encodeURIComponent('Osmangazi Mahallesi 3141. Sokak No 5 Esenyurt İstanbul')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState('idle')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Jubbys, ${form.name || c.kicker}`)
-    const body = encodeURIComponent(`${form.message}\n\n${form.name} (${form.email})`)
-    window.location.href = `mailto:${c.email}?subject=${subject}&body=${body}`
+    if (status === 'sending') return
+    setStatus('sending')
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `Jubbys, ${form.name || c.kicker}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setStatus('success')
+      setForm({ name: '', email: '', message: '' })
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
     <main className="about-page contact-page" id="top">
       <section className="about-hero">
-        <a className="about-back" href="#top">
+        <a className="about-back" href="/" onClick={(e) => goTo(e, '/')}>
           ← {t.about.back}
         </a>
         <span className="kicker">{c.kicker}</span>
@@ -377,9 +415,23 @@ function ContactPage({ t }) {
               required
             />
           </label>
-          <button type="submit" className="btn btn--primary contact-submit">
-            {c.formSend}
+          <button
+            type="submit"
+            className="btn btn--primary contact-submit"
+            disabled={status === 'sending'}
+          >
+            {status === 'sending' ? c.formSending : c.formSend}
           </button>
+          {status === 'success' && (
+            <p className="contact-status contact-status--success" role="status">
+              {c.formSuccess}
+            </p>
+          )}
+          {status === 'error' && (
+            <p className="contact-status contact-status--error" role="alert">
+              {c.formError}
+            </p>
+          )}
         </form>
         <div className="contact-info">
           <div className="contact-address">
@@ -392,6 +444,13 @@ function ContactPage({ t }) {
               rel="noopener noreferrer"
             >
               {c.directions} →
+            </a>
+          </div>
+          <div className="contact-address">
+            <h2>{c.emailLabel}</h2>
+            <p>{c.emailLead}</p>
+            <a className="contact-directions" href={`mailto:${c.email}`}>
+              {c.email}
             </a>
           </div>
           <div className="contact-map">
@@ -412,7 +471,7 @@ function NewsPage({ t }) {
   return (
     <main className="about-page news-page" id="top">
       <section className="about-hero">
-        <a className="about-back" href="#top">
+        <a className="about-back" href="/" onClick={(e) => goTo(e, '/')}>
           ← {t.about.back}
         </a>
         <span className="kicker">{n.kicker}</span>
@@ -482,22 +541,54 @@ function App() {
               ? `${t.news.kicker} | Jubbys`
               : t.title
     document.title = title
+    const description =
+      route === 'about'
+        ? t.about.lead
+        : route === 'faq'
+          ? t.faq.lead
+          : route === 'contact'
+            ? t.contact.lead
+            : route === 'news'
+              ? t.news.lead
+              : t.metaDescription
+    const path =
+      route === 'about'
+        ? ABOUT_PATH
+        : route === 'faq'
+          ? FAQ_PATH
+          : route === 'contact'
+            ? CONTACT_PATH
+            : route === 'news'
+              ? NEWS_PATH
+              : '/'
     const setMeta = (selector, content) => {
       const el = document.head.querySelector(selector)
       if (el) el.setAttribute('content', content)
     }
-    setMeta('meta[name="description"]', t.metaDescription)
+    setMeta('meta[name="description"]', description)
     setMeta('meta[property="og:title"]', title)
-    setMeta('meta[property="og:description"]', t.metaDescription)
+    setMeta('meta[property="og:description"]', description)
     setMeta('meta[name="twitter:title"]', title)
-    setMeta('meta[name="twitter:description"]', t.metaDescription)
+    setMeta('meta[name="twitter:description"]', description)
     setMeta('meta[property="og:locale"]', lang === 'tr' ? 'tr_TR' : 'en_US')
+    setMeta('meta[property="og:url"]', `https://jubbys.com${path === '/' ? '/' : path}`)
+    document.head
+      .querySelector('link[rel="canonical"]')
+      ?.setAttribute('href', `https://jubbys.com${path === '/' ? '/' : path}`)
   }, [lang, t, route])
 
   useEffect(() => {
-    const onHash = () => setRoute(getRoute())
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
+    const onNav = () => {
+      setRoute(getRoute())
+      const id = window.location.hash.slice(1)
+      if (id && id !== 'top') {
+        requestAnimationFrame(() => {
+          document.getElementById(id)?.scrollIntoView()
+        })
+      }
+    }
+    window.addEventListener('popstate', onNav)
+    return () => window.removeEventListener('popstate', onNav)
   }, [])
 
   // On page switch: scroll appropriately and (re)observe reveal elements.
@@ -568,8 +659,8 @@ function App() {
         <img className="footer-logo" src="/logo.webp" alt="Jubbys" />
         <p className="footer-tag">{t.footer.tag}</p>
         <nav className="footer-nav" aria-label={t.navAria}>
-          <a href={FAQ_HASH}>{t.faq.kicker}</a>
-          <a href={ABOUT_HASH}>{t.nav.about}</a>
+          <a href={FAQ_PATH} onClick={(e) => goTo(e, FAQ_PATH)}>{t.faq.kicker}</a>
+          <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>{t.nav.about}</a>
         </nav>
         <p className="footer-note">{t.footer.note}</p>
       </footer>

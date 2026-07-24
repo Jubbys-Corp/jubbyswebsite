@@ -1040,6 +1040,25 @@
   border: none;
 }
 
+.contact-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.contact-status {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.contact-status--success {
+  color: #1a7f37;
+}
+
+.contact-status--error {
+  color: var(--red);
+}
+
 .contact-info {
   display: grid;
   gap: clamp(1rem, 2.5vw, 1.4rem);
