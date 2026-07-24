@@ -369,6 +369,9 @@ function ContactPage({ t }) {
         }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      // FormSubmit reports failures (e.g. unactivated form) as 200 + success:"false".
+      const data = await res.json()
+      if (String(data.success) !== 'true') throw new Error(data.message || 'FormSubmit error')
       setStatus('success')
       setForm({ name: '', email: '', message: '' })
     } catch {
