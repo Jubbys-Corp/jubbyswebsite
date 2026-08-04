@@ -1137,6 +1137,11 @@
   }
 }
 
+.news-list:has(> .news-card:only-child) {
+  grid-template-columns: minmax(0, 520px);
+  justify-content: center;
+}
+
 .news-card {
   display: flex;
   flex-direction: column;

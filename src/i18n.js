@@ -216,13 +216,6 @@ export const STRINGS = {
           image: '/news/foodist-2026.webp',
           body: 'Jubbys Peelies olarak Foodist Fuarı’nda yerimizi alıyoruz! 1-4 Eylül 2026 tarihlerinde TÜYAP Fuar ve Kongre Merkezi’nde, 1132A numaralı standımızda sizleri ağırlamaktan mutluluk duyacağız. Gerçek meyve suyuyla hazırlanan %100 helal soyulabilir yumuşak şekerlerimizi tatmak ve iş birliği görüşmeleri için standımıza bekleriz.',
         },
-        {
-          tag: 'Resmî Duyuru',
-          date: '16 Haziran 2026',
-          title: 'Yetkili satış ve dağıtım hakkında bilgilendirme',
-          image: '/news/peel-the-freshness.webp',
-          body: 'İlgililerin dikkatine: CCN Food Dış Tic. Ltd. Şti. olarak ürettiğimiz Pappi ve Jubbys markalı ürünlerin iç piyasa satış ve pazarlaması Behic Gıda tarafından yürütülmektedir. İş ortaklarımızın ve müşterilerimizin ürün tedariğini BEHİC İTH. DAĞ. SAN. TİC. LTD. ŞTİ. üzerinden yapmasını rica ederiz. İnternet veya sosyal medya üzerinden ürünlerimizle ilgili size teklif veren hiçbir firma ya da şahsın teklifini dikkate almamanızı önemle hatırlatırız.',
-        },
       ],
     },
     about: {
@@ -497,13 +490,6 @@ export const STRINGS = {
           title: 'We are at Foodist!',
           image: '/news/foodist-2026.webp',
           body: 'Jubbys Peelies will be at the Foodist fair! Join us on 1-4 September 2026 at the TÜYAP Fair Convention and Congress Center, stand no. 1132A. Stop by to taste our 100% halal peelable soft candies made with real fruit juice and to discuss partnership opportunities.',
-        },
-        {
-          tag: 'Official Notice',
-          date: 'June 16, 2026',
-          title: 'Notice on authorised sales and distribution',
-          image: '/news/peel-the-freshness.webp',
-          body: 'To whom it may concern: the domestic sales and marketing of the Pappi and Jubbys branded products we manufacture as CCN Food Dış Tic. Ltd. Şti. are carried out by Behic Gıda. We kindly ask our business partners and customers to source products through BEHİC İTH. DAĞ. SAN. TİC. LTD. ŞTİ. Please disregard any offer from any company or person offering our products via the Internet or social media.',
         },
       ],
     },
