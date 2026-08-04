@@ -459,8 +459,9 @@ function ContactPage({ t }) {
           <div className="contact-map">
             <iframe
               title={c.mapAria}
-              src="https://www.openstreetmap.org/export/embed.html?bbox=28.6237%2C41.0523%2C28.6397%2C41.0603&layer=mapnik&marker=41.0563%2C28.6317"
+              src={`https://www.google.com/maps?q=${mapQuery}&z=16&output=embed`}
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
         </div>
