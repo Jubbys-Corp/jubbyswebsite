@@ -1,12 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { STRINGS } from './i18n.js'
 
 const FLAVOR_IMGS = {
-  mango: '/products/flavor-mango.webp?v=6',
-  muz: '/products/flavor-muz.webp?v=6',
-  ananas: '/products/flavor-ananas.webp?v=6',
-  karpuz: '/products/flavor-karpuz.webp?v=8',
+  mango: '/products/flavor-mango.webp?v=17',
+  muz: '/products/flavor-muz.webp?v=17',
+  ananas: '/products/flavor-ananas.webp?v=17',
+  karpuz: '/products/flavor-karpuz.webp?v=17',
+  'mavi-ahududu': '/products/flavor-mavi-ahududu.webp?v=9',
+}
+
+const LIQUID_IMGS = {
+  mango: '/products/liquid-card-mango.webp?v=7',
+  muz: '/products/liquid-card-muz.webp?v=7',
+  ananas: '/products/liquid-card-ananas.webp?v=7',
+  karpuz: '/products/liquid-card-karpuz.webp?v=7',
+  'mavi-ahududu': '/products/liquid-card-mavi-ahududu.webp?v=7',
 }
 
 // FormSubmit alias for info@jubbys.com (keeps the raw address out of scraped JS).
@@ -62,8 +71,22 @@ function Header({ lang, setLang, t }) {
         <img src="/logo.webp" alt="Jubbys" />
       </a>
       <nav className="site-nav" aria-label={t.navAria}>
-        <a href="/#lezzetler" onClick={(e) => goTo(e, '/#lezzetler')}>{t.nav.flavors}</a>
-        <a href="/#mix-kutu" onClick={(e) => goTo(e, '/#mix-kutu')}>{t.nav.mixbox}</a>
+        <a
+          className="nav-brand nav-brand--liquid"
+          href="/#liquid-gummies"
+          onClick={(e) => goTo(e, '/#liquid-gummies')}
+          aria-label={t.nav.liquid}
+        >
+          <img src="/logo-liquid.webp?v=3" alt={t.nav.liquid} />
+        </a>
+        <a
+          className="nav-brand"
+          href="/#lezzetler"
+          onClick={(e) => goTo(e, '/#lezzetler')}
+          aria-label={t.nav.peelies}
+        >
+          <img src="/logo-peelies.webp?v=3" alt={t.nav.peelies} />
+        </a>
         <a href="/#neden-jubbys" onClick={(e) => goTo(e, '/#neden-jubbys')}>{t.nav.why}</a>
         <a href={NEWS_PATH} onClick={(e) => goTo(e, NEWS_PATH)}>{t.nav.haberler}</a>
         <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>{t.nav.about}</a>
@@ -117,6 +140,227 @@ function Header({ lang, setLang, t }) {
   )
 }
 
+/* Hero ribbon: one marquee track holding HERO_RIBBON_COPIES identical runs of
+   the packs. The scroll keyframes shift it by exactly one run (100 / copies %),
+   so the loop is seamless; the copy count keeps the track wider than the
+   viewport even after that shift. */
+const HERO_PACKS = [
+  '/products/doypack-mango.webp?v=17',
+  '/products/liquid-mango.webp?v=8',
+  '/products/doypack-muz.webp?v=17',
+  '/products/liquid-muz.webp?v=8',
+  '/products/doypack-ananas.webp?v=17',
+  '/products/liquid-ananas.webp?v=8',
+  '/products/doypack-karpuz.webp?v=17',
+  '/products/liquid-karpuz.webp?v=8',
+  '/products/doypack-mavi-ahududu.webp?v=8',
+  '/products/liquid-mavi-ahududu.webp?v=8',
+]
+const HERO_RIBBON_COPIES = [0, 1, 2]
+
+// the freshly launched flavours get a little badge on their card
+const NEW_PEELIES = ['mavi-ahududu']
+const NEW_LIQUID = ['mango', 'muz', 'ananas', 'karpuz', 'mavi-ahududu']
+
+/* The strip is driven from JS rather than a CSS keyframe so one offset can
+   carry three things at once: the idle drift, a finger dragging it, and the
+   momentum left over from a flick. Velocity always eases back to the idle
+   speed, so a hard shove spins fast and settles, a gentle push barely stirs it.
+   Press-and-hold (without dragging) still freezes the strip and pops the pack. */
+const AUTO_RUN_SECONDS = 34
+const FLICK_EASE_SECONDS = 1.1
+const MAX_FLICK_SPEED = 4200
+const DRAG_THRESHOLD = 6
+
+function HeroRibbon() {
+  const [pressed, setPressed] = useState(null)
+  const [dragging, setDragging] = useState(false)
+  const trackRef = useRef(null)
+  const motion = useRef({ offset: 0, velocity: 0, runWidth: 0, base: 0, drag: null })
+
+  useEffect(() => {
+    const track = trackRef.current
+    const m = motion.current
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    // one run of HERO_PACKS; the copies are identical, so wrapping by it is seamless
+    const measure = () => {
+      m.runWidth = track.scrollWidth / HERO_RIBBON_COPIES.length
+      m.base = reduced.matches ? 0 : -m.runWidth / AUTO_RUN_SECONDS
+    }
+    measure()
+    m.velocity = m.base
+
+    const resizeObserver = new ResizeObserver(measure)
+    resizeObserver.observe(track)
+    reduced.addEventListener('change', measure)
+
+    let frameId = 0
+    let last = 0
+    const frame = (now) => {
+      const dt = last ? Math.min((now - last) / 1000, 0.05) : 0
+      last = now
+      if (!m.drag) {
+        m.velocity += (m.base - m.velocity) * (1 - Math.exp(-dt / FLICK_EASE_SECONDS))
+        m.offset += m.velocity * dt
+      }
+      if (m.runWidth > 0) m.offset = ((m.offset % m.runWidth) - m.runWidth) % m.runWidth
+      track.style.transform = `translate3d(${m.offset}px, 0, 0)`
+      frameId = requestAnimationFrame(frame)
+    }
+    frameId = requestAnimationFrame(frame)
+
+    return () => {
+      cancelAnimationFrame(frameId)
+      resizeObserver.disconnect()
+      reduced.removeEventListener('change', measure)
+    }
+  }, [])
+
+  const handlePointerDown = (event) => {
+    const m = motion.current
+    try {
+      // capture on the strip: the drag keeps feeding us moves off the packs
+      event.currentTarget.setPointerCapture?.(event.pointerId)
+    } catch {
+      // no active pointer (synthetic event) - the drag still works from here
+    }
+    m.drag = {
+      id: event.pointerId,
+      startX: event.clientX,
+      startOffset: m.offset,
+      moved: false,
+      samples: [[event.timeStamp, event.clientX]],
+    }
+    m.velocity = 0
+    setDragging(true)
+    const key = event.target.dataset.packKey
+    if (key) setPressed(key)
+  }
+
+  const handlePointerMove = (event) => {
+    const drag = motion.current.drag
+    if (!drag || drag.id !== event.pointerId) return
+    const dx = event.clientX - drag.startX
+    if (!drag.moved && Math.abs(dx) > DRAG_THRESHOLD) {
+      drag.moved = true
+      setPressed(null) // it is a drag, not a press - let the pack shrink back
+    }
+    motion.current.offset = drag.startOffset + dx
+    drag.samples.push([event.timeStamp, event.clientX])
+    if (drag.samples.length > 6) drag.samples.shift()
+  }
+
+  const endDrag = (event) => {
+    const m = motion.current
+    const drag = m.drag
+    setPressed(null)
+    setDragging(false)
+    if (!drag || (event.pointerId !== undefined && drag.id !== event.pointerId)) return
+    m.drag = null
+    // speed of the last ~140ms of the gesture; a plain press has no samples in
+    // that window and leaves the strip at rest, easing back to the idle drift
+    const end = event.timeStamp
+    const x = event.clientX ?? drag.samples[drag.samples.length - 1][1]
+    const recent = drag.samples.filter(([t]) => end - t < 140)
+    const [t0, x0] = recent[0] ?? drag.samples[drag.samples.length - 1]
+    const elapsed = end - t0
+    const flick = elapsed > 8 ? ((x - x0) / elapsed) * 1000 : 0
+    m.velocity = Math.max(-MAX_FLICK_SPEED, Math.min(MAX_FLICK_SPEED, flick))
+  }
+
+  return (
+    <div
+      className={`hero-ribbon${dragging ? ' is-dragging' : ''}`}
+      aria-hidden="true"
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+      onLostPointerCapture={endDrag}
+    >
+      <span className="sprinkle sprinkle--1"></span>
+      <span className="sprinkle sprinkle--2"></span>
+      <span className="sprinkle sprinkle--3"></span>
+      <span className="sprinkle sprinkle--4"></span>
+      <span className="sprinkle sprinkle--5"></span>
+      <div className="hero-ribbon-track" ref={trackRef}>
+        {HERO_RIBBON_COPIES.map((copy) =>
+          HERO_PACKS.map((src) => {
+            const key = `${copy}-${src}`
+            return (
+              <img
+                key={key}
+                data-pack-key={key}
+                className={`hero-ribbon-pack${pressed === key ? ' is-pressed' : ''}`}
+                src={src}
+                alt=""
+                draggable="false"
+              />
+            )
+          }),
+        )}
+      </div>
+    </div>
+  )
+}
+
+function FlavorGrid({ copy, images, newIds = [] }) {
+  const railRef = useRef(null)
+
+  // one card per tap, whatever the current card width is
+  const nudge = (direction) => {
+    const rail = railRef.current
+    if (!rail) return
+    const card = rail.firstElementChild
+    const gap = parseFloat(getComputedStyle(rail).columnGap) || 0
+    const step = card ? card.getBoundingClientRect().width + gap : rail.clientWidth * 0.8
+    rail.scrollBy({ left: direction * step, behavior: 'smooth' })
+  }
+
+  return (
+    <div className="flavor-rail">
+      <button
+        type="button"
+        className="rail-arrow rail-arrow--prev"
+        aria-label={copy.prevAria}
+        onClick={() => nudge(-1)}
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button
+        type="button"
+        className="rail-arrow rail-arrow--next"
+        aria-label={copy.nextAria}
+        onClick={() => nudge(1)}
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+      <div className="flavor-grid" ref={railRef}>
+      {copy.items.map((flavor, i) => (
+        <article
+          className={`flavor-card flavor-card--${flavor.id} reveal`}
+          style={{ transitionDelay: `${i * 90}ms` }}
+          key={flavor.id}
+        >
+          {newIds.includes(flavor.id) && <span className="flavor-new">{copy.newBadge}</span>}
+          <div className="flavor-art">
+            <img src={images[flavor.id]} alt={flavor.imgAlt} loading="lazy" />
+          </div>
+          <h3>{flavor.title}</h3>
+          <p>{flavor.desc}</p>
+          <div className="flavor-meta">
+            <span className="chip">{flavor.weight}</span>
+            <span className="chip">{copy.chipPack}</span>
+            <span className="chip">{copy.chipHalal}</span>
+          </div>
+        </article>
+      ))}
+      </div>
+    </div>
+  )
+}
+
 function HomePage({ t }) {
   return (
     <main id="top">
@@ -128,66 +372,52 @@ function HomePage({ t }) {
               {t.hero.h1a} <span className="squiggle">{t.hero.h1b}</span>
             </h1>
             <p className="hero-sub">
-              Jubbys <strong>Peelies</strong>
-              {t.hero.sub}
+              {t.hero.subA}
+              <strong>Peelies</strong>
+              {t.hero.subB}
+              <strong>Liquid Gummies</strong>
+              {t.hero.subC}
             </p>
-            <div className="hero-actions">
-              <a className="btn btn--primary" href="#lezzetler">
-                {t.hero.ctaFlavors}
-              </a>
-              <a className="btn btn--ghost" href="#mix-kutu">
-                {t.hero.ctaMix}
-              </a>
-            </div>
-            <ul className="hero-chips" aria-label={t.hero.chipsAria}>
-              {t.hero.chips.map((chip) => (
-                <li key={chip}>{chip}</li>
-              ))}
-            </ul>
           </div>
-          <div className="hero-stage" aria-hidden="true">
-            <div className="hero-blob"></div>
-            <img className="hero-pack hero-pack--1" src="/products/doypack-mango.webp?v=9" alt="" />
-            <img className="hero-pack hero-pack--2" src="/products/doypack-muz.webp?v=9" alt="" />
-            <img className="hero-pack hero-pack--3" src="/products/doypack-ananas.webp?v=9" alt="" />
-            <img className="hero-pack hero-pack--4" src="/products/doypack-karpuz.webp?v=9" alt="" />
-            <span className="sprinkle sprinkle--1"></span>
-            <span className="sprinkle sprinkle--2"></span>
-            <span className="sprinkle sprinkle--3"></span>
-            <span className="sprinkle sprinkle--4"></span>
-            <span className="sprinkle sprinkle--5"></span>
+
+          <div className="hero-brands">
+            <a className="hero-brand" href="#liquid-gummies">
+              <img src="/logo-liquid.webp?v=3" alt="Jubbys Liquid Gummies" />
+            </a>
+            <span className="hero-brands-rule" aria-hidden="true"></span>
+            <a className="hero-brand" href="#lezzetler">
+              <img src="/logo-peelies.webp?v=3" alt="Jubbys Peelies" />
+            </a>
           </div>
         </div>
+
+        <HeroRibbon />
       </section>
 
-      <WaveDivider />
+      <WaveDivider color="var(--peel-band)" />
 
-      <section className="flavors" id="lezzetler">
+      <section className="flavors flavors--peelies" id="lezzetler">
         <div className="section-head reveal">
-          <span className="kicker">{t.flavors.kicker}</span>
+          <span className="kicker kicker--logo">
+            <img src="/logo-peelies.webp?v=3" alt={t.flavors.kicker} />
+          </span>
           <h2>{t.flavors.h2}</h2>
           <p>{t.flavors.p}</p>
         </div>
-        <div className="flavor-grid">
-          {t.flavors.items.map((flavor, i) => (
-            <article
-              className={`flavor-card flavor-card--${flavor.id} reveal`}
-              style={{ transitionDelay: `${i * 90}ms` }}
-              key={flavor.id}
-            >
-              <div className="flavor-art">
-                <img src={FLAVOR_IMGS[flavor.id]} alt={flavor.imgAlt} loading="lazy" />
-              </div>
-              <h3>{flavor.title}</h3>
-              <p>{flavor.desc}</p>
-              <div className="flavor-meta">
-                <span className="chip">{flavor.weight}</span>
-                <span className="chip">{t.flavors.chipPack}</span>
-                <span className="chip">{t.flavors.chipHalal}</span>
-              </div>
-            </article>
-          ))}
+        <FlavorGrid copy={t.flavors} images={FLAVOR_IMGS} newIds={NEW_PEELIES} />
+      </section>
+
+      <WaveDivider color="var(--liquid-band)" />
+
+      <section className="flavors flavors--liquid" id="liquid-gummies">
+        <div className="section-head reveal">
+          <span className="kicker kicker--logo kicker--liquid">
+            <img src="/logo-liquid.webp?v=3" alt={t.liquid.kicker} />
+          </span>
+          <h2>{t.liquid.h2}</h2>
+          <p>{t.liquid.p}</p>
         </div>
+        <FlavorGrid copy={t.liquid} images={LIQUID_IMGS} newIds={NEW_LIQUID} />
       </section>
 
       <WaveDivider flip color="var(--sun)" />
@@ -195,7 +425,7 @@ function HomePage({ t }) {
       <section className="mixbox" id="mix-kutu">
         <div className="mixbox-inner">
           <div className="mixbox-art reveal">
-            <img src="/products/mix-kutu.webp?v=7" alt={t.mixbox.imgAlt} />
+            <img src="/products/mix-kutu.webp?v=9" alt={t.mixbox.imgAlt} />
           </div>
           <div className="mixbox-copy reveal">
             <span className="kicker kicker--light">{t.mixbox.kicker}</span>

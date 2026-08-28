@@ -12,6 +12,14 @@
   --leaf: #7cc242;
   --leaf-deep: #4e9c2e;
 
+  /* Range bands: the same warm yellow-orange family as the Mix Kutu band, one
+     step softer than full strength so the blocks stay lively without turning
+     into hard slabs. The page reads as one tonal ladder - cream hero -> sunny
+     Peelies -> mango Liquid Gummies -> sun Mix Kutu. Ink sits at 10.5:1 and
+     8.5:1 on them. */
+  --peel-band: #ffdd83;
+  --liquid-band: #ffbe7a;
+
   font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
   color: var(--ink);
   background-color: var(--cream);
