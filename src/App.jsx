@@ -171,6 +171,7 @@ const AUTO_RUN_SECONDS = 34
 const FLICK_EASE_SECONDS = 1.1
 const MAX_FLICK_SPEED = 4200
 const DRAG_THRESHOLD = 6
+const AXIS_LOCK = 8
 
 function HeroRibbon() {
   const [pressed, setPressed] = useState(null)
@@ -228,8 +229,12 @@ function HeroRibbon() {
     m.drag = {
       id: event.pointerId,
       startX: event.clientX,
+      startY: event.clientY,
       startOffset: m.offset,
       moved: false,
+      // touch gestures start undecided: the first real movement decides whether
+      // this is a sideways drag of the strip or the page scrolling past it
+      axis: event.pointerType === 'touch' ? null : 'x',
       samples: [[event.timeStamp, event.clientX]],
     }
     m.velocity = 0
@@ -239,14 +244,33 @@ function HeroRibbon() {
   }
 
   const handlePointerMove = (event) => {
-    const drag = motion.current.drag
+    const m = motion.current
+    const drag = m.drag
     if (!drag || drag.id !== event.pointerId) return
     const dx = event.clientX - drag.startX
-    if (!drag.moved && Math.abs(dx) > DRAG_THRESHOLD) {
+    const dy = event.clientY - drag.startY
+
+    if (drag.axis === null) {
+      if (Math.abs(dx) < AXIS_LOCK && Math.abs(dy) < AXIS_LOCK) return // still undecided
+      if (Math.abs(dy) > Math.abs(dx)) {
+        // the page is scrolling: hand the gesture back, strip keeps drifting
+        m.drag = null
+        m.velocity = m.base
+        setPressed(null)
+        setDragging(false)
+        return
+      }
+      drag.axis = 'x'
+      drag.startX = event.clientX // start from here so the strip does not jump
+      drag.startOffset = m.offset
+      drag.samples = [[event.timeStamp, event.clientX]]
+    }
+
+    if (!drag.moved && Math.abs(event.clientX - drag.startX) > DRAG_THRESHOLD) {
       drag.moved = true
       setPressed(null) // it is a drag, not a press - let the pack shrink back
     }
-    motion.current.offset = drag.startOffset + dx
+    m.offset = drag.startOffset + (event.clientX - drag.startX)
     drag.samples.push([event.timeStamp, event.clientX])
     if (drag.samples.length > 6) drag.samples.shift()
   }
