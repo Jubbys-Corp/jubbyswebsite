@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import './App.css'
 import { STRINGS } from './i18n.js'
 
@@ -385,12 +385,12 @@ function FlavorGrid({ copy, images, newIds = [] }) {
   )
 }
 
-/* The hero alternates between the two ranges: the lockup slides from one side
-   to the other while its own copy crosses the other way, so the pair reads as
-   swapping places rather than as two slides being cut together. */
-const HERO_SLIDES = [
-  { id: 'liquid', logo: '/logo-liquid.webp?v=3', path: '/#liquid-gummies' },
-  { id: 'peelies', logo: '/logo-peelies.webp?v=3', path: '/#lezzetler' },
+/* The hero alternates between the two ranges: only the copy changes, while
+   both lockups stay put on the right and the one being talked about lights up
+   as the other dims down. */
+const HERO_BRANDS = [
+  { id: 'liquid', logo: '/logo-liquid.webp?v=3' },
+  { id: 'peelies', logo: '/logo-peelies.webp?v=3' },
 ]
 const HERO_SLIDE_MS = 7000
 
@@ -398,50 +398,55 @@ function HeroShowcase({ t }) {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
 
+  // `active` is a dependency so picking a lockup by hand restarts the clock and
+  // that range gets a full turn before the hero moves on
   useEffect(() => {
     if (paused) return undefined
-    const id = setInterval(() => setActive((i) => (i + 1) % HERO_SLIDES.length), HERO_SLIDE_MS)
-    return () => clearInterval(id)
-  }, [paused])
+    const id = setTimeout(() => setActive((i) => (i + 1) % HERO_BRANDS.length), HERO_SLIDE_MS)
+    return () => clearTimeout(id)
+  }, [paused, active])
 
   return (
     <div
-      className="hero-stage"
+      className="hero-inner"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      {HERO_SLIDES.map((slide, i) => {
-        const copy = t.hero.slides[i]
-        const on = i === active
-        // one h1 per page: the second act's headline is a styled h2
-        const Heading = i === 0 ? 'h1' : 'h2'
-        return (
-          <div
-            key={slide.id}
-            className={`hero-slide hero-slide--${slide.id}${on ? ' is-active' : ''}`}
-            aria-hidden={!on}
-          >
-            <div className="hero-slide-copy">
+      <div className="hero-copy">
+        {t.hero.slides.map((copy, i) => {
+          const on = i === active
+          // one h1 per page: the second act's headline is a styled h2
+          const Heading = i === 0 ? 'h1' : 'h2'
+          return (
+            <div key={HERO_BRANDS[i].id} className={`hero-act${on ? ' is-active' : ''}`} aria-hidden={!on}>
               <span className="hero-badge">{copy.badge}</span>
               <Heading>
                 {copy.h1a} <span className="squiggle">{copy.h1b}</span>
               </Heading>
               <p className="hero-sub">{copy.desc}</p>
             </div>
-            <a
-              className="hero-slide-art"
-              href={slide.path}
-              onClick={(e) => goTo(e, slide.path)}
-              aria-label={copy.logoAria}
-              tabIndex={on ? 0 : -1}
+          )
+        })}
+      </div>
+
+      <div className="hero-brands">
+        {HERO_BRANDS.map((brand, i) => (
+          <Fragment key={brand.id}>
+            {i > 0 && <span className="hero-brands-rule" aria-hidden="true"></span>}
+            <button
+              type="button"
+              className={`hero-brand${i === active ? ' is-on' : ''}`}
+              onClick={() => setActive(i)}
+              aria-pressed={i === active}
+              aria-label={t.hero.slides[i].logoAria}
             >
-              <img src={slide.logo} alt={copy.logoAria} />
-            </a>
-          </div>
-        )
-      })}
+              <img src={brand.logo} alt={t.hero.slides[i].logoAria} />
+            </button>
+          </Fragment>
+        ))}
+      </div>
     </div>
   )
 }
