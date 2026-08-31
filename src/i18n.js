@@ -22,12 +22,22 @@ export const STRINGS = {
       haberler: 'Haberler',
     },
     hero: {
-      badge: '💧 Yeni: Liquid Gummies',
-      h1a: 'Lezzet',
-      h1b: 'Patlaması!',
-      subA: 'Soyulabilir jelibonlarımız ',
-      subB: "'e şimdi sıvı dolgulu ",
-      subC: ' serisi katıldı. Mango, muz, ananas, karpuz ve mavi ahududu; iki farklı eğlence, hepsi gerçek meyve suyuyla.',
+      slides: [
+        {
+          badge: '💧 Yeni seri',
+          h1a: 'Lezzet',
+          h1b: 'Patlaması!',
+          desc: 'Liquid Gummies\'te dışı yumuşak jelibon, içi gerçek meyve sulu dolgu. Isır, içinden lezzet aksın: mango, muz, ananas, karpuz ve mavi ahududu.',
+          logoAria: 'Liquid Gummies lezzetlerine git',
+        },
+        {
+          badge: '🍌 Klasikleşen seri',
+          h1a: 'Soy &',
+          h1b: 'Tadını Çıkar!',
+          desc: 'Peelies, tıpkı gerçek meyve gibi soyulan 3D jelibon. Soyması yemesi kadar eğlenceli, beş lezzetin hepsi gerçek meyve suyuyla hazırlanıyor.',
+          logoAria: 'Peelies lezzetlerine git',
+        },
+      ],
     },
     flavors: {
       kicker: 'Peelies',
@@ -346,12 +356,22 @@ export const STRINGS = {
       haberler: 'News',
     },
     hero: {
-      badge: '💧 New: Liquid Gummies',
-      h1a: 'Burst of',
-      h1b: 'Flavour!',
-      subA: 'Our peelable gummies, ',
-      subB: ', now come with a liquid filled range: ',
-      subC: '. Mango, banana, pineapple, watermelon and blue raspberry - two kinds of fun, all made with real fruit juice.',
+      slides: [
+        {
+          badge: '💧 New range',
+          h1a: 'Burst of',
+          h1b: 'Flavour!',
+          desc: 'Liquid Gummies wrap a real fruit juice centre in a soft chewy shell. Bite in and let the flavour flow: mango, banana, pineapple, watermelon and blue raspberry.',
+          logoAria: 'Go to the Liquid Gummies flavours',
+        },
+        {
+          badge: '🍌 The original',
+          h1a: 'Peel &',
+          h1b: 'Enjoy!',
+          desc: 'Peelies is a 3D gummy that peels just like real fruit. Peeling is half the fun, and every one of the five flavours is made with real fruit juice.',
+          logoAria: 'Go to the Peelies flavours',
+        },
+      ],
     },
     flavors: {
       kicker: 'Peelies',

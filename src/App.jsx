@@ -385,35 +385,72 @@ function FlavorGrid({ copy, images, newIds = [] }) {
   )
 }
 
+/* The hero alternates between the two ranges: the lockup slides from one side
+   to the other while its own copy crosses the other way, so the pair reads as
+   swapping places rather than as two slides being cut together. */
+const HERO_SLIDES = [
+  { id: 'liquid', logo: '/logo-liquid.webp?v=3', path: '/#liquid-gummies' },
+  { id: 'peelies', logo: '/logo-peelies.webp?v=3', path: '/#lezzetler' },
+]
+const HERO_SLIDE_MS = 7000
+
+function HeroShowcase({ t }) {
+  const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused) return undefined
+    const id = setInterval(() => setActive((i) => (i + 1) % HERO_SLIDES.length), HERO_SLIDE_MS)
+    return () => clearInterval(id)
+  }, [paused])
+
+  return (
+    <div
+      className="hero-stage"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
+      {HERO_SLIDES.map((slide, i) => {
+        const copy = t.hero.slides[i]
+        const on = i === active
+        // one h1 per page: the second act's headline is a styled h2
+        const Heading = i === 0 ? 'h1' : 'h2'
+        return (
+          <div
+            key={slide.id}
+            className={`hero-slide hero-slide--${slide.id}${on ? ' is-active' : ''}`}
+            aria-hidden={!on}
+          >
+            <div className="hero-slide-copy">
+              <span className="hero-badge">{copy.badge}</span>
+              <Heading>
+                {copy.h1a} <span className="squiggle">{copy.h1b}</span>
+              </Heading>
+              <p className="hero-sub">{copy.desc}</p>
+            </div>
+            <a
+              className="hero-slide-art"
+              href={slide.path}
+              onClick={(e) => goTo(e, slide.path)}
+              aria-label={copy.logoAria}
+              tabIndex={on ? 0 : -1}
+            >
+              <img src={slide.logo} alt={copy.logoAria} />
+            </a>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 function HomePage({ t }) {
   return (
     <main id="top">
       <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-copy">
-            <span className="hero-badge">{t.hero.badge}</span>
-            <h1>
-              {t.hero.h1a} <span className="squiggle">{t.hero.h1b}</span>
-            </h1>
-            <p className="hero-sub">
-              {t.hero.subA}
-              <strong>Peelies</strong>
-              {t.hero.subB}
-              <strong>Liquid Gummies</strong>
-              {t.hero.subC}
-            </p>
-          </div>
-
-          <div className="hero-brands">
-            <a className="hero-brand" href="#liquid-gummies">
-              <img src="/logo-liquid.webp?v=3" alt="Jubbys Liquid Gummies" />
-            </a>
-            <span className="hero-brands-rule" aria-hidden="true"></span>
-            <a className="hero-brand" href="#lezzetler">
-              <img src="/logo-peelies.webp?v=3" alt="Jubbys Peelies" />
-            </a>
-          </div>
-        </div>
+        <HeroShowcase t={t} />
 
         <HeroRibbon />
       </section>
