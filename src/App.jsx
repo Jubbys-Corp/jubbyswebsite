@@ -388,8 +388,8 @@ function FlavorGrid({ copy, images, newIds = [] }) {
 /* The hero is split down the middle by a hairline: Peelies on the left with its
    lockup next to the line, Liquid Gummies mirrored on the right. */
 const HERO_HALVES = [
-  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1 },
-  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0 },
+  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1, ghosts: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'] },
+  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0, ghosts: ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'] },
 ]
 
 function HeroSplit({ t }) {
@@ -403,6 +403,12 @@ function HeroSplit({ t }) {
           <Fragment key={half.id}>
             {i > 0 && <span className="hero-split-rule" aria-hidden="true"></span>}
             <div className={`hero-half hero-half--${half.id}`}>
+              {/* packs from this range, scattered and faded, behind the copy */}
+              <span className="hero-ghosts" aria-hidden="true">
+                {half.ghosts.map((g) => (
+                  <i key={g} className={`hero-ghost hero-ghost--${g}`} />
+                ))}
+              </span>
               <div className="hero-half-copy">
                 <span className="hero-badge">{copy.badge}</span>
                 <Heading>
