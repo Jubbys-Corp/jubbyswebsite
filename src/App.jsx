@@ -434,7 +434,6 @@ function HeroShowcase({ t }) {
       <div className="hero-brands">
         {HERO_BRANDS.map((brand, i) => (
           <Fragment key={brand.id}>
-            {i > 0 && <span className="hero-brands-rule" aria-hidden="true"></span>}
             <button
               type="button"
               className={`hero-brand${i === active ? ' is-on' : ''}`}

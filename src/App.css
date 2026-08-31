@@ -327,60 +327,52 @@
   margin-bottom: 1.1rem;
 }
 
-/* the two sub-brand wordmarks (original artwork, transparent) - they carry
-   their own drop shadow, so ours only adds a light lift */
+/* The two lockups share one spot: the range being talked about comes to the
+   front at full size while the other shrinks away behind it, and they trade
+   places on every turn. */
 .hero-brands {
   display: grid;
-  justify-items: center;
-  gap: clamp(0.9rem, 2.2vw, 1.5rem);
+  place-items: center;
+  min-height: clamp(200px, 25vw, 310px);
 }
 
 .hero-brand {
+  grid-area: 1 / 1;
   display: block;
   width: min(100%, 312px);
   padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
-  /* resting state is the dimmed one: the active range lights up below */
-  opacity: 0.32;
-  filter: saturate(0.5) drop-shadow(0 6px 10px rgba(74, 32, 23, 0.12));
-  transform: rotate(-1.4deg) scale(0.93);
-  transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.85, 0.24, 1);
+  /* resting state: small, pale and tucked in below the active one */
+  z-index: 1;
+  opacity: 0.38;
+  filter: saturate(0.35) drop-shadow(0 4px 8px rgba(74, 32, 23, 0.12));
+  transform: translateY(74px) scale(0.5) rotate(2deg);
+  transition: transform 0.75s cubic-bezier(0.34, 1.18, 0.42, 1), opacity 0.5s ease,
+    filter 0.5s ease;
 }
 
 .hero-brand.is-on {
+  z-index: 2;
   opacity: 1;
-  filter: saturate(1) drop-shadow(0 8px 12px rgba(74, 32, 23, 0.18));
-  transform: rotate(-1.4deg) scale(1);
+  filter: saturate(1) drop-shadow(0 12px 18px rgba(74, 32, 23, 0.22));
+  transform: translateY(-14px) scale(1) rotate(-1.4deg);
 }
 
+/* the pair leans opposite ways, so the stack reads as two cards */
 .hero-brands .hero-brand:last-child {
-  width: min(86%, 268px);
-  transform: rotate(1.4deg) scale(0.93);
+  transform: translateY(78px) scale(0.5) rotate(-2deg);
 }
 
 .hero-brands .hero-brand:last-child.is-on {
-  transform: rotate(1.4deg) scale(1);
+  transform: translateY(-10px) scale(1) rotate(1.4deg);
 }
 
-.hero-brand:hover,
-.hero-brand:focus-visible {
-  opacity: 1;
-}
-
-/* hairline between the two lockups, dissolving at both ends */
-.hero-brands-rule {
-  width: min(84%, 286px);
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    rgba(74, 32, 23, 0) 0%,
-    rgba(74, 32, 23, 0.22) 24%,
-    rgba(74, 32, 23, 0.22) 76%,
-    rgba(74, 32, 23, 0) 100%
-  );
+.hero-brand:hover:not(.is-on),
+.hero-brand:focus-visible:not(.is-on) {
+  opacity: 0.62;
+  filter: saturate(0.7) drop-shadow(0 6px 10px rgba(74, 32, 23, 0.16));
 }
 
 .hero-brand img {
@@ -1868,33 +1860,26 @@
   }
 }
 
-/* phones: the two lockups sit side by side, with the hairline turned upright */
+/* phones: same stack, tighter */
 @media (max-width: 700px) {
   .hero-brands {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(0.5rem, 3vw, 1rem);
-    width: 100%;
+    min-height: clamp(150px, 42vw, 215px);
   }
 
   .hero-brand {
-    width: min(40%, 176px);
+    width: min(74%, 250px);
+    transform: translateY(52px) scale(0.46) rotate(2deg);
   }
 
   .hero-brands .hero-brand:last-child {
-    width: min(33%, 145px);
+    transform: translateY(56px) scale(0.46) rotate(-2deg);
   }
 
-  .hero-brands-rule {
-    width: 3px;
-    height: clamp(36px, 11vw, 54px);
-    background: linear-gradient(
-      to bottom,
-      rgba(74, 32, 23, 0) 0%,
-      rgba(74, 32, 23, 0.22) 24%,
-      rgba(74, 32, 23, 0.22) 76%,
-      rgba(74, 32, 23, 0) 100%
-    );
+  .hero-brand.is-on {
+    transform: translateY(-8px) scale(1) rotate(-1.4deg);
+  }
+
+  .hero-brands .hero-brand:last-child.is-on {
+    transform: translateY(-6px) scale(1) rotate(1.4deg);
   }
 }
