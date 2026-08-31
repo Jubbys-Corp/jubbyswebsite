@@ -327,52 +327,57 @@
   margin-bottom: 1.1rem;
 }
 
-/* The two lockups share one spot: the range being talked about comes to the
-   front at full size while the other shrinks away behind it, and they trade
-   places on every turn. */
+/* The two lockups wrestle for the spot: each keeps its own band (they never
+   cover each other), and the range being talked about springs up to full size
+   while the other is squashed flat - then they trade places. */
 .hero-brands {
   display: grid;
+  grid-template-rows: 1fr 1fr;
   place-items: center;
-  min-height: clamp(200px, 25vw, 310px);
+  gap: clamp(0.3rem, 1.2vw, 0.8rem);
+  min-height: clamp(210px, 26vw, 330px);
 }
 
 .hero-brand {
-  grid-area: 1 / 1;
   display: block;
-  width: min(100%, 312px);
+  width: min(100%, 280px);
   padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
-  /* resting state: small, pale and tucked in below the active one */
-  z-index: 1;
-  opacity: 0.38;
-  filter: saturate(0.35) drop-shadow(0 4px 8px rgba(74, 32, 23, 0.12));
-  transform: translateY(74px) scale(0.5) rotate(2deg);
-  transition: transform 0.75s cubic-bezier(0.34, 1.18, 0.42, 1), opacity 0.5s ease,
-    filter 0.5s ease;
+  /* the losing side: pressed down, drained of colour */
+  opacity: 0.4;
+  filter: saturate(0.3) drop-shadow(0 3px 5px rgba(74, 32, 23, 0.12));
+  transform: scale(0.58, 0.44) rotate(2deg);
+  transition: transform 0.7s cubic-bezier(0.34, 1.45, 0.48, 1), opacity 0.45s ease,
+    filter 0.45s ease;
 }
 
 .hero-brand.is-on {
-  z-index: 2;
   opacity: 1;
   filter: saturate(1) drop-shadow(0 12px 18px rgba(74, 32, 23, 0.22));
-  transform: translateY(-14px) scale(1) rotate(-1.4deg);
+  /* springs past full size before settling, so it lands like a stamp */
+  transform: scale(1) rotate(-1.4deg);
 }
 
-/* the pair leans opposite ways, so the stack reads as two cards */
 .hero-brands .hero-brand:last-child {
-  transform: translateY(78px) scale(0.5) rotate(-2deg);
+  transform: scale(0.58, 0.44) rotate(-2deg);
 }
 
 .hero-brands .hero-brand:last-child.is-on {
-  transform: translateY(-10px) scale(1) rotate(1.4deg);
+  transform: scale(1) rotate(1.4deg);
 }
 
 .hero-brand:hover:not(.is-on),
 .hero-brand:focus-visible:not(.is-on) {
-  opacity: 0.62;
-  filter: saturate(0.7) drop-shadow(0 6px 10px rgba(74, 32, 23, 0.16));
+  opacity: 0.65;
+  filter: saturate(0.7) drop-shadow(0 5px 8px rgba(74, 32, 23, 0.16));
+  transform: scale(0.66, 0.52) rotate(2deg);
+}
+
+.hero-brands .hero-brand:last-child:hover:not(.is-on),
+.hero-brands .hero-brand:last-child:focus-visible:not(.is-on) {
+  transform: scale(0.66, 0.52) rotate(-2deg);
 }
 
 .hero-brand img {
@@ -1860,26 +1865,14 @@
   }
 }
 
-/* phones: same stack, tighter */
+/* phones: same tug of war, tighter */
 @media (max-width: 700px) {
   .hero-brands {
-    min-height: clamp(150px, 42vw, 215px);
+    min-height: clamp(160px, 44vw, 220px);
+    gap: 0.2rem;
   }
 
   .hero-brand {
-    width: min(74%, 250px);
-    transform: translateY(52px) scale(0.46) rotate(2deg);
-  }
-
-  .hero-brands .hero-brand:last-child {
-    transform: translateY(56px) scale(0.46) rotate(-2deg);
-  }
-
-  .hero-brand.is-on {
-    transform: translateY(-8px) scale(1) rotate(-1.4deg);
-  }
-
-  .hero-brands .hero-brand:last-child.is-on {
-    transform: translateY(-6px) scale(1) rotate(1.4deg);
+    width: min(66%, 230px);
   }
 }
