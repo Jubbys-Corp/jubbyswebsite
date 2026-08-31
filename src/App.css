@@ -363,6 +363,45 @@
   aspect-ratio: 1;
 }
 
+.hero-ghost--l7 {
+  background-image: url('/products/liquid-ananas.webp?v=5');
+  width: 17%;
+  right: 42%;
+  top: -8%;
+  opacity: 0.11;
+  transform: rotate(-22deg);
+}
+
+.hero-ghost--l8 {
+  background-image: url('/products/liquid-gummy-mango.webp?v=1');
+  aspect-ratio: 1;
+  width: 10%;
+  right: 2%;
+  bottom: 24%;
+  opacity: 0.15;
+  transform: rotate(-10deg);
+}
+
+.hero-ghost--l9 {
+  background-image: url('/products/liquid-gummy-karpuz.webp?v=1');
+  aspect-ratio: 1;
+  width: 9%;
+  left: 4%;
+  top: 28%;
+  opacity: 0.13;
+  transform: rotate(19deg);
+}
+
+.hero-ghost--l10 {
+  background-image: url('/products/liquid-gummy-muz.webp?v=1');
+  aspect-ratio: 1;
+  width: 8%;
+  right: 33%;
+  bottom: 30%;
+  opacity: 0.12;
+  transform: rotate(-27deg);
+}
+
 .hero-ghost--p5 {
   background-image: url('/products/peelies-gummy-mango.webp?v=1');
   width: 13%;
@@ -379,6 +418,45 @@
   top: 26%;
   opacity: 0.16;
   transform: rotate(18deg);
+}
+
+.hero-ghost--p7 {
+  background-image: url('/products/doypack-muz.webp?v=13');
+  width: 17%;
+  left: 41%;
+  bottom: -8%;
+  opacity: 0.11;
+  transform: rotate(24deg);
+}
+
+.hero-ghost--p8 {
+  background-image: url('/products/peelies-gummy-ananas.webp?v=1');
+  aspect-ratio: 1;
+  width: 10%;
+  left: 2%;
+  top: 22%;
+  opacity: 0.15;
+  transform: rotate(11deg);
+}
+
+.hero-ghost--p9 {
+  background-image: url('/products/peelies-gummy-muz.webp?v=1');
+  aspect-ratio: 1;
+  width: 9%;
+  right: 3%;
+  bottom: 26%;
+  opacity: 0.13;
+  transform: rotate(-21deg);
+}
+
+.hero-ghost--p10 {
+  background-image: url('/products/peelies-gummy-mavi-ahududu.webp?v=1');
+  aspect-ratio: 1;
+  width: 8%;
+  left: 34%;
+  top: 30%;
+  opacity: 0.12;
+  transform: rotate(27deg);
 }
 
 .hero-ghost--l1 {
@@ -1835,10 +1913,10 @@
 /* ---------- Responsive ---------- */
 
 @media (max-width: 880px) {
-  /* stacked: each range gets a full-width row, the rule lies flat between them */
+  /* the split stays side by side on small screens too - only the inside of each
+     half stacks, lockup over copy */
   .hero-split {
-    grid-template-columns: 1fr;
-    gap: clamp(0.8rem, 3vw, 1.4rem);
+    gap: clamp(0.5rem, 2.5vw, 1.4rem);
   }
 
   .hero-half,
@@ -1846,11 +1924,12 @@
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
+    gap: 0.5rem;
   }
 
   .hero-half-logo {
     order: 1;
-    width: min(70%, 260px);
+    width: min(100%, 190px);
   }
 
   .hero-half-copy,
@@ -1858,35 +1937,25 @@
     order: 2;
   }
 
-  /* fewer, fainter ghosts on a phone so the copy stays clean */
-  .hero-ghost {
-    opacity: 0.09;
+  .hero-half h1,
+  .hero-half h2 {
+    font-size: clamp(0.95rem, 3.6vw, 1.5rem);
   }
 
-  .hero-ghost--p2,
-  .hero-ghost--p4,
-  .hero-ghost--p6,
-  .hero-ghost--l2,
-  .hero-ghost--l4,
-  .hero-ghost--l6 {
-    display: none;
-  }
-
-  .hero-split-rule {
-    width: min(70%, 280px);
-    height: 3px;
-    justify-self: center;
-    background: linear-gradient(
-      to right,
-      rgba(74, 32, 23, 0) 0%,
-      rgba(74, 32, 23, 0.2) 22%,
-      rgba(74, 32, 23, 0.2) 78%,
-      rgba(74, 32, 23, 0) 100%
-    );
+  .hero-half .hero-badge {
+    font-size: clamp(0.62rem, 2.4vw, 0.85rem);
+    padding: 0.25rem 0.7rem;
+    margin-bottom: 0.5rem;
   }
 
   .hero-sub {
     margin-inline: auto;
+    font-size: clamp(0.72rem, 2.6vw, 0.95rem);
+    line-height: 1.4;
+  }
+
+  .hero-split-rule {
+    height: clamp(150px, 42vw, 240px);
   }
 
   .mixbox-inner {
@@ -1988,4 +2057,28 @@
     animation: none;
   }
 
+}
+
+/* phones: the split stays, just tighter - and fewer ghosts so the copy is clean */
+@media (max-width: 700px) {
+  .hero-half-logo {
+    width: min(100%, 152px);
+  }
+
+  .hero-ghost {
+    opacity: 0.08;
+  }
+
+  .hero-ghost--p2,
+  .hero-ghost--p4,
+  .hero-ghost--p6,
+  .hero-ghost--p7,
+  .hero-ghost--p10,
+  .hero-ghost--l2,
+  .hero-ghost--l4,
+  .hero-ghost--l6,
+  .hero-ghost--l7,
+  .hero-ghost--l10 {
+    display: none;
+  }
 }

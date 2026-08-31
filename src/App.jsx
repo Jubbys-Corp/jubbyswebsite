@@ -388,8 +388,8 @@ function FlavorGrid({ copy, images, newIds = [] }) {
 /* The hero is split down the middle by a hairline: Peelies on the left with its
    lockup next to the line, Liquid Gummies mirrored on the right. */
 const HERO_HALVES = [
-  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1, ghosts: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'] },
-  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0, ghosts: ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'] },
+  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1, ghosts: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'] },
+  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0, ghosts: ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'] },
 ]
 
 function HeroSplit({ t }) {
