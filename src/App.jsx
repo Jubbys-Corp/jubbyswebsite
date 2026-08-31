@@ -388,13 +388,24 @@ function FlavorGrid({ copy, images, newIds = [] }) {
 /* The hero is split down the middle by a hairline: Peelies on the left with its
    lockup next to the line, Liquid Gummies mirrored on the right. */
 const HERO_HALVES = [
-  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1, ghosts: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'] },
-  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0, ghosts: ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'] },
+  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1, ghosts: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14'] },
+  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0, ghosts: ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10', 'l11', 'l12', 'l13', 'l14'] },
 ]
 
 function HeroSplit({ t }) {
   return (
-    <div className="hero-split">
+    <div className="hero-stage">
+      {/* the scatter lives outside the split so it can run edge to edge; each
+          range keeps to its own side of the screen */}
+      {HERO_HALVES.map((half) => (
+        <span key={half.id} className={`hero-ghosts hero-ghosts--${half.id}`} aria-hidden="true">
+          {half.ghosts.map((g) => (
+            <i key={g} className={`hero-ghost hero-ghost--${g}`} />
+          ))}
+        </span>
+      ))}
+
+      <div className="hero-split">
       {HERO_HALVES.map((half, i) => {
         const copy = t.hero.slides[half.slide]
         // one h1 per page: the second half's headline is a styled h2
@@ -403,12 +414,6 @@ function HeroSplit({ t }) {
           <Fragment key={half.id}>
             {i > 0 && <span className="hero-split-rule" aria-hidden="true"></span>}
             <div className={`hero-half hero-half--${half.id}`}>
-              {/* packs from this range, scattered and faded, behind the copy */}
-              <span className="hero-ghosts" aria-hidden="true">
-                {half.ghosts.map((g) => (
-                  <i key={g} className={`hero-ghost hero-ghost--${g}`} />
-                ))}
-              </span>
               <div className="hero-half-copy">
                 <span className="hero-badge">{copy.badge}</span>
                 <Heading>
@@ -421,6 +426,7 @@ function HeroSplit({ t }) {
           </Fragment>
         )
       })}
+      </div>
     </div>
   )
 }

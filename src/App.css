@@ -285,7 +285,18 @@
 
 /* The hero is cut in half by a hairline: each range keeps its own side, with
    the two lockups meeting in the middle. No panels - just the split. */
+/* full-bleed stage: the scattered packs run to both screen edges, the split
+   itself stays on the content column */
+.hero-stage {
+  position: relative;
+  margin-inline: calc(-1 * var(--hero-pad-x));
+  padding-inline: var(--hero-pad-x);
+  overflow: hidden;
+}
+
 .hero-split {
+  position: relative;
+  z-index: 1;
   max-width: 1180px;
   margin: 0 auto;
   display: grid;
@@ -295,8 +306,6 @@
 }
 
 .hero-half {
-  position: relative;
-  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   align-items: center;
@@ -306,10 +315,32 @@
 /* packs from each range, scattered and tilted behind their own half */
 .hero-ghosts {
   position: absolute;
-  inset: -12% -4%;
-  z-index: -1;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
   pointer-events: none;
-  overflow: hidden;
+  /* the outer edge is the screen edge, so a clip there reads naturally; the
+     inner edge and the top/bottom fade out instead of being cut */
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.hero-ghosts--peelies {
+  left: 0;
+  right: 50%;
+  -webkit-mask-image: linear-gradient(to right, #000 68%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 12%, #000 88%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to right, #000 68%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 12%, #000 88%, rgba(0, 0, 0, 0) 100%);
+}
+
+.hero-ghosts--liquid {
+  left: 50%;
+  right: 0;
+  -webkit-mask-image: linear-gradient(to left, #000 68%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 12%, #000 88%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to left, #000 68%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 12%, #000 88%, rgba(0, 0, 0, 0) 100%);
 }
 
 .hero-ghost {
@@ -322,8 +353,8 @@
 .hero-ghost--p1 {
   background-image: url('/products/doypack-karpuz.webp?v=13');
   width: 26%;
-  left: -1%;
-  bottom: 2%;
+  left: 1%;
+  bottom: 3%;
   opacity: 0.17;
   transform: rotate(-17deg);
 }
@@ -340,8 +371,8 @@
 .hero-ghost--p3 {
   background-image: url('/products/doypack-ananas.webp?v=13');
   width: 22%;
-  right: 6%;
-  bottom: -4%;
+  right: 7%;
+  bottom: -2%;
   opacity: 0.14;
   transform: rotate(-8deg);
 }
@@ -367,7 +398,7 @@
   background-image: url('/products/liquid-ananas.webp?v=5');
   width: 17%;
   right: 42%;
-  top: -8%;
+  top: -4%;
   opacity: 0.11;
   transform: rotate(-22deg);
 }
@@ -402,6 +433,102 @@
   transform: rotate(-27deg);
 }
 
+.hero-ghost--l11 {
+  background-image: url('/products/liquid-karpuz.webp?v=5');
+  width: 14%;
+  right: 56%;
+  bottom: 4%;
+  opacity: 0.1;
+  transform: rotate(25deg);
+}
+
+.hero-ghost--l12 {
+  background-image: url('/products/liquid-gummy-muz.webp?v=1');
+  aspect-ratio: 1;
+  width: 9%;
+  right: 47%;
+  top: 22%;
+  opacity: 0.14;
+  transform: rotate(-15deg);
+}
+
+.hero-ghost--l13 {
+  background-image: url('/products/liquid-muz.webp?v=5');
+  width: 13%;
+  left: 30%;
+  top: 6%;
+  opacity: 0.1;
+  transform: rotate(-9deg);
+}
+
+.hero-ghost--l14 {
+  background-image: url('/products/liquid-gummy-karpuz.webp?v=1');
+  aspect-ratio: 1;
+  width: 8%;
+  right: 8%;
+  top: 34%;
+  opacity: 0.13;
+  transform: rotate(20deg);
+}
+
+/* the scatter drifts slowly side to side; `translate` is animated on its own so
+   each ghost keeps the tilt its `transform` gives it */
+@keyframes ghost-drift-a {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 26px -12px;
+  }
+}
+
+@keyframes ghost-drift-b {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: -24px 10px;
+  }
+}
+
+@keyframes ghost-drift-c {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 18px 16px;
+  }
+}
+
+.hero-ghost {
+  animation: ghost-drift-a 17s ease-in-out infinite;
+}
+
+.hero-ghost:nth-child(3n) {
+  animation-name: ghost-drift-b;
+  animation-duration: 23s;
+}
+
+.hero-ghost:nth-child(3n + 2) {
+  animation-name: ghost-drift-c;
+  animation-duration: 29s;
+}
+
+.hero-ghost:nth-child(2n) {
+  animation-delay: -7s;
+}
+
+.hero-ghost:nth-child(4n + 1) {
+  animation-delay: -13s;
+}
+
+.hero-ghost:nth-child(5n) {
+  animation-delay: -19s;
+}
+
 .hero-ghost--p5 {
   background-image: url('/products/peelies-gummy-mango.webp?v=1');
   width: 13%;
@@ -424,7 +551,7 @@
   background-image: url('/products/doypack-muz.webp?v=13');
   width: 17%;
   left: 41%;
-  bottom: -8%;
+  bottom: -4%;
   opacity: 0.11;
   transform: rotate(24deg);
 }
@@ -459,11 +586,49 @@
   transform: rotate(27deg);
 }
 
+.hero-ghost--p11 {
+  background-image: url('/products/doypack-ananas.webp?v=13');
+  width: 14%;
+  left: 56%;
+  top: 4%;
+  opacity: 0.1;
+  transform: rotate(-26deg);
+}
+
+.hero-ghost--p12 {
+  background-image: url('/products/peelies-gummy-karpuz.webp?v=1');
+  aspect-ratio: 1;
+  width: 9%;
+  left: 47%;
+  bottom: 22%;
+  opacity: 0.14;
+  transform: rotate(15deg);
+}
+
+.hero-ghost--p13 {
+  background-image: url('/products/doypack-mavi-ahududu.webp?v=4');
+  width: 13%;
+  right: 30%;
+  bottom: 6%;
+  opacity: 0.1;
+  transform: rotate(9deg);
+}
+
+.hero-ghost--p14 {
+  background-image: url('/products/peelies-gummy-mango.webp?v=1');
+  aspect-ratio: 1;
+  width: 8%;
+  left: 8%;
+  bottom: 34%;
+  opacity: 0.13;
+  transform: rotate(-19deg);
+}
+
 .hero-ghost--l1 {
   background-image: url('/products/liquid-mango.webp?v=5');
   width: 26%;
-  right: -1%;
-  top: 1%;
+  right: 1%;
+  top: 2%;
   opacity: 0.17;
   transform: rotate(15deg);
 }
@@ -480,8 +645,8 @@
 .hero-ghost--l3 {
   background-image: url('/products/liquid-muz.webp?v=5');
   width: 22%;
-  left: 4%;
-  top: -2%;
+  left: 5%;
+  top: 0;
   opacity: 0.14;
   transform: rotate(9deg);
 }
@@ -2053,7 +2218,8 @@
   /* the strip itself stops drifting via HeroRibbon; only the juice layers are
      CSS animations */
   .hero-ribbon::before,
-  .hero-ribbon::after {
+  .hero-ribbon::after,
+  .hero-ghost {
     animation: none;
   }
 
@@ -2074,11 +2240,15 @@
   .hero-ghost--p6,
   .hero-ghost--p7,
   .hero-ghost--p10,
+  .hero-ghost--p11,
+  .hero-ghost--p13,
   .hero-ghost--l2,
   .hero-ghost--l4,
   .hero-ghost--l6,
   .hero-ghost--l7,
-  .hero-ghost--l10 {
+  .hero-ghost--l10,
+  .hero-ghost--l11,
+  .hero-ghost--l13 {
     display: none;
   }
 }
