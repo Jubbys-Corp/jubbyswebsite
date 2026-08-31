@@ -385,67 +385,36 @@ function FlavorGrid({ copy, images, newIds = [] }) {
   )
 }
 
-/* The hero alternates between the two ranges: only the copy changes, while
-   both lockups stay put on the right and the one being talked about lights up
-   as the other dims down. */
-const HERO_BRANDS = [
-  { id: 'liquid', logo: '/logo-liquid.webp?v=3' },
-  { id: 'peelies', logo: '/logo-peelies.webp?v=3' },
+/* The hero is split down the middle by a hairline: Peelies on the left with its
+   lockup next to the line, Liquid Gummies mirrored on the right. */
+const HERO_HALVES = [
+  { id: 'peelies', logo: '/logo-peelies.webp?v=3', slide: 1 },
+  { id: 'liquid', logo: '/logo-liquid.webp?v=3', slide: 0 },
 ]
-const HERO_SLIDE_MS = 7000
 
-function HeroShowcase({ t }) {
-  const [active, setActive] = useState(0)
-  const [paused, setPaused] = useState(false)
-
-  // `active` is a dependency so picking a lockup by hand restarts the clock and
-  // that range gets a full turn before the hero moves on
-  useEffect(() => {
-    if (paused) return undefined
-    const id = setTimeout(() => setActive((i) => (i + 1) % HERO_BRANDS.length), HERO_SLIDE_MS)
-    return () => clearTimeout(id)
-  }, [paused, active])
-
+function HeroSplit({ t }) {
   return (
-    <div
-      className="hero-inner"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-    >
-      <div className="hero-copy">
-        {t.hero.slides.map((copy, i) => {
-          const on = i === active
-          // one h1 per page: the second act's headline is a styled h2
-          const Heading = i === 0 ? 'h1' : 'h2'
-          return (
-            <div key={HERO_BRANDS[i].id} className={`hero-act${on ? ' is-active' : ''}`} aria-hidden={!on}>
-              <span className="hero-badge">{copy.badge}</span>
-              <Heading>
-                {copy.h1a} <span className="squiggle">{copy.h1b}</span>
-              </Heading>
-              <p className="hero-sub">{copy.desc}</p>
+    <div className="hero-split">
+      {HERO_HALVES.map((half, i) => {
+        const copy = t.hero.slides[half.slide]
+        // one h1 per page: the second half's headline is a styled h2
+        const Heading = i === 0 ? 'h1' : 'h2'
+        return (
+          <Fragment key={half.id}>
+            {i > 0 && <span className="hero-split-rule" aria-hidden="true"></span>}
+            <div className={`hero-half hero-half--${half.id}`}>
+              <div className="hero-half-copy">
+                <span className="hero-badge">{copy.badge}</span>
+                <Heading>
+                  {copy.h1a} <span className="squiggle">{copy.h1b}</span>
+                </Heading>
+                <p className="hero-sub">{copy.desc}</p>
+              </div>
+              <img className="hero-half-logo" src={half.logo} alt={copy.logoAria} />
             </div>
-          )
-        })}
-      </div>
-
-      <div className="hero-brands">
-        {HERO_BRANDS.map((brand, i) => (
-          <Fragment key={brand.id}>
-            <button
-              type="button"
-              className={`hero-brand${i === active ? ' is-on' : ''}`}
-              onClick={() => setActive(i)}
-              aria-pressed={i === active}
-              aria-label={t.hero.slides[i].logoAria}
-            >
-              <img src={brand.logo} alt={t.hero.slides[i].logoAria} />
-            </button>
           </Fragment>
-        ))}
-      </div>
+        )
+      })}
     </div>
   )
 }
@@ -454,7 +423,7 @@ function HomePage({ t }) {
   return (
     <main id="top">
       <section className="hero">
-        <HeroShowcase t={t} />
+        <HeroSplit t={t} />
 
         <HeroRibbon />
       </section>
