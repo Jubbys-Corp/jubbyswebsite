@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# packaged build for Plesk upload
+jubbys-dist.zip

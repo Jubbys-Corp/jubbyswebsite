@@ -27,9 +27,12 @@
 
 .site-nav {
   display: flex;
+  align-items: center;
   gap: clamp(0.4rem, 2vw, 1.4rem);
   overflow-x: auto;
   scrollbar-width: none;
+  /* the scroll box clips vertically too: room for the lifted hover pill */
+  padding: 4px 2px;
   font-weight: 700;
   font-size: 1rem;
 }
@@ -112,7 +115,12 @@
 }
 
 .site-nav a {
-  padding: 0.35rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  /* Baloo's tall ascenders push the glyphs up in a loose line box; a tight
+     line and a touch more padding below keep the word centred in the pill */
+  line-height: 1.1;
+  padding: 0.42rem 0.95rem 0.5rem;
   border-radius: 999px;
   white-space: nowrap;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
@@ -146,10 +154,19 @@
   transform: scale(1.07);
 }
 
-.site-nav a:hover {
+/* the red pill only on real hover: on touch screens :hover sticks to the
+   last tapped link and "Neden Jubbys?" stayed red for good */
+@media (hover: hover) {
+  .site-nav a:hover {
+    background: var(--red);
+    color: var(--cream);
+    transform: translateY(-2px) rotate(-1deg);
+  }
+}
+
+.site-nav a:active {
   background: var(--red);
   color: var(--cream);
-  transform: translateY(-2px) rotate(-1deg);
 }
 
 /* ---------- Shared bits ---------- */
@@ -237,6 +254,13 @@
   box-shadow: 0 12px 0 rgba(168, 18, 27, 0.25);
 }
 
+.btn:active,
+.buy-btn:active,
+.opening-brands a:active {
+  transform: scale(1.06, 0.88);
+  transition-duration: 0.08s;
+}
+
 .chip {
   display: inline-block;
   font-size: 0.85rem;
@@ -262,19 +286,6 @@
   transform: scaleY(-1);
 }
 
-/* Scroll reveal */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* ---------- Hero ---------- */
 
 .hero {
@@ -294,25 +305,6 @@
   overflow: hidden;
 }
 
-.hero-split {
-  position: relative;
-  z-index: 1;
-  max-width: 1180px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 2.4rem);
-}
-
-.hero-half {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  align-items: center;
-  gap: clamp(0.8rem, 2vw, 1.6rem);
-}
-
-/* packs from each range, scattered and tilted behind their own half */
 .hero-ghosts {
   position: absolute;
   top: 0;
@@ -679,29 +671,33 @@
 }
 
 
-.hero-half-logo {
-  order: 1;
-}
-
-.hero-half-logo {
-  display: block;
+/* the clip floats in a soft blob: multiply melts its peach studio ground into
+   the cream page. The edges are dissolved by an ellipse clip plus a cream
+   gradient laid over the frame - never a mask on the <video> itself, which
+   iOS Safari renders as nothing at all. */
+.hero-media {
   width: 100%;
-  height: auto;
-  filter: drop-shadow(0 10px 16px rgba(74, 32, 23, 0.2));
+  aspect-ratio: 4 / 5;
+  position: relative;
+  pointer-events: none;
+  clip-path: ellipse(50% 47% at 50% 52%);
 }
 
-/* the divider, dissolving at both ends */
-.hero-split-rule {
-  width: 3px;
-  height: clamp(180px, 22vw, 260px);
-  border-radius: 999px;
-  background: linear-gradient(
-    to bottom,
-    rgba(74, 32, 23, 0) 0%,
-    rgba(74, 32, 23, 0.26) 20%,
-    rgba(74, 32, 23, 0.26) 80%,
-    rgba(74, 32, 23, 0) 100%
-  );
+.hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 50% 47% at 50% 52%, rgba(253, 243, 226, 0) 60%, var(--cream) 100%);
+}
+
+.hero-media-clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
 }
 
 .hero-badge {
@@ -714,17 +710,6 @@
   transform: rotate(-2deg);
   box-shadow: 0 4px 0 rgba(74, 32, 23, 0.15);
   margin-bottom: 0.9rem;
-}
-
-.hero-sub {
-  margin-top: 0.2rem;
-}
-
-.hero-half h1,
-.hero-half h2 {
-  font-size: clamp(1.5rem, 2.8vw, 2.35rem);
-  font-weight: 800;
-  letter-spacing: -0.01em;
 }
 
 .squiggle {
@@ -745,11 +730,188 @@
     no-repeat center / 100% 100%;
 }
 
-.hero-sub {
-  margin: 1.1rem 0 0;
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  color: var(--ink-soft);
+/* ---------- Opening ---------- */
+
+.hero {
+  padding-top: 0;
+}
+
+.opening {
+  position: relative;
+  margin-inline: calc(-1 * var(--hero-pad-x));
+  padding: clamp(1.2rem, 4vh, 3rem) var(--hero-pad-x) 0;
+  min-height: calc(100svh - 72px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-content: center;
+  overflow: hidden;
+}
+
+.opening-stage {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: min(60vh, 600px);
+  display: grid;
+  align-items: center;
+}
+
+/* the candy sits dead centre, the words wrap around it */
+.opening-media {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  height: min(100%, 640px);
+  width: auto;
+  aspect-ratio: 4 / 5;
+  z-index: 0;
+  will-change: transform;
+}
+
+.opening-media-tilt {
+  width: 100%;
+  height: 100%;
+}
+
+.opening-words {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  gap: clamp(0.2rem, 2vh, 1.2rem);
+  font-size: clamp(3.6rem, 12.5vw, 11.5rem);
+  line-height: 0.88;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.opening-word {
+  display: block;
+  overflow: hidden;
+  padding: 0.06em 0.08em 0.1em;
+  margin: -0.06em -0.08em -0.1em;
+  will-change: transform;
+}
+
+.opening-word-inner {
+  display: block;
+  transform-origin: left bottom;
+}
+
+.opening-word--0 {
+  justify-self: start;
+}
+
+.opening-word--1 {
+  justify-self: end;
+  color: var(--red);
+}
+
+.opening-word--2 {
+  justify-self: start;
+  margin-left: 14%;
+}
+
+/* the last word is the juice itself: a slow-poured gradient */
+.opening-word--2 .opening-word-inner {
+  background: linear-gradient(100deg, var(--mango) 0%, var(--red) 45%, var(--pink) 80%, var(--mango) 120%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: juice-pour 6s ease-in-out infinite alternate;
+}
+
+@keyframes juice-pour {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+.opening-tail {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: clamp(0.8rem, 2vh, 1.6rem) 0 0;
+}
+
+.opening-tag {
   max-width: 34rem;
+  margin: 0 auto;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: var(--ink-soft);
+}
+
+.opening-brands {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.2rem);
+  margin-top: 1.1rem;
+}
+
+.opening-brands a {
+  display: block;
+  filter: drop-shadow(0 8px 14px rgba(74, 32, 23, 0.2));
+}
+
+.opening-brands img {
+  display: block;
+  height: clamp(38px, 5.5vw, 62px);
+  width: auto;
+}
+
+.opening-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+.opening-scroll i {
+  font-style: normal;
+  display: inline-block;
+}
+
+@media (max-width: 700px) {
+  .opening {
+    min-height: calc(100svh - 120px);
+  }
+
+  .opening-stage {
+    min-height: min(56vh, 520px);
+  }
+
+  .opening-media {
+    height: min(86%, 640px);
+  }
+
+  .opening-words {
+    font-size: clamp(3.2rem, 17vw, 5.4rem);
+  }
+
+  .opening-word--2 {
+    margin-left: 6%;
+  }
+
+  .opening-brands img {
+    height: 40px;
+  }
 }
 
 /* ---------- Hero ribbon (scrolling product strip) ---------- */
@@ -860,6 +1022,10 @@
 .hero-ribbon-pack {
   --tilt: -4deg;
   --lift: 0px;
+  /* written by HeroRibbon while a pointer is near the pack */
+  --push-y: 0px;
+  --push-r: 0deg;
+  --push-s: 1;
   position: relative;
   /* margin, not flex gap: the loop shift is a % of the whole track, so every
      copy of the run must measure exactly the same, spacing included. */
@@ -867,8 +1033,11 @@
   width: auto;
   margin-right: clamp(1.5rem, 3.2vw, 2.8rem);
   filter: drop-shadow(0 14px 22px rgba(74, 32, 23, 0.3));
-  transform: rotate(var(--tilt)) translateY(var(--lift)) scale(1);
+  transform: rotate(calc(var(--tilt) + var(--push-r))) translateY(calc(var(--lift) + var(--push-y)))
+    scale(var(--push-s));
   transition: transform 0.24s cubic-bezier(0.34, 1.4, 0.64, 1), filter 0.24s ease;
+  /* a slow bob on the separate translate channel, so it never fights the push */
+  animation: pack-float 4.6s ease-in-out infinite;
   cursor: inherit;
   touch-action: pan-y;
   user-select: none;
@@ -879,6 +1048,32 @@
 .hero-ribbon-pack:nth-child(even) {
   --tilt: 4deg;
   --lift: 6px;
+  animation-delay: -2.3s;
+}
+
+.hero-ribbon-pack:nth-child(3n) {
+  animation-duration: 5.4s;
+  animation-delay: -1.1s;
+}
+
+/* the back row: smaller, dimmer, a touch out of focus - depth without 3D */
+.hero-ribbon-track--back {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 1;
+  opacity: 0.5;
+  filter: blur(1.3px) saturate(0.85);
+  pointer-events: none;
+}
+
+.hero-ribbon-track--back .hero-ribbon-pack {
+  height: calc(var(--pack-h) * 0.56);
+  margin-right: clamp(2.8rem, 6.5vw, 5.6rem);
+  margin-left: clamp(0.4rem, 1.4vw, 1.2rem);
+  filter: none;
+  animation-duration: 7s;
 }
 
 /* held down: the strip stops and the pack pops out of the juice */
@@ -896,7 +1091,7 @@
     translate: 0 0;
   }
   50% {
-    translate: 0 -16px;
+    translate: 0 -9px;
   }
 }
 
@@ -953,21 +1148,245 @@
   }
 }
 
+/* ---------- Scroll story ---------- */
+
+.story {
+  padding: clamp(2rem, 5vw, 3.5rem) 0 0;
+  background: var(--cream);
+  overflow: clip;
+}
+
+/* each act is tall so there is room to scroll through it while the panel
+   inside stays pinned to the viewport */
+.story-act {
+  height: 200vh;
+  position: relative;
+}
+
+.story-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+  padding: 0 clamp(1.2rem, 6vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.story-act--flip .story-panel {
+  direction: rtl;
+}
+
+.story-act--flip .story-copy {
+  direction: ltr;
+}
+
+.story-copy {
+  max-width: 460px;
+  justify-self: end;
+}
+
+.story-act--flip .story-copy {
+  justify-self: start;
+}
+
+.story-badge {
+  display: inline-block;
+  font-weight: 800;
+  background: var(--sun);
+  color: var(--ink);
+  padding: 0.35rem 1.1rem;
+  border-radius: 999px;
+  transform: rotate(-2deg);
+  box-shadow: 0 4px 0 rgba(74, 32, 23, 0.15);
+  margin-bottom: 1rem;
+}
+
+.story-act--flip .story-badge {
+  background: var(--mango);
+}
+
+.story-logo {
+  display: block;
+  width: min(60%, 220px);
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 8px 14px rgba(74, 32, 23, 0.2));
+}
+
+.story-cta {
+  display: inline-block;
+  margin-top: 1.6rem;
+}
+
+.story-copy h3 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.story-copy p {
+  margin-top: 1rem;
+  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
+  color: var(--ink-soft);
+}
+
+/* the scroll cue sits on its own line, well clear of the button */
+.story-hint {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0.8;
+}
+
+.story-hint-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: story-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes story-pulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* the clip melts into the cream page the same way the hero clips do */
+.story-media {
+  width: min(100%, 520px);
+  aspect-ratio: 4 / 5;
+  position: relative;
+  justify-self: start;
+  pointer-events: none;
+  will-change: transform;
+  clip-path: ellipse(49% 46% at 50% 52%);
+}
+
+.story-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 49% 46% at 50% 52%, rgba(253, 243, 226, 0) 58%, var(--cream) 100%);
+}
+
+.story-act--flip .story-media {
+  justify-self: end;
+}
+
+.story-clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 760px) {
+  .story-act {
+    height: 180vh;
+  }
+
+  .story-panel {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 0.4rem;
+    padding: 0 1.2rem;
+    text-align: center;
+  }
+
+  .story-act--flip .story-panel {
+    direction: ltr;
+  }
+
+  .story-copy,
+  .story-act--flip .story-copy {
+    justify-self: center;
+    order: 2;
+  }
+
+  .story-logo {
+    margin-inline: auto;
+    width: min(50%, 170px);
+  }
+
+  .story-media,
+  .story-act--flip .story-media {
+    justify-self: center;
+    order: 1;
+    width: min(78vw, 360px);
+    aspect-ratio: 1 / 1;
+  }
+
+  .story-copy h3 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .story-hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-act {
+    height: auto;
+    padding: 2rem 0;
+  }
+
+  .story-panel {
+    position: static;
+    height: auto;
+  }
+
+  .story-hint {
+    display: none;
+  }
+}
+
 /* ---------- Flavors ---------- */
 
 .flavors {
   padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.2rem, 5vw, 3rem) clamp(3rem, 7vw, 5rem);
   margin-top: -1px;
-  /* a plain warm block - no pattern; the wave dividers do the work at the seams */
+  /* the band colour, lit softly from the top left and deepening towards the
+     shelf at the bottom - a gentle gradient, not a slab */
   background-color: var(--band);
+  background-image:
+    radial-gradient(120% 70% at 18% 0%, var(--band-light) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(90% 60% at 92% 100%, var(--band-deep) 0%, rgba(255, 255, 255, 0) 65%),
+    linear-gradient(180deg, var(--band-light) 0%, var(--band) 45%, var(--band-deep) 100%);
 }
 
 .flavors--peelies {
   --band: var(--peel-band);
+  --band-light: #ffeaa8;
+  --band-deep: #ffd06a;
 }
 
 .flavors--liquid {
   --band: var(--liquid-band);
+  --band-light: #ffd6a3;
+  --band-deep: #ffab5c;
 }
 
 /* on the coloured bands the section copy switches to full ink and the kicker
@@ -985,305 +1404,339 @@
 /* one row per range: the cards never wrap, they scroll sideways instead.
    1fr lets them fill the row when they fit and fall back to their min width
    (overflowing into a scroll) when they don't - five cards, narrow screens. */
-.flavor-rail {
+/* ---------- Shelf ---------- */
+
+.shelf {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* the stage: candy blob + big pack on the left, name and copy on the right.
+   Scenes slide through it one at a time, so it has to be positioned. */
+.shelf-stage {
+  --flavor: var(--red);
   position: relative;
+  min-height: min(54vh, 490px);
+  margin-bottom: clamp(1rem, 2.5vw, 2rem);
 }
 
-/* phone only: two cards at a time with arrows either side, so the swipe is
-   obvious. Wider screens show the whole row and never need them. */
-.rail-arrow {
-  display: none;
+.shelf-stage--muz {
+  --flavor: var(--pink);
+}
+
+.shelf-stage--ananas {
+  --flavor: var(--leaf-deep);
 }
 
 
-.flavor-grid {
-  --rail-gap: clamp(0.8rem, 1.6vw, 1.35rem);
+.shelf-stage--mavi-ahududu {
+  --flavor: #c72f7d;
+}
+
+.shelf-scene {
+  width: 100%;
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(min(250px, 78vw), 1fr);
-  gap: var(--rail-gap);
-  overflow-x: auto;
-  /* `overflow-x: auto` alone would make the rail scrollable vertically too, so
-     a downward swipe could drag the cards instead of the page: lock that axis */
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  touch-action: pan-x pan-y pinch-zoom;
-  /* the rail runs the full width while the cards stay centred on the 1180px
-     column, so the next card peeks in and the row reads as scrollable */
-  padding: 0.6rem max(0.3rem, calc((100% - 1180px) / 2)) 1.5rem;
-  scroll-padding-inline: max(0.3rem, calc((100% - 1180px) / 2));
-  scrollbar-width: none;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  will-change: opacity;
 }
 
-.flavor-grid::-webkit-scrollbar {
-  display: none;
-}
-
-.flavor-card {
-  scroll-snap-align: start;
-}
-
-/* wide enough for the full row: five cards share the 1180px column exactly */
-@media (min-width: 1120px) {
-  .flavor-grid {
-    grid-auto-columns: calc((100% - 4 * var(--rail-gap)) / 5);
-  }
-}
-
-@media (max-width: 700px) {
-  .rail-arrow {
-    position: absolute;
-    top: 38%;
-    z-index: 3;
-    display: grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    padding: 0 0 4px;
-    font-size: 1.7rem;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--red-deep);
-    background: rgba(255, 250, 240, 0.94);
-    border: 2px solid rgba(74, 32, 23, 0.14);
-    border-radius: 999px;
-    box-shadow: 0 6px 14px rgba(74, 32, 23, 0.2);
-    cursor: pointer;
-  }
-
-  .rail-arrow:active {
-    transform: scale(0.92);
-  }
-
-  .rail-arrow--prev {
-    left: -4px;
-  }
-
-  .rail-arrow--next {
-    right: -4px;
-  }
-
-  .flavor-grid {
-    grid-auto-columns: calc((100% - var(--rail-gap)) / 2);
-    /* proximity, not mandatory: a mandatory rail re-snaps itself while the page
-       is scrolling past and the cards appear to slide sideways on their own */
-    scroll-snap-type: x proximity;
-  }
-
-  /* two narrow cards: tighten the type so they stay a sensible height */
-  .flavor-card {
-    padding: 0.9rem 0.65rem 1.1rem;
-  }
-
-  .flavor-card::before {
-    inset: 7px;
-    border-radius: 18px;
-  }
-
-  .flavor-card h3 {
-    font-size: 1.05rem;
-    padding-bottom: 0.45rem;
-  }
-
-  .flavor-card p {
-    font-size: 0.84rem;
-    line-height: 1.35;
-  }
-
-  .flavor-meta {
-    gap: 0.3rem;
-    margin-top: 0.7rem;
-  }
-
-  .flavor-new {
-    top: 8px;
-    right: 8px;
-    font-size: 0.6rem;
-    padding: 0.14rem 0.45rem;
-  }
-
-  .flavor-meta .chip {
-    font-size: 0.72rem;
-    padding: 0.12rem 0.5rem;
-    border-width: 1px;
-  }
-}
-
-
-.flavor-card {
+.shelf-visual {
   position: relative;
-  background: linear-gradient(180deg, #fffdf7 0%, var(--paper) 55%, #fdf1de 100%);
-  border-radius: 30px;
-  border: 3px solid rgba(74, 32, 23, 0.08);
-  padding: 1.2rem 1.1rem 1.5rem;
-  text-align: center;
-  box-shadow: 0 10px 24px rgba(74, 32, 23, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease,
-    opacity 0.6s ease;
-}
-
-/* freshly launched flavours wear a little tag */
-.flavor-new {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 2;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, var(--red) 0%, var(--red-deep) 100%);
-  padding: 0.18rem 0.6rem;
-  border-radius: 999px;
-  border: 2px solid rgba(255, 250, 240, 0.9);
-  box-shadow: 0 4px 10px rgba(168, 18, 27, 0.3);
-  transform: rotate(6deg);
-}
-
-/* stitched inner frame, like the dashed kicker badge */
-.flavor-card::before {
-  content: '';
-  position: absolute;
-  inset: 9px;
-  border: 2px dashed rgba(74, 32, 23, 0.13);
-  border-radius: 22px;
-  pointer-events: none;
-}
-
-.flavor-card:hover {
-  transform: translateY(-8px) rotate(-0.6deg);
-  border-color: rgba(211, 34, 42, 0.22);
-  box-shadow: 0 22px 34px rgba(74, 32, 23, 0.16);
-}
-
-.flavor-art {
-  position: relative;
+  height: min(54vh, 490px);
   display: grid;
   place-items: center;
-  padding: 1.2rem 0 0.8rem;
+  /* the pack fades in on the same beat as the first letters of the name, so
+     picture and words change together rather than one after the other */
+  animation: fade-in 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.15s;
 }
 
-.flavor-art::before {
-  content: '';
-  position: absolute;
-  width: 78%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  top: 4%;
-  z-index: 0;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.flavor-card--mango .flavor-art::before {
-  background: radial-gradient(circle, rgba(255, 154, 31, 0.5), rgba(211, 34, 42, 0.16) 70%);
-}
-
-.flavor-card--muz .flavor-art::before {
-  background: radial-gradient(circle, rgba(255, 200, 61, 0.55), rgba(239, 95, 167, 0.2) 70%);
-}
-
-.flavor-card--ananas .flavor-art::before {
-  background: radial-gradient(circle, rgba(255, 224, 74, 0.5), rgba(124, 194, 66, 0.22) 70%);
-}
-
-.flavor-card--karpuz .flavor-art::before {
-  background: radial-gradient(circle, rgba(211, 34, 42, 0.32), rgba(124, 194, 66, 0.28) 72%);
-}
-
-/* Liquid Gummies cards take their halo from the gel colour of each candy */
-.flavors--liquid .flavor-card--mango .flavor-art::before {
-  background: radial-gradient(circle, rgba(255, 138, 20, 0.5), rgba(211, 34, 42, 0.2) 70%);
-}
-
-.flavors--liquid .flavor-card--muz .flavor-art::before {
-  background: radial-gradient(circle, rgba(255, 214, 40, 0.55), rgba(124, 194, 66, 0.22) 70%);
-}
-
-.flavors--liquid .flavor-card--ananas .flavor-art::before {
-  background: radial-gradient(circle, rgba(255, 196, 30, 0.52), rgba(124, 194, 66, 0.24) 70%);
-}
-
-.flavors--liquid .flavor-card--karpuz .flavor-art::before {
-  background: radial-gradient(circle, rgba(226, 26, 34, 0.38), rgba(124, 194, 66, 0.26) 72%);
-}
-
-/* the candy itself is blue, but its halo and title stay in the warm palette */
-.flavor-card--mavi-ahududu .flavor-art::before {
-  background: radial-gradient(circle, rgba(239, 95, 167, 0.34), rgba(255, 154, 31, 0.2) 70%);
-}
-
-.flavor-card--mavi-ahududu h3 {
-  color: #c72f7d;
-}
-
-.flavor-art img {
+.shelf-hero-pack {
   position: relative;
   z-index: 1;
-  /* sized by height, not width: the card art canvases differ in width (some
-     carry a candy next to the pouch), and sizing by width would shrink the
-     pouch on the wider ones */
-  height: clamp(130px, 13.5vw, 172px);
-  width: auto;
+  justify-self: center;
+  /* sized in viewport units, not %: Safari resolves a percentage height on
+     an image inside a grid against nothing and draws it at full size, so the
+     pack spilled over the copy on phones */
+  height: min(50vh, 450px);
   max-width: 100%;
-  filter: drop-shadow(0 14px 16px rgba(74, 32, 23, 0.25));
-  transition: transform 0.3s ease;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 28px rgba(74, 32, 23, 0.32));
 }
 
-.flavor-card:hover .flavor-art img {
-  transform: scale(1.06) rotate(2deg);
+.shelf-copy {
+  min-width: 0;
 }
 
-.flavor-card h3 {
-  position: relative;
-  font-size: clamp(1.2rem, 1.5vw, 1.45rem);
+.shelf-title {
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  line-height: 1;
   font-weight: 800;
-  margin-top: 0.4rem;
-  padding-bottom: 0.55rem;
+  color: var(--flavor);
+  letter-spacing: -0.01em;
 }
 
-/* dotted rule under the flavour name */
-.flavor-card h3::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  translate: -50% 0;
-  width: 54%;
-  height: 4px;
-  border-radius: 999px;
-  background: radial-gradient(circle, currentcolor 1.6px, transparent 1.7px) 0 0 / 9px 4px repeat-x;
-  opacity: 0.42;
+/* the title drips in after the scene has settled, then the copy rises under it */
+.drip {
+  display: inline-block;
+  white-space: pre-wrap;
 }
 
-.flavor-card--mango h3 {
-  color: var(--red);
+.drip-letter {
+  display: inline-block;
+  transform-origin: top center;
+  animation: drip-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.25s + var(--i) * 28ms);
 }
 
-.flavor-card--muz h3 {
-  color: var(--pink);
+@keyframes drip-in {
+  from {
+    opacity: 0;
+    transform: translateY(-26px) scaleY(1.35);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scaleY(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
 }
 
-.flavor-card--ananas h3 {
-  color: var(--leaf-deep);
+.shelf-copy p,
+.shelf-copy .flavor-meta {
+  animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.55s;
 }
 
-.flavor-card--karpuz h3 {
-  color: var(--red);
+.shelf-copy .flavor-meta {
+  animation-delay: 0.68s;
 }
 
-.flavor-card p {
-  margin-top: 0.55rem;
-  color: var(--ink-soft);
-  font-size: 0.95rem;
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drip-letter,
+  .shelf-visual,
+  .shelf-copy p,
+  .shelf-copy .flavor-meta {
+    animation: none;
+  }
+}
+
+.shelf-copy p {
+  margin-top: 0.9rem;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: var(--ink);
+  max-width: 30rem;
 }
 
 .flavor-meta {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 0.45rem;
   margin-top: 1rem;
+}
+
+
+/* the row of packs, standing on a plank */
+.shelf-rail {
+  --slot-h: clamp(140px, 15vw, 200px);
+  --label-h: 1.9rem;
+  position: relative;
+}
+
+.rail-arrow {
+  display: none;
+}
+
+/* the plank: a soft bar the packs stand on, under the row */
+.shelf-board {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--label-h) - 6px);
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.18));
+  box-shadow: 0 10px 22px rgba(74, 32, 23, 0.18), inset 0 -2px 0 rgba(74, 32, 23, 0.08);
+}
+
+.shelf-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  /* the row clips vertically, so the lifted, enlarged selected pack needs
+     headroom above the slots or its top gets cut off */
+  padding-top: 2.4rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  touch-action: pan-x pan-y pinch-zoom;
+  scrollbar-width: none;
+}
+
+.shelf-row::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-slot {
+  position: relative;
+  scroll-snap-align: center;
+  display: grid;
+  grid-template-rows: var(--slot-h) var(--label-h);
+  justify-items: center;
+  padding: 0 0.4rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shelf-slot:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.shelf-pack {
+  align-self: end;
+  height: calc(var(--slot-h) - 10px);
+  width: auto;
+  max-width: 100%;
+  filter: drop-shadow(0 12px 16px rgba(74, 32, 23, 0.28));
+  opacity: 0.86;
+  transform-origin: 50% 100%;
+  transition: translate 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), scale 0.35s cubic-bezier(0.34, 1.3, 0.64, 1),
+    opacity 0.3s ease, filter 0.3s ease;
+}
+
+.shelf-slot:hover .shelf-pack {
+  translate: 0 -8px;
+  opacity: 1;
+}
+
+.shelf-slot.is-selected .shelf-pack {
+  translate: 0 -14px;
+  scale: 1.08;
+  opacity: 1;
+  filter: drop-shadow(0 18px 22px rgba(74, 32, 23, 0.34));
+}
+
+.shelf-slot-name {
+  align-self: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.shelf-slot.is-selected .shelf-slot-name,
+.shelf-slot:hover .shelf-slot-name {
+  opacity: 1;
+  color: var(--red-deep);
+}
+
+@media (max-width: 900px) {
+  .shelf-scene {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 1.4rem;
+  }
+
+  .shelf-stage {
+    min-height: 0;
+  }
+
+  /* the stage grows with the pack, so the pack keeps its size and the copy
+     simply starts below it */
+  .shelf-visual {
+    width: min(100%, 420px);
+    height: auto;
+  }
+
+  .shelf-hero-pack {
+    height: min(38vh, 320px);
+  }
+
+  .shelf-copy p {
+    margin-inline: auto;
+  }
+
+  .flavor-meta {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 700px) {
+  .shelf-rail {
+    --slot-h: 140px;
+  }
+
+  .shelf-row {
+    grid-auto-columns: 34%;
+    padding-inline: 0.6rem;
+    scroll-padding-inline: 0.6rem;
+  }
+
+  /* phone only: arrows either side so the swipe is obvious */
+  .rail-arrow {
+    position: absolute;
+    top: 42%;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255, 250, 240, 0.92);
+    color: var(--red-deep);
+    font-size: 1.6rem;
+    line-height: 1;
+    box-shadow: 0 6px 14px rgba(74, 32, 23, 0.22);
+    cursor: pointer;
+  }
+
+  .rail-arrow--prev {
+    left: -6px;
+  }
+
+  .rail-arrow--next {
+    right: -6px;
+  }
 }
 
 /* ---------- Mix Kutu ---------- */
@@ -1362,6 +1815,56 @@
   padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
 }
 
+/* the numbers, counted up on arrival */
+.stat-strip {
+  list-style: none;
+  max-width: 1180px;
+  margin: 0 auto clamp(1.6rem, 3vw, 2.6rem);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.6rem, 1.3vw, 1rem);
+}
+
+.stat-strip li {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  padding: 1.1rem 0.6rem 1rem;
+  border-radius: 26px;
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-deep) 100%);
+  color: var(--cream);
+  box-shadow: 0 10px 0 rgba(168, 18, 27, 0.25);
+}
+
+.stat-strip li:nth-child(2n) {
+  background: linear-gradient(135deg, var(--mango) 0%, #ff7a1a 100%);
+  color: var(--ink);
+  box-shadow: 0 10px 0 rgba(200, 90, 10, 0.25);
+}
+
+.stat-value {
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+@media (max-width: 700px) {
+  .stat-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .feature-grid {
   max-width: 1180px;
   margin: 0 auto;
@@ -1385,8 +1888,7 @@
   padding: 1.25rem 0.9rem 1.4rem;
   text-align: center;
   box-shadow: 0 8px 20px rgba(74, 32, 23, 0.07);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease,
-    opacity 0.6s ease;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 /* same stitched frame as the flavour cards */
@@ -1400,14 +1902,8 @@
 }
 
 .feature-card:hover {
-  transform: translateY(-6px) rotate(-0.5deg);
   border-color: rgba(211, 34, 42, 0.22);
   box-shadow: 0 18px 30px rgba(74, 32, 23, 0.14);
-}
-
-.feature-card:hover {
-  transform: translateY(-6px) rotate(0.6deg);
-  box-shadow: 0 16px 28px rgba(74, 32, 23, 0.13);
 }
 
 .feature-icon {
@@ -1421,11 +1917,32 @@
   background: radial-gradient(circle at 50% 35%, #fff6e2 0%, var(--cream-deep) 70%);
   border: 3px dashed rgba(211, 34, 42, 0.3);
   margin-bottom: 0.7rem;
-  transition: transform 0.25s ease;
 }
 
+/* the icon wobbles like a gummy when the card is touched */
 .feature-card:hover .feature-icon {
-  transform: rotate(-6deg) scale(1.06);
+  animation: jelly 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes jelly {
+  0% {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(1.22, 0.82) rotate(-6deg);
+  }
+  45% {
+    transform: scale(0.86, 1.16) rotate(5deg);
+  }
+  65% {
+    transform: scale(1.1, 0.92) rotate(-3deg);
+  }
+  82% {
+    transform: scale(0.96, 1.05);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
 }
 
 .feature-card h3 {
@@ -1476,6 +1993,19 @@
   box-shadow: 0 8px 20px rgba(74, 32, 23, 0.06);
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.6s ease;
+}
+
+/* the odd answer links out (to the contact page) */
+.faq-item p a {
+  color: var(--red);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.faq-item p a:hover {
+  color: var(--red-deep);
 }
 
 .faq-item[open] {
@@ -1554,44 +2084,121 @@
   padding: clamp(1.5rem, 4vw, 3rem) clamp(1.2rem, 5vw, 3rem) clamp(3rem, 7vw, 5rem);
 }
 
-.specs-table-wrap {
-  max-width: 980px;
+.carton-grid {
+  max-width: 1080px;
   margin: 0 auto;
-  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.4vw, 2rem);
+  align-items: start;
+}
+
+.carton {
   background: var(--paper);
   border: 3px solid rgba(74, 32, 23, 0.1);
-  border-radius: 24px;
+  border-radius: 26px;
+  padding: 0 1.2rem 1.4rem;
   box-shadow: 0 10px 24px rgba(74, 32, 23, 0.08);
+  text-align: center;
 }
 
-.specs-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.98rem;
-  min-width: 640px;
+/* a kraft box seen from the front, the flap on top hinged at the back */
+.carton-box {
+  position: relative;
+  height: 230px;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  perspective: 700px;
+  margin-bottom: 0.6rem;
 }
 
-.specs-table th,
-.specs-table td {
-  padding: 0.85rem 1.2rem;
+.carton-pack {
+  position: relative;
+  z-index: 1;
+  height: 190px;
+  width: auto;
+  filter: drop-shadow(0 16px 20px rgba(74, 32, 23, 0.3));
+  will-change: transform;
+}
+
+.carton-front {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  translate: -50% 0;
+  z-index: 2;
+  width: 78%;
+  height: 112px;
+  border-radius: 8px 8px 14px 14px;
+  background:
+    linear-gradient(to right, transparent 46%, rgba(211, 34, 42, 0.75) 46%, rgba(211, 34, 42, 0.75) 54%, transparent 54%),
+    linear-gradient(180deg, #ecc793 0%, #d9a86a 100%);
+  box-shadow: inset 0 -8px 0 rgba(74, 32, 23, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  display: grid;
+  place-items: center;
+}
+
+.carton-front img {
+  height: 38px;
+  width: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.5));
+}
+
+.carton-flap {
+  position: absolute;
+  left: 50%;
+  bottom: 112px;
+  translate: -50% 0;
+  z-index: 3;
+  width: 78%;
+  height: 46px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, #f1d3a5 0%, #e2b77c 100%);
+  box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.4);
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.carton h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--red-deep);
+}
+
+.carton-facts {
+  margin: 0.8rem 0 0;
+  display: grid;
+  gap: 0.4rem;
   text-align: left;
+  font-size: 0.92rem;
+}
+
+.carton-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.35rem 0;
+  border-bottom: 2px dashed rgba(74, 32, 23, 0.12);
+}
+
+.carton-facts dt {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.carton-facts dd {
+  margin: 0;
+  font-weight: 800;
   white-space: nowrap;
 }
 
-.specs-table thead th {
-  background: var(--red);
-  color: var(--cream);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-}
-
-.specs-table tbody tr:nth-child(even) {
-  background: rgba(255, 200, 61, 0.16);
-}
-
-.specs-table tbody td:first-child {
-  font-weight: 800;
-  color: var(--red-deep);
+@media (max-width: 820px) {
+  .carton-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
 }
 
 /* ---------- About / Biz Kimiz page ---------- */
@@ -1851,94 +2458,6 @@
   }
 }
 
-/* ---------- News page ---------- */
-
-.news-body {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: clamp(2rem, 5vw, 3.4rem) clamp(1.2rem, 5vw, 2rem) clamp(2.6rem, 6vw, 4.5rem);
-}
-
-.news-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(1rem, 2.5vw, 1.5rem);
-  align-items: start;
-}
-
-@media (min-width: 720px) {
-  .news-list {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.news-list:has(> .news-card:only-child) {
-  grid-template-columns: minmax(0, 520px);
-  justify-content: center;
-}
-
-.news-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--paper);
-  border-radius: 22px;
-  border: 3px solid rgba(74, 32, 23, 0.08);
-  padding: clamp(1.1rem, 2.6vw, 1.5rem);
-  box-shadow: 0 10px 24px rgba(74, 32, 23, 0.07);
-}
-
-.news-image {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 14px;
-  margin-bottom: 0.9rem;
-  border: 2px solid rgba(74, 32, 23, 0.08);
-}
-
-.news-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-}
-
-.news-date {
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--red);
-}
-
-.news-tag {
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--sun);
-  padding: 0.18rem 0.7rem;
-  border-radius: 999px;
-}
-
-.news-title {
-  font-size: clamp(1.15rem, 2.4vw, 1.4rem);
-  font-weight: 800;
-  color: var(--ink);
-  margin: 0 0 0.5rem;
-  line-height: 1.25;
-}
-
-.news-card p {
-  color: var(--ink-soft);
-  font-size: 0.96rem;
-  line-height: 1.55;
-  margin: 0;
-}
-
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -1989,138 +2508,12 @@
   opacity: 0.75;
 }
 
-/* ---------- Entry popup ---------- */
-
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.2rem;
-  background: rgba(40, 16, 10, 0.66);
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
-  animation: popup-fade 0.25s ease;
-}
-
-.popup-box {
-  position: relative;
-  width: min(820px, 100%);
-  animation: popup-pop 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.popup-box img {
-  width: 100%;
-  height: auto;
-  border-radius: 18px;
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-}
-
-.popup-close {
-  position: absolute;
-  top: -14px;
-  right: -14px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  background: var(--red);
-  color: #fff;
-  font-size: 1.5rem;
-  line-height: 1;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.popup-close:hover {
-  transform: scale(1.08) rotate(90deg);
-  background: var(--red-deep);
-}
-
-@keyframes popup-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes popup-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.92) translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@media (max-width: 560px) {
-  .popup-close {
-    top: -10px;
-    right: -10px;
-    width: 36px;
-    height: 36px;
-    font-size: 1.3rem;
-  }
-}
-
 /* ---------- Responsive ---------- */
 
+/* the FAQ link is desktop only: below this the nav drops to its own tight row */
 @media (max-width: 880px) {
-  /* the split stays side by side on small screens too - only the inside of each
-     half stacks, lockup over copy */
-  .hero-split {
-    gap: clamp(0.5rem, 2.5vw, 1.4rem);
-  }
-
-  .hero-half,
-  .hero-half--liquid {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-    gap: 0.5rem;
-  }
-
-  .hero-half-logo {
-    order: 1;
-    width: min(100%, 190px);
-  }
-
-  .hero-half-copy,
-  .hero-half--liquid .hero-half-copy {
-    order: 2;
-  }
-
-  .hero-half h1,
-  .hero-half h2 {
-    font-size: clamp(0.95rem, 3.6vw, 1.5rem);
-  }
-
-  .hero-half .hero-badge {
-    font-size: clamp(0.62rem, 2.4vw, 0.85rem);
-    padding: 0.25rem 0.7rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero-sub {
-    margin-inline: auto;
-    font-size: clamp(0.72rem, 2.6vw, 0.95rem);
-    line-height: 1.4;
-  }
-
-  .hero-split-rule {
-    height: clamp(150px, 42vw, 240px);
+  .site-nav .nav-faq {
+    display: none;
   }
 
   .mixbox-inner {
@@ -2219,18 +2612,15 @@
      CSS animations */
   .hero-ribbon::before,
   .hero-ribbon::after,
+  .hero-ribbon-pack,
   .hero-ghost {
     animation: none;
   }
 
 }
 
-/* phones: the split stays, just tighter - and fewer ghosts so the copy is clean */
+/* phones: fewer ghosts so the words stay clean */
 @media (max-width: 700px) {
-  .hero-half-logo {
-    width: min(100%, 152px);
-  }
-
   .hero-ghost {
     opacity: 0.08;
   }

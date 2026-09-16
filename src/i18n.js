@@ -7,11 +7,6 @@ export const STRINGS = {
     navAria: 'Site içi gezinme',
     langAria: 'Dil seçimi',
     buyLabel: 'Satın Al',
-    popup: {
-      aria: 'Foodist Fuarı duyurusu',
-      alt: 'Jubbys Peelies Foodist Fuarı’nda: 1-4 Eylül 2026, TÜYAP Fuar ve Kongre Merkezi, Stand No: 1132A',
-      close: 'Kapat',
-    },
     nav: {
       peelies: 'Peelies lezzetleri',
       liquid: 'Liquid Gummies lezzetleri',
@@ -19,23 +14,28 @@ export const STRINGS = {
       wholesale: 'Toptan',
       about: 'Biz Kimiz?',
       contact: 'İletişim',
-      haberler: 'Haberler',
     },
-    hero: {
-      slides: [
+    opening: {
+      words: ['Soy.', 'Isır.', 'Aksın.'],
+      tagline: 'Gerçek meyve suyuyla hazırlanan, soyulan ve akan jelibonlar. İki seri, tek eğlence.',
+      scroll: 'Kaydır',
+    },
+    story: {
+      kicker: 'Nasıl yenir?',
+      acts: [
         {
-          badge: '💧 Yeni seri',
-          h1a: 'Lezzet',
-          h1b: 'Patlaması!',
-          desc: 'Liquid Gummies\'te dışı yumuşak jelibon, içi gerçek meyve sulu dolgu. Isır, içinden lezzet aksın: mango, muz, ananas, karpuz ve mavi ahududu.',
-          logoAria: 'Jubbys Liquid Gummies',
+          badge: 'Peelies',
+          h2: 'Önce soy',
+          p: 'Kabuğunu tıpkı gerçek meyve gibi soy. Her dilim kendi yolunu bulur; altından yumuşacık, gerçek meyve sulu jelibon çıkar.',
+          hint: 'Kaydırdıkça soyulur',
+          cta: 'Peelies lezzetleri',
         },
         {
-          badge: '🍌 Klasikleşen seri',
-          h1a: 'Soy &',
-          h1b: 'Tadını Çıkar!',
-          desc: 'Peelies, tıpkı gerçek meyve gibi soyulan 3D jelibon. Soyması yemesi kadar eğlenceli, beş lezzetin hepsi gerçek meyve suyuyla hazırlanıyor.',
-          logoAria: 'Jubbys Peelies',
+          badge: 'Liquid Gummies',
+          h2: 'Sonra ısır',
+          p: 'Yumuşak kabuğun altında sıvı dolgu bekliyor. Isırdığın an gerçek meyve suyu içinden akar.',
+          hint: 'Kaydırdıkça akar',
+          cta: 'Liquid Gummies lezzetleri',
         },
       ],
     },
@@ -45,7 +45,6 @@ export const STRINGS = {
       p: 'Her paket 55 g saf eğlence. Gerçek meyve suyuyla hazırlanan beş soyulabilir jelibon lezzeti.',
       chipPack: 'Doypack',
       chipHalal: 'Helal',
-      newBadge: 'Yeni',
       prevAria: 'Önceki lezzetler',
       nextAria: 'Sonraki lezzetler',
       items: [
@@ -92,7 +91,6 @@ export const STRINGS = {
       p: 'Her paket 55 g. Sıvı dolgulu yumuşak şekerler: dışı jelibon, içi gerçek meyve sulu dolgu.',
       chipPack: 'Doypack',
       chipHalal: 'Helal',
-      newBadge: 'Yeni',
       prevAria: 'Önceki lezzetler',
       nextAria: 'Sonraki lezzetler',
       items: [
@@ -145,6 +143,12 @@ export const STRINGS = {
     features: {
       kicker: 'Neden Jubbys?',
       h2: 'İki seri, tek eğlence anlayışı',
+      stats: [
+        { value: 100, prefix: '%', label: 'Helal' },
+        { value: 2, label: 'Seri' },
+        { value: 10, label: 'Lezzet' },
+        { value: 55, suffix: ' g', label: 'Paket' },
+      ],
       items: [
         {
           icon: '🧃',
@@ -181,11 +185,19 @@ export const STRINGS = {
     faq: {
       kicker: 'Sıkça Sorulanlar',
       h2: 'Merak edilenler',
-      lead: 'Soyulabilir jelibon, helal sertifika ve üretim hakkında en çok merak edilenler.',
+      lead: 'Peelies, Liquid Gummies, helal sertifika ve üretim hakkında en çok merak edilenler.',
       items: [
         {
           q: 'Jubbys Peelies (soyulabilir jelibon) nedir?',
           a: 'Jubbys Peelies; gerçek meyve suyuyla hazırlanan, soyulabilir meyveli yumuşak şekerdir (jelibon). Tıpkı gerçek meyve gibi soyulan bu 3D jelibon, hem soyması hem yemesiyle eğlenceli bir şekerleme deneyimi sunar, soft candy / peelable gummy kategorisinde yenilikçi bir üründür.',
+        },
+        {
+          q: 'Jubbys Liquid Gummies (sıvı dolgulu jelibon) nedir?',
+          a: 'Liquid Gummies; dışı yumuşak jelibon, içi gerçek meyve sulu sıvı dolgu olan meyve şeklindeki 3D yumuşak şekerdir. Isırdığın an dolgusu içinden akar: iki farklı doku, tek lokmada.',
+        },
+        {
+          q: 'Peelies ile Liquid Gummies arasındaki fark ne?',
+          a: 'Peelies soyularak yenir: kabuğunu tıpkı gerçek meyve gibi soyar, altındaki yumuşak jelibonu yersin. Liquid Gummies ise ısırılarak yenir: yumuşak kabuğun içinden sıvı meyve suyu dolgusu akar. İkisi de gerçek meyve suyuyla hazırlanır ve 55 g paketlerde satılır.',
         },
         {
           q: 'Jubbys jelibonları helal mi?',
@@ -197,7 +209,7 @@ export const STRINGS = {
         },
         {
           q: 'Hangi lezzetler var?',
-          a: 'Mango, muz, ananas ve karpuz. Ayrıca üç lezzeti bir arada sunan, 100 mini poşetli Mix Kutu seçeneğimiz de var.',
+          a: 'Her iki seride de beş lezzet var: mango, muz, ananas, karpuz ve mavi ahududu. Ayrıca Peelies’in üç lezzetini bir arada sunan, 100 mini poşetli Mix Kutu seçeneğimiz de var.',
         },
         {
           q: 'Ürünler nerede üretiliyor?',
@@ -205,7 +217,8 @@ export const STRINGS = {
         },
         {
           q: 'Nereden satın alabilirim?',
-          a: 'Perakende satış için Trendyol mağazamızı ziyaret edebilir; toptan, özel etiket (private label) ve ihracat talepleriniz için bizimle iletişime geçebilirsiniz.',
+          a: 'Perakende satış için Trendyol mağazamızı ziyaret edebilir; toptan, özel etiket (private label) ve ihracat talepleriniz için {link}.',
+          link: 'bizimle iletişime geçebilirsiniz',
         },
       ],
     },
@@ -267,20 +280,6 @@ export const STRINGS = {
       directions: 'Yol tarifi al',
       mapAria: 'Jubbys fabrika konumu haritası',
     },
-    news: {
-      kicker: 'Haberler',
-      h2: 'Jubbys’den Haberler',
-      lead: 'Yeni lezzetler, fuarlar ve duyurular; Jubbys dünyasından en taze haberler.',
-      items: [
-        {
-          tag: 'Fuar',
-          date: '1-4 Eylül 2026',
-          title: 'Foodist Fuarı’ndayız!',
-          image: '/news/foodist-2026.webp',
-          body: 'Jubbys Peelies olarak Foodist Fuarı’nda yerimizi alıyoruz! 1-4 Eylül 2026 tarihlerinde TÜYAP Fuar ve Kongre Merkezi’nde, 1132A numaralı standımızda sizleri ağırlamaktan mutluluk duyacağız. Gerçek meyve suyuyla hazırlanan %100 helal soyulabilir yumuşak şekerlerimizi tatmak ve iş birliği görüşmeleri için standımıza bekleriz.',
-        },
-      ],
-    },
     about: {
       back: 'Ana Sayfa',
       kicker: 'Biz Kimiz?',
@@ -341,11 +340,6 @@ export const STRINGS = {
     navAria: 'Site navigation',
     langAria: 'Language',
     buyLabel: 'Buy Now',
-    popup: {
-      aria: 'Foodist fair announcement',
-      alt: 'Jubbys Peelies at the Foodist fair: 1-4 September 2026, TÜYAP Fair Convention and Congress Center, stand no. 1132A',
-      close: 'Close',
-    },
     nav: {
       peelies: 'Peelies flavours',
       liquid: 'Liquid Gummies flavours',
@@ -353,23 +347,28 @@ export const STRINGS = {
       wholesale: 'Wholesale',
       about: 'About Us',
       contact: 'Contact',
-      haberler: 'News',
     },
-    hero: {
-      slides: [
+    opening: {
+      words: ['Peel.', 'Bite.', 'Flow.'],
+      tagline: 'Gummies made with real fruit juice that peel and flow. Two ranges, one kind of fun.',
+      scroll: 'Scroll',
+    },
+    story: {
+      kicker: 'How to eat it',
+      acts: [
         {
-          badge: '💧 New range',
-          h1a: 'Burst of',
-          h1b: 'Flavour!',
-          desc: 'Liquid Gummies wrap a real fruit juice centre in a soft chewy shell. Bite in and let the flavour flow: mango, banana, pineapple, watermelon and blue raspberry.',
-          logoAria: 'Jubbys Liquid Gummies',
+          badge: 'Peelies',
+          h2: 'Peel it first',
+          p: 'Peel the skin just like real fruit. Every strip finds its own way, and underneath is a soft gummy made with real fruit juice.',
+          hint: 'Peels as you scroll',
+          cta: 'Peelies flavours',
         },
         {
-          badge: '🍌 The original',
-          h1a: 'Peel &',
-          h1b: 'Enjoy!',
-          desc: 'Peelies is a 3D gummy that peels just like real fruit. Peeling is half the fun, and every one of the five flavours is made with real fruit juice.',
-          logoAria: 'Jubbys Peelies',
+          badge: 'Liquid Gummies',
+          h2: 'Then bite',
+          p: 'A liquid centre waits under the soft shell. The moment you bite, real fruit juice flows out.',
+          hint: 'Flows as you scroll',
+          cta: 'Liquid Gummies flavours',
         },
       ],
     },
@@ -379,7 +378,6 @@ export const STRINGS = {
       p: 'Each pack holds 55 g of pure fun. Five peelable flavours made with real fruit juice.',
       chipPack: 'Doypack',
       chipHalal: 'Halal',
-      newBadge: 'New',
       prevAria: 'Previous flavours',
       nextAria: 'Next flavours',
       items: [
@@ -426,7 +424,6 @@ export const STRINGS = {
       p: 'Each pack holds 55 g. Liquid filled gummies: a soft chewy shell around real fruit juice filling.',
       chipPack: 'Doypack',
       chipHalal: 'Halal',
-      newBadge: 'New',
       prevAria: 'Previous flavours',
       nextAria: 'Next flavours',
       items: [
@@ -482,6 +479,12 @@ export const STRINGS = {
     },
     features: {
       kicker: 'Why Jubbys?',
+      stats: [
+        { value: 100, prefix: '%', label: 'Halal' },
+        { value: 2, label: 'Ranges' },
+        { value: 10, label: 'Flavours' },
+        { value: 55, suffix: ' g', label: 'Per pack' },
+      ],
       h2: 'Two ranges, one idea of fun',
       items: [
         {
@@ -519,11 +522,19 @@ export const STRINGS = {
     faq: {
       kicker: 'FAQ',
       h2: 'Good to know',
-      lead: 'The questions we hear most, about our peelable gummy, halal certification and where it’s made.',
+      lead: 'The questions we hear most, about Peelies, Liquid Gummies, halal certification and where they’re made.',
       items: [
         {
           q: 'What is Jubbys Peelies (peelable gummy)?',
           a: 'Jubbys Peelies is a peelable fruit gummy candy made with real fruit juice. Just like real fruit, you peel this 3D gummy before you eat it, a fun, novelty soft candy you won’t find everywhere.',
+        },
+        {
+          q: 'What is Jubbys Liquid Gummies (liquid-filled gummy)?',
+          a: 'Liquid Gummies is a fruit-shaped 3D soft candy with a soft gummy shell and a liquid centre made with real fruit juice. Bite in and the filling flows out: two textures in one bite.',
+        },
+        {
+          q: 'What is the difference between Peelies and Liquid Gummies?',
+          a: 'Peelies you peel: strip the skin off like real fruit and eat the soft gummy underneath. Liquid Gummies you bite: real fruit juice flows out of the soft shell. Both are made with real fruit juice and come in 55 g packs.',
         },
         {
           q: 'Are Jubbys gummies halal?',
@@ -535,7 +546,7 @@ export const STRINGS = {
         },
         {
           q: 'Which flavours are there?',
-          a: 'Mango, banana, pineapple and watermelon, plus a Mix Box with 100 mini sachets that brings three flavours together.',
+          a: 'Five flavours in each range: mango, banana, pineapple, watermelon and blue raspberry. There is also a Mix Box with 100 mini sachets that brings three Peelies flavours together.',
         },
         {
           q: 'Where are Jubbys products made?',
@@ -543,7 +554,8 @@ export const STRINGS = {
         },
         {
           q: 'Where can I buy them?',
-          a: 'Retail via our Trendyol store; for wholesale, private label and export enquiries, get in touch with us.',
+          a: 'Retail via our Trendyol store; for wholesale, private label and export enquiries, {link}.',
+          link: 'get in touch with us',
         },
       ],
     },
@@ -604,20 +616,6 @@ export const STRINGS = {
       address: 'Osmangazi Mahallesi, 3141. Sokak No: 5 Interior No: 2, Esenyurt / Istanbul',
       directions: 'Get directions',
       mapAria: 'Jubbys factory location map',
-    },
-    news: {
-      kicker: 'News',
-      h2: 'News from Jubbys',
-      lead: 'New flavours, trade fairs and announcements; the freshest news from the world of Jubbys.',
-      items: [
-        {
-          tag: 'Trade Fair',
-          date: '1-4 September 2026',
-          title: 'We are at Foodist!',
-          image: '/news/foodist-2026.webp',
-          body: 'Jubbys Peelies will be at the Foodist fair! Join us on 1-4 September 2026 at the TÜYAP Fair Convention and Congress Center, stand no. 1132A. Stop by to taste our 100% halal peelable soft candies made with real fruit juice and to discuss partnership opportunities.',
-        },
-      ],
     },
     about: {
       back: 'Home',

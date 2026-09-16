@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "package": "npm run build && rm -f jubbys-dist.zip && cd dist && zip -qr ../jubbys-dist.zip . && cd .. && ls -la jubbys-dist.zip"
   },
   "dependencies": {
+    "motion": "^13.4.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
