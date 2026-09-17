@@ -12,7 +12,7 @@ import {
   useTransform,
 } from 'motion/react'
 import { inView, pop, rise, stagger, useTilt } from './motion.js'
-import { mediaSrc, preloadImage, preloadQueue, preloadVideo } from './media.js'
+import { preloadImage, preloadQueue, preloadVideo, useStableSrc } from './media.js'
 import './App.css'
 import { STRINGS } from './i18n.js'
 
@@ -760,6 +760,7 @@ function LivingGummy({ clips, tilt = 0, ready = true }) {
   const [index, setIndex] = useState(0)
   const still = useReducedMotion()
   const clip = clips[index]
+  const src = useStableSrc(`/motion/${clip}.mp4`)
 
   // behind the curtain only the poster: the clip mounts once its blob is in
   if (still || !ready) {
@@ -777,7 +778,7 @@ function LivingGummy({ clips, tilt = 0, ready = true }) {
           key={clip}
           ref={primeVideo}
           className="hero-media-clip"
-          src={mediaSrc(`/motion/${clip}.mp4`)}
+          src={src}
           poster={`/motion/${clip}.webp`}
           autoPlay
           muted
@@ -967,6 +968,7 @@ function StoryAct({ act, range, index, ready }) {
   // never asked to play - nudged with a muted play-then-pause so that seeking
   // works from there
   const near = useInView(ref, { once: true, margin: '100% 0px 100% 0px' })
+  const src = useStableSrc(`/motion/${loops ? clip.replace('-scrub', '') : clip}.mp4`)
   useEffect(() => {
     const v = videoRef.current
     if (!near || !v) return
@@ -1060,7 +1062,7 @@ function StoryAct({ act, range, index, ready }) {
                 if (loops) primeVideo(el)
               }}
               className="story-clip"
-              src={mediaSrc(`/motion/${loops ? clip.replace('-scrub', '') : clip}.mp4`)}
+              src={src}
               poster={`/motion/${clip.replace('-scrub', '')}.webp`}
               muted
               playsInline

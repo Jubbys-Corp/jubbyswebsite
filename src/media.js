@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 /* Everything the home page shows is fetched once behind the opening curtain.
    Images go into the browser's cache; the clips are kept as in-memory blobs,
    so a <video> that mounts later plays from RAM instead of the network (iOS
@@ -5,6 +7,11 @@
 const blobs = new Map()
 
 export const mediaSrc = (url) => blobs.get(url) ?? url
+
+/* A <video> must keep whatever src it mounted with: if the blob lands later
+   and the src flips underneath a playing element, it reloads - and on iOS a
+   reloaded video shows nothing until it is asked to play again. */
+export const useStableSrc = (url) => useMemo(() => mediaSrc(url), [url])
 
 export const preloadImage = (url) =>
   new Promise((resolve) => {
