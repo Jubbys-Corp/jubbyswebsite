@@ -3,13 +3,16 @@ import {
   AnimatePresence,
   animate,
   motion,
+  useInView,
   useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from 'motion/react'
 import { inView, pop, rise, stagger, useTilt } from './motion.js'
+import { mediaSrc, preloadImage, preloadQueue, preloadVideo } from './media.js'
 import './App.css'
 import { STRINGS } from './i18n.js'
 
@@ -74,10 +77,21 @@ function WaveDivider({ flip = false, color = 'var(--cream-deep)' }) {
 }
 
 function Header({ lang, setLang, t }) {
+  // the pinned story panel needs to know how tall the sticky header is
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return undefined
+    const set = () => document.documentElement.style.setProperty('--header-h', `${el.offsetHeight}px`)
+    set()
+    const ro = new ResizeObserver(set)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
   return (
-    <header className="site-header">
+    <header className="site-header" ref={ref}>
       <a className="brand" href="/" onClick={(e) => goTo(e, '/')} aria-label={t.brandAria}>
-        <img src="/logo.webp" alt="Jubbys" />
+        <img src="/logo.webp?v=2" alt="Jubbys" />
       </a>
       <nav className="site-nav" aria-label={t.navAria}>
         <a
@@ -86,21 +100,24 @@ function Header({ lang, setLang, t }) {
           onClick={(e) => goTo(e, '/#liquid-gummies')}
           aria-label={t.nav.liquid}
         >
-          <img src="/logo-liquid.webp?v=3" alt={t.nav.liquid} />
+          <img src="/logo-liquid.webp?v=4" alt={t.nav.liquid} />
         </a>
-        <a
-          className="nav-brand"
-          href="/#lezzetler"
-          onClick={(e) => goTo(e, '/#lezzetler')}
-          aria-label={t.nav.peelies}
-        >
-          <img src="/logo-peelies.webp?v=3" alt={t.nav.peelies} />
+        <a className="nav-brand" href="/#lezzetler" onClick={(e) => goTo(e, '/#lezzetler')} aria-label={t.nav.peelies}>
+          <img src="/logo-peelies.webp?v=4" alt={t.nav.peelies} />
         </a>
-        <a href="/#neden-jubbys" onClick={(e) => goTo(e, '/#neden-jubbys')}>{t.nav.why}</a>
+        <a href="/#neden-jubbys" onClick={(e) => goTo(e, '/#neden-jubbys')}>
+          {t.nav.why}
+        </a>
         {/* desktop only: the phone row is already full, and the footer keeps the link there */}
-        <a className="nav-faq" href={FAQ_PATH} onClick={(e) => goTo(e, FAQ_PATH)}>{t.faq.kicker}</a>
-        <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>{t.nav.about}</a>
-        <a href={CONTACT_PATH} onClick={(e) => goTo(e, CONTACT_PATH)}>{t.nav.contact}</a>
+        <a className="nav-faq" href={FAQ_PATH} onClick={(e) => goTo(e, FAQ_PATH)}>
+          {t.faq.kicker}
+        </a>
+        <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>
+          {t.nav.about}
+        </a>
+        <a href={CONTACT_PATH} onClick={(e) => goTo(e, CONTACT_PATH)}>
+          {t.nav.contact}
+        </a>
       </nav>
       <div className="header-actions">
         {lang === 'tr' && (
@@ -154,19 +171,141 @@ function Header({ lang, setLang, t }) {
    the packs. The scroll keyframes shift it by exactly one run (100 / copies %),
    so the loop is seamless; the copy count keeps the track wider than the
    viewport even after that shift. */
-const HERO_PACKS = [
-  '/products/doypack-mango.webp?v=17',
-  '/products/liquid-mango.webp?v=8',
-  '/products/doypack-muz.webp?v=17',
-  '/products/liquid-muz.webp?v=8',
-  '/products/doypack-ananas.webp?v=17',
-  '/products/liquid-ananas.webp?v=8',
-  '/products/doypack-karpuz.webp?v=17',
-  '/products/liquid-karpuz.webp?v=8',
-  '/products/doypack-mavi-ahududu.webp?v=8',
-  '/products/liquid-mavi-ahududu.webp?v=8',
-]
+// 600px-tall cuts of the packs: the strip never shows them bigger than ~290px
+const HERO_PACKS = ['mango', 'muz', 'ananas', 'karpuz', 'mavi-ahududu'].flatMap((f) => [
+  `/products/ribbon/doypack-${f}.webp`,
+  `/products/ribbon/liquid-${f}.webp`,
+])
 const HERO_RIBBON_COPIES = [0, 1, 2]
+
+/* First visit: the curtain stays up until everything the home page shows is
+   in the browser - every picture and every clip - so nothing pops in later
+   and the clips cut into each other without a gap. The Jubbys logo fills
+   with juice as the files arrive. */
+const FLAVOURS = ['mango', 'muz', 'ananas', 'karpuz', 'mavi-ahududu']
+const GHOST_FILES = FLAVOURS.flatMap((f) => [
+  `/products/ghost/doypack-${f}.webp`,
+  `/products/ghost/liquid-${f}.webp`,
+  `/products/ghost/peelies-gummy-${f}.webp`,
+  `/products/ghost/liquid-gummy-${f}.webp`,
+])
+const CLIP_NAMES = [
+  'peel-muz',
+  'flow-mango',
+  'peel-karpuz',
+  'flow-mavi-ahududu',
+  'peel-ananas',
+  'flow-karpuz',
+  'peel-mavi-ahududu',
+  'flow-ananas',
+  'peel-ananas-2',
+  'flow-muz',
+]
+// tier one, behind the curtain: everything on the first screen plus the
+// first two clips (~1.2 MB)
+const FIRST_IMAGES = [
+  '/logo.webp?v=2',
+  '/logo-peelies.webp?v=4',
+  '/logo-liquid.webp?v=4',
+  ...CLIP_NAMES.map((c) => `/motion/${c}.webp`),
+  ...HERO_PACKS,
+  ...GHOST_FILES,
+]
+const FIRST_VIDEOS = CLIP_NAMES.slice(0, 2).map((c) => `/motion/${c}.mp4`)
+// tier two, streamed in as soon as the curtain lifts, in the order the
+// reader will meet them: the remaining clips, the story, the shelves
+const LATER_VIDEOS = [
+  ...CLIP_NAMES.slice(2).map((c) => `/motion/${c}.mp4`),
+  '/motion/peel-karpuz-scrub.mp4',
+  '/motion/flow-mango-scrub.mp4',
+]
+const LATER_IMAGES = [
+  ...Object.values(FLAVOR_IMGS),
+  ...Object.values(LIQUID_IMGS),
+  '/products/mix-kutu.webp?v=9',
+  ...['mango', 'muz', 'ananas'].map((f) => `/products/poset-${f}.webp?v=6`),
+]
+// the curtain never flashes (minimum) and never traps a reader on a dead
+// connection (maximum) - past that it lifts with whatever has arrived
+const CURTAIN_MIN_MS = 900
+const CURTAIN_MAX_MS = 12000
+const SEEN_KEY = 'jubbys-seen'
+
+function Curtain({ onDone, t }) {
+  const progress = useMotionValue(0)
+  const fill = useSpring(progress, { stiffness: 60, damping: 18 })
+  // the real, coloured logo is revealed from the bottom up as the files land
+  const reveal = useTransform(fill, (v) => `inset(${Math.max(0, (1 - v) * 100)}% 0 0 0)`)
+  const [leaving, setLeaving] = useState(false)
+
+  useEffect(() => {
+    const start = performance.now()
+    let loaded = 0
+    let finished = false
+    let timer = 0
+    const finish = () => {
+      if (finished) return
+      finished = true
+      progress.set(1)
+      const wait = Math.max(0, CURTAIN_MIN_MS - (performance.now() - start))
+      timer = setTimeout(() => setLeaving(true), wait)
+    }
+    // a clip weighs about as much as five pictures, so it counts for five
+    const total = FIRST_IMAGES.length + FIRST_VIDEOS.length * 5
+    const tick = (weight) => {
+      loaded += weight
+      progress.set(Math.min(1, loaded / total))
+      if (loaded >= total) finish()
+    }
+    FIRST_IMAGES.forEach((src) => preloadImage(src).then(() => tick(1)))
+    FIRST_VIDEOS.forEach((src) => preloadVideo(src).then(() => tick(5)))
+    const cap = setTimeout(finish, CURTAIN_MAX_MS)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      clearTimeout(cap)
+      clearTimeout(timer)
+      document.body.style.overflow = ''
+    }
+  }, [progress])
+
+  return (
+    <motion.div
+      className="curtain"
+      role="status"
+      aria-live="polite"
+      initial={false}
+      animate={
+        leaving
+          ? {
+              y: '-104%',
+              borderBottomLeftRadius: '50% 18%',
+              borderBottomRightRadius: '50% 18%',
+            }
+          : { y: 0 }
+      }
+      transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
+      onAnimationComplete={() => leaving && onDone()}
+    >
+      {/* the same scatter of packs as the opening, arriving as they load */}
+      {Object.entries(GHOSTS).map(([id, ghosts]) => (
+        <span key={id} className={`hero-ghosts hero-ghosts--${id} curtain-ghosts`} aria-hidden="true">
+          {ghosts.map((g) => (
+            <i key={g} className={`hero-ghost hero-ghost--${g}`} />
+          ))}
+        </span>
+      ))}
+      <div className="curtain-logo" aria-hidden="true">
+        <img className="curtain-logo-ghost" src="/logo.webp?v=2" alt="" />
+        <motion.img className="curtain-logo-live" src="/logo.webp?v=2" alt="" style={{ clipPath: reveal }} />
+      </div>
+      <p className="curtain-words" aria-hidden="true">
+        {t.opening.words.map((w) => (
+          <span key={w}>{w}</span>
+        ))}
+      </p>
+    </motion.div>
+  )
+}
 
 /* The strip is driven from JS rather than a CSS keyframe so one offset can
    carry three things at once: the idle drift, a finger dragging it, and the
@@ -178,8 +317,6 @@ const FLICK_EASE_SECONDS = 1.1
 const MAX_FLICK_SPEED = 4200
 const DRAG_THRESHOLD = 6
 const AXIS_LOCK = 8
-// the back row moves this much slower than the front one - that is the depth
-const BACK_PARALLAX = 0.45
 // how far (px) from the pointer a pack still feels the push
 const PUSH_RADIUS = 230
 
@@ -189,12 +326,10 @@ function HeroRibbon() {
   const [pressed, setPressed] = useState(null)
   const [dragging, setDragging] = useState(false)
   const trackRef = useRef(null)
-  const backRef = useRef(null)
   const motion = useRef({
     offset: 0,
     velocity: 0,
     runWidth: 0,
-    backRun: 0,
     base: 0,
     drag: null,
     pointer: null,
@@ -204,14 +339,12 @@ function HeroRibbon() {
 
   useEffect(() => {
     const track = trackRef.current
-    const back = backRef.current
     const m = motion.current
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     // one run of HERO_PACKS; the copies are identical, so wrapping by it is seamless
     const measure = () => {
       m.runWidth = track.scrollWidth / HERO_RIBBON_COPIES.length
-      m.backRun = back.scrollWidth / HERO_RIBBON_COPIES.length
       m.base = reduced.matches ? 0 : -m.runWidth / AUTO_RUN_SECONDS
       m.left = track.parentElement.getBoundingClientRect().left
       m.packs = [...track.children].map((el) => ({
@@ -236,11 +369,8 @@ function HeroRibbon() {
         m.velocity += (m.base - m.velocity) * (1 - Math.exp(-dt / FLICK_EASE_SECONDS))
         m.offset += m.velocity * dt
       }
-      // the offset itself is never wrapped so the two rows stay in step; each
-      // row wraps by its own run width when it is drawn
       const front = wrap(m.offset, m.runWidth)
       track.style.transform = `translate3d(${front}px, 0, 0)`
-      back.style.transform = `translate3d(${wrap(m.offset * BACK_PARALLAX, m.backRun)}px, 0, 0)`
 
       // packs near the pointer lean away from it, as if a finger pushed them
       for (const pack of m.packs) {
@@ -365,14 +495,6 @@ function HeroRibbon() {
       <span className="sprinkle sprinkle--3"></span>
       <span className="sprinkle sprinkle--4"></span>
       <span className="sprinkle sprinkle--5"></span>
-      {/* the back row: the same packs, smaller, slower and under the juice */}
-      <div className="hero-ribbon-track hero-ribbon-track--back" ref={backRef} aria-hidden="true">
-        {HERO_RIBBON_COPIES.map((copy) =>
-          [...HERO_PACKS].reverse().map((src) => (
-            <img key={`${copy}-${src}`} className="hero-ribbon-pack" src={src} alt="" draggable="false" />
-          )),
-        )}
-      </div>
       <div className="hero-ribbon-track" ref={trackRef}>
         {HERO_RIBBON_COPIES.map((copy) =>
           HERO_PACKS.map((src) => {
@@ -385,6 +507,7 @@ function HeroRibbon() {
                 src={src}
                 alt=""
                 draggable="false"
+                decoding="async"
               />
             )
           }),
@@ -400,11 +523,18 @@ const SHELF_DWELL_MS = 5200
 /* The name drips in letter by letter. Pure CSS: the letters mount with the
    scene and the compositor runs their keyframes, nothing ticks in JS. */
 function DripText({ text }) {
+  // letters are grouped by word so a line can only break between words,
+  // never in the middle of one ("Raspberr / y")
+  let i = 0
   return (
     <span className="drip" aria-label={text}>
-      {[...text].map((ch, i) => (
-        <span key={`${ch}-${i}`} className="drip-letter" style={{ '--i': i }} aria-hidden="true">
-          {ch === ' ' ? '\u00A0' : ch}
+      {text.split(' ').map((word, w) => (
+        <span key={w} className="drip-word" aria-hidden="true">
+          {[...word].map((ch) => (
+            <span key={i} className="drip-letter" style={{ '--i': i++ }}>
+              {ch}
+            </span>
+          ))}
         </span>
       ))}
     </span>
@@ -414,7 +544,10 @@ function DripText({ text }) {
 // scenes crossfade: the old one dissolves while the new one fades in on top
 const sceneVariants = {
   enter: { opacity: 0 },
-  center: { opacity: 1, transition: { duration: 0.65, ease: [0.4, 0, 0.2, 1] } },
+  center: {
+    opacity: 1,
+    transition: { duration: 0.65, ease: [0.4, 0, 0.2, 1] },
+  },
   exit: { opacity: 0, transition: { duration: 0.3, ease: 'easeOut' } },
 }
 
@@ -459,7 +592,20 @@ function Shelf({ copy, images, range }) {
   const hoverCancel = () => clearTimeout(hoverTimer.current)
   useEffect(() => () => clearTimeout(hoverTimer.current), [])
 
-  // phones: one pack per tap on the arrows
+  // phones: one pack per tap on the arrows; an arrow goes dead at its end of
+  // the row so nobody scrolls into empty space
+  const [edges, setEdges] = useState({ start: true, end: false })
+  const readEdges = () => {
+    const rail = railRef.current
+    if (!rail) return
+    const max = rail.scrollWidth - rail.clientWidth
+    setEdges({ start: rail.scrollLeft <= 2, end: rail.scrollLeft >= max - 2 })
+  }
+  useEffect(() => {
+    readEdges()
+    window.addEventListener('resize', readEdges)
+    return () => window.removeEventListener('resize', readEdges)
+  }, [])
   const nudge = (direction) => {
     const rail = railRef.current
     if (!rail) return
@@ -489,7 +635,7 @@ function Shelf({ copy, images, range }) {
             exit="exit"
           >
             <div className="shelf-visual">
-              <img className="shelf-hero-pack" src={images[current.id]} alt={current.imgAlt} />
+              <img className="shelf-hero-pack" src={images[current.id]} alt={current.imgAlt} decoding="async" />
             </div>
 
             <div className="shelf-copy">
@@ -508,14 +654,26 @@ function Shelf({ copy, images, range }) {
       </div>
 
       <div className="shelf-rail">
-        <button type="button" className="rail-arrow rail-arrow--prev" aria-label={copy.prevAria} onClick={() => nudge(-1)}>
+        <button
+          type="button"
+          className="rail-arrow rail-arrow--prev"
+          aria-label={copy.prevAria}
+          onClick={() => nudge(-1)}
+          disabled={edges.start}
+        >
           <span aria-hidden="true">‹</span>
         </button>
-        <button type="button" className="rail-arrow rail-arrow--next" aria-label={copy.nextAria} onClick={() => nudge(1)}>
+        <button
+          type="button"
+          className="rail-arrow rail-arrow--next"
+          aria-label={copy.nextAria}
+          onClick={() => nudge(1)}
+          disabled={edges.end}
+        >
           <span aria-hidden="true">›</span>
         </button>
         <div className="shelf-board" aria-hidden="true" />
-        <div className="shelf-row" ref={railRef} role="tablist">
+        <div className="shelf-row" ref={railRef} role="tablist" onScroll={readEdges}>
           {items.map((f) => {
             const active = f.id === current.id
             return (
@@ -532,7 +690,14 @@ function Shelf({ copy, images, range }) {
                 }}
                 onPointerLeave={hoverCancel}
               >
-                <img className="shelf-pack" src={images[f.id]} alt="" draggable="false" />
+                <img
+                  className="shelf-pack"
+                  src={images[f.id]}
+                  alt=""
+                  draggable="false"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <span className="shelf-slot-name">{f.title.replace(/^(Peelies|Liquid) /, '')}</span>
               </button>
             )
@@ -588,12 +753,16 @@ const useTouchScreen = () => {
 
 /* A candy that never sits still: plays one clip, then crossfades into the next
    flavour's clip, round and round. With reduced motion on it shows a poster. */
-function LivingGummy({ clips, tilt = 0 }) {
+/* A candy that never sits still: plays one clip, then dissolves into the next
+   flavour's clip - the finished one drifting up and out while the new one
+   grows in - round and round. With reduced motion on it shows a poster. */
+function LivingGummy({ clips, tilt = 0, ready = true }) {
   const [index, setIndex] = useState(0)
   const still = useReducedMotion()
   const clip = clips[index]
 
-  if (still) {
+  // behind the curtain only the poster: the clip mounts once its blob is in
+  if (still || !ready) {
     return (
       <div className="hero-media" aria-hidden="true">
         <img className="hero-media-clip" src={`/motion/${clip}.webp`} alt="" />
@@ -608,6 +777,7 @@ function LivingGummy({ clips, tilt = 0 }) {
           key={clip}
           ref={primeVideo}
           className="hero-media-clip"
+          src={mediaSrc(`/motion/${clip}.mp4`)}
           poster={`/motion/${clip}.webp`}
           autoPlay
           muted
@@ -618,10 +788,7 @@ function LivingGummy({ clips, tilt = 0 }) {
           exit={{ opacity: 0, scale: 1.06 }}
           transition={{ duration: 0.7, ease: [0.22, 0.85, 0.24, 1] }}
           onEnded={() => setIndex((n) => (n + 1) % clips.length)}
-        >
-          <source src={`/motion/${clip}.mp4`} type="video/mp4" />
-          <source src={`/motion/${clip}.webm`} type="video/webm" />
-        </motion.video>
+        />
       </AnimatePresence>
     </div>
   )
@@ -634,7 +801,7 @@ const WORD_EXITS = [
   { x: -120, y: 170, rotate: -5 },
 ]
 
-function OpeningWord({ word, index, progress }) {
+function OpeningWord({ word, index, progress, ready }) {
   const exit = WORD_EXITS[index] ?? WORD_EXITS[0]
   const x = useTransform(progress, [0, 1], [0, exit.x])
   const y = useTransform(progress, [0, 1], [0, exit.y])
@@ -645,8 +812,13 @@ function OpeningWord({ word, index, progress }) {
       <motion.span
         className="opening-word-inner"
         initial={{ y: '110%', rotate: 6 }}
-        animate={{ y: 0, rotate: 0 }}
-        transition={{ type: 'spring', stiffness: 90, damping: 16, delay: 0.25 + index * 0.16 }}
+        animate={ready ? { y: 0, rotate: 0 } : { y: '110%', rotate: 6 }}
+        transition={{
+          type: 'spring',
+          stiffness: 90,
+          damping: 16,
+          delay: 0.25 + index * 0.16,
+        }}
       >
         {word}
       </motion.span>
@@ -654,10 +826,13 @@ function OpeningWord({ word, index, progress }) {
   )
 }
 
-function Opening({ t }) {
+function Opening({ t, ready }) {
   const ref = useRef(null)
   const tilt = useTilt(5)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  })
   const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 0.72])
   const mediaY = useTransform(scrollYProgress, [0, 1], [0, 240])
   const driftLeft = useTransform(scrollYProgress, [0, 1], [0, -90])
@@ -680,13 +855,22 @@ function Opening({ t }) {
         </motion.span>
       ))}
 
-      <motion.div className="opening-stage" initial="hidden" animate="show">
+      <motion.div className="opening-stage" initial="hidden" animate={ready ? 'show' : 'hidden'}>
         <motion.div
           className="opening-media"
           style={{ scale: mediaScale, y: mediaY }}
           variants={{
             hidden: { opacity: 0, scale: 0.6 },
-            show: { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 70, damping: 14, delay: 0.1 } },
+            show: {
+              opacity: 1,
+              scale: 1,
+              transition: {
+                type: 'spring',
+                stiffness: 70,
+                damping: 14,
+                delay: 0.1,
+              },
+            },
           }}
         >
           <motion.div
@@ -695,13 +879,13 @@ function Opening({ t }) {
             onPointerMove={tilt.onPointerMove}
             onPointerLeave={tilt.onPointerLeave}
           >
-            <LivingGummy clips={OPENING_CLIPS} />
+            <LivingGummy clips={OPENING_CLIPS} ready={ready} />
           </motion.div>
         </motion.div>
 
         <h1 className="opening-words">
           {t.opening.words.map((word, i) => (
-            <OpeningWord key={word} word={word} index={i} progress={scrollYProgress} />
+            <OpeningWord key={i} word={word} index={i} progress={scrollYProgress} ready={ready} />
           ))}
         </h1>
       </motion.div>
@@ -710,7 +894,7 @@ function Opening({ t }) {
         className="opening-tail"
         style={{ opacity: tailFade }}
         initial="hidden"
-        animate="show"
+        animate={ready ? 'show' : 'hidden'}
         variants={stagger(0.1, 0.9)}
       >
         <motion.p className="opening-tag" variants={rise}>
@@ -724,7 +908,7 @@ function Opening({ t }) {
             whileHover={{ scale: 1.08, rotate: -3 }}
             whileTap={{ scale: 0.94 }}
           >
-            <img src="/logo-peelies.webp?v=3" alt="" />
+            <img src="/logo-peelies.webp?v=4" alt="" />
           </motion.a>
           <motion.a
             href="/#liquid-gummies"
@@ -733,15 +917,12 @@ function Opening({ t }) {
             whileHover={{ scale: 1.08, rotate: 3 }}
             whileTap={{ scale: 0.94 }}
           >
-            <img src="/logo-liquid.webp?v=3" alt="" />
+            <img src="/logo-liquid.webp?v=4" alt="" />
           </motion.a>
         </motion.div>
         <motion.span className="opening-scroll" variants={rise} aria-hidden="true">
           {t.opening.scroll}
-          <motion.i
-            animate={{ y: [0, 7, 0] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-          >
+          <motion.i animate={{ y: [0, 7, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}>
             ↓
           </motion.i>
         </motion.span>
@@ -755,37 +936,73 @@ function Opening({ t }) {
    peels / pours exactly as fast as you scroll. The scrub encodes have a
    keyframe every 4 frames so seeking is instant. */
 const STORY_ACTS = [
-  { id: 'peelies', clip: 'peel-karpuz-scrub', logo: '/logo-peelies.webp?v=3', href: '/#lezzetler' },
-  { id: 'liquid', clip: 'flow-mango-scrub', logo: '/logo-liquid.webp?v=3', href: '/#liquid-gummies' },
+  {
+    id: 'peelies',
+    clip: 'peel-karpuz-scrub',
+    logo: '/logo-peelies.webp?v=4',
+    href: '/#lezzetler',
+  },
+  {
+    id: 'liquid',
+    clip: 'flow-mango-scrub',
+    logo: '/logo-liquid.webp?v=4',
+    href: '/#liquid-gummies',
+  },
 ]
 
-function StoryAct({ act, range, index }) {
+function StoryAct({ act, range, index, ready }) {
   const { clip } = range
   const ref = useRef(null)
   const videoRef = useRef(null)
   const reduced = useReducedMotion()
   const touch = useTouchScreen()
   const loops = reduced
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
 
-  // iOS will not fetch a frame of a video until it has been asked to play, so
-  // seeking does nothing. A muted play-then-pause on the first touch (and
-  // again when the act scrolls in) loads it, and scrubbing works from there.
+  // the clip is not fetched until the act is within a screen of the viewport;
+  // then it is loaded, and on iOS - which draws no frame of a video that was
+  // never asked to play - nudged with a muted play-then-pause so that seeking
+  // works from there
+  const near = useInView(ref, { once: true, margin: '100% 0px 100% 0px' })
   useEffect(() => {
-    if (!touch || loops) return undefined
-    const kick = () => {
-      const v = videoRef.current
-      if (!v) return
+    const v = videoRef.current
+    if (!near || !v) return
+    v.preload = 'auto'
+    v.load()
+    if (touch && !loops) {
       v.muted = true
       v.setAttribute('muted', '')
-      v.play().then(() => v.pause()).catch(() => {})
+      v.play()
+        .then(() => v.pause())
+        .catch(() => {})
     }
-    window.addEventListener('touchstart', kick, { once: true, passive: true })
-    return () => window.removeEventListener('touchstart', kick)
-  }, [touch, loops])
-  // the candy holds still while the panel slides in, then plays through the
-  // middle of the act, then holds at the end while the panel leaves
-  const playhead = useTransform(scrollYProgress, [0.2, 0.8], [0, 1], { clamp: true })
+  }, [near, touch, loops, ready])
+  // the candy only moves while the panel is pinned in the middle of the
+  // screen: that window depends on the act's height against the viewport,
+  // so it is measured rather than guessed (the panel slides in before it
+  // and out after it, holding the first / last frame meanwhile)
+  const [pinned, setPinned] = useState([0.36, 0.64])
+  useEffect(() => {
+    const measure = () => {
+      const act = ref.current
+      if (!act) return
+      const h = act.offsetHeight
+      const vh = window.innerHeight
+      const start = vh / (h + vh)
+      const end = h / (h + vh)
+      const pad = (end - start) * 0.08
+      setPinned([start + pad, end - pad])
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+  const playhead = useTransform(scrollYProgress, pinned, [0, 1], {
+    clamp: true,
+  })
   const lift = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [40, 0, 0, -40])
   const scale = useTransform(scrollYProgress, [0.1, 0.35, 0.65, 0.9], [0.9, 1, 1, 0.92])
 
@@ -835,32 +1052,34 @@ function StoryAct({ act, range, index }) {
           </span>
         </motion.div>
         <motion.div className="story-media" style={{ scale }}>
-          <video
-            key={loops ? 'loop' : 'scrub'}
-            ref={(el) => {
-              videoRef.current = el
-              if (loops) primeVideo(el)
-            }}
-            className="story-clip"
-            src={`/motion/${loops ? clip.replace('-scrub', '') : clip}.mp4`}
-            poster={`/motion/${clip.replace('-scrub', '')}.webp`}
-            muted
-            playsInline
-            preload="auto"
-            autoPlay={loops || undefined}
-            loop={loops || undefined}
-          />
+          {ready && (
+            <video
+              key={loops ? 'loop' : 'scrub'}
+              ref={(el) => {
+                videoRef.current = el
+                if (loops) primeVideo(el)
+              }}
+              className="story-clip"
+              src={mediaSrc(`/motion/${loops ? clip.replace('-scrub', '') : clip}.mp4`)}
+              poster={`/motion/${clip.replace('-scrub', '')}.webp`}
+              muted
+              playsInline
+              preload="auto"
+              autoPlay={loops || undefined}
+              loop={loops || undefined}
+            />
+          )}
         </motion.div>
       </div>
     </div>
   )
 }
 
-function Story({ copy }) {
+function Story({ copy, ready }) {
   return (
     <section className="story" aria-label={copy.kicker}>
       {copy.acts.map((act, i) => (
-        <StoryAct act={act} range={STORY_ACTS[i]} index={i} key={act.badge} />
+        <StoryAct act={act} range={STORY_ACTS[i]} index={i} key={act.badge} ready={ready} />
       ))}
     </section>
   )
@@ -889,7 +1108,11 @@ function Counter({ value, prefix = '', suffix = '' }) {
 
 /* Wholesale: each product's carton opens as it scrolls in and the pack rises
    out of it, with the carton figures under it. */
-const CARTON_PACKS = ['/products/mix-kutu.webp?v=9', '/products/doypack-mango.webp?v=17', '/products/liquid-mango.webp?v=8']
+const CARTON_PACKS = [
+  '/products/mix-kutu.webp?v=9',
+  '/products/doypack-mango.webp?v=17',
+  '/products/liquid-mango.webp?v=8',
+]
 
 function CartonCard({ row, pack, headers, index }) {
   const facts = [
@@ -906,7 +1129,16 @@ function CartonCard({ row, pack, headers, index }) {
       viewport={{ once: true, amount: 0.4 }}
       variants={{
         closed: { opacity: 0, y: 40 },
-        open: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 90, damping: 16, delay: index * 0.12 } },
+        open: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            type: 'spring',
+            stiffness: 90,
+            damping: 16,
+            delay: index * 0.12,
+          },
+        },
       }}
     >
       <div className="carton-box" aria-hidden="true">
@@ -914,6 +1146,8 @@ function CartonCard({ row, pack, headers, index }) {
           className="carton-pack"
           src={pack}
           alt=""
+          loading="lazy"
+          decoding="async"
           variants={{
             closed: { y: 90, scale: 0.6, rotate: 0, opacity: 0 },
             open: {
@@ -921,7 +1155,12 @@ function CartonCard({ row, pack, headers, index }) {
               scale: 1,
               rotate: index % 2 ? 3 : -3,
               opacity: 1,
-              transition: { type: 'spring', stiffness: 80, damping: 12, delay: 0.35 + index * 0.12 },
+              transition: {
+                type: 'spring',
+                stiffness: 80,
+                damping: 12,
+                delay: 0.35 + index * 0.12,
+              },
             },
           }}
         />
@@ -929,11 +1168,19 @@ function CartonCard({ row, pack, headers, index }) {
           className="carton-flap"
           variants={{
             closed: { rotateX: 0 },
-            open: { rotateX: -160, transition: { type: 'spring', stiffness: 70, damping: 11, delay: 0.15 + index * 0.12 } },
+            open: {
+              rotateX: -160,
+              transition: {
+                type: 'spring',
+                stiffness: 70,
+                damping: 11,
+                delay: 0.15 + index * 0.12,
+              },
+            },
           }}
         />
         <span className="carton-front">
-          <img src="/logo.webp" alt="" />
+          <img src="/logo.webp?v=2" alt="" />
         </span>
       </div>
       <h3>{row.name}</h3>
@@ -949,22 +1196,22 @@ function CartonCard({ row, pack, headers, index }) {
   )
 }
 
-function HomePage({ t }) {
+function HomePage({ t, ready }) {
   return (
     <main id="top">
       <section className="hero">
-        <Opening t={t} />
+        <Opening t={t} ready={ready} />
         <HeroRibbon />
       </section>
 
-      <Story copy={t.story} />
+      <Story copy={t.story} ready={ready} />
 
       <WaveDivider color="var(--peel-band)" />
 
       <section className="flavors flavors--peelies" id="lezzetler">
         <motion.div className="section-head" initial="hidden" whileInView="show" viewport={inView} variants={rise}>
           <span className="kicker kicker--logo">
-            <img src="/logo-peelies.webp?v=3" alt={t.flavors.kicker} />
+            <img src="/logo-peelies.webp?v=4" alt={t.flavors.kicker} />
           </span>
           <h2>{t.flavors.h2}</h2>
           <p>{t.flavors.p}</p>
@@ -977,7 +1224,7 @@ function HomePage({ t }) {
       <section className="flavors flavors--liquid" id="liquid-gummies">
         <motion.div className="section-head" initial="hidden" whileInView="show" viewport={inView} variants={rise}>
           <span className="kicker kicker--logo kicker--liquid">
-            <img src="/logo-liquid.webp?v=3" alt={t.liquid.kicker} />
+            <img src="/logo-liquid.webp?v=4" alt={t.liquid.kicker} />
           </span>
           <h2>{t.liquid.h2}</h2>
           <p>{t.liquid.p}</p>
@@ -989,16 +1236,12 @@ function HomePage({ t }) {
 
       <section className="mixbox" id="mix-kutu">
         <div className="mixbox-inner">
-          <motion.div
-            className="mixbox-art"
-            initial="hidden"
-            whileInView="show"
-            viewport={inView}
-            variants={pop}
-          >
+          <motion.div className="mixbox-art" initial="hidden" whileInView="show" viewport={inView} variants={pop}>
             <motion.img
               src="/products/mix-kutu.webp?v=9"
               alt={t.mixbox.imgAlt}
+              loading="lazy"
+              decoding="async"
               whileHover={{ rotate: -2, scale: 1.03 }}
             />
           </motion.div>
@@ -1030,8 +1273,23 @@ function HomePage({ t }) {
                   alt=""
                   loading="lazy"
                   variants={{
-                    hidden: { y: 70, rotate: (i - 1) * 18, scale: 0.6, opacity: 0 },
-                    show: { y: 0, rotate: (i - 1) * 6, scale: 1, opacity: 1, transition: { type: 'spring', stiffness: 120, damping: 12 } },
+                    hidden: {
+                      y: 70,
+                      rotate: (i - 1) * 18,
+                      scale: 0.6,
+                      opacity: 0,
+                    },
+                    show: {
+                      y: 0,
+                      rotate: (i - 1) * 6,
+                      scale: 1,
+                      opacity: 1,
+                      transition: {
+                        type: 'spring',
+                        stiffness: 120,
+                        damping: 12,
+                      },
+                    },
                   }}
                   whileHover={{ y: -8, rotate: 0, scale: 1.08 }}
                 />
@@ -1048,15 +1306,9 @@ function HomePage({ t }) {
           <span className="kicker">{t.features.kicker}</span>
           <h2>{t.features.h2}</h2>
         </motion.div>
-        <motion.ul
-          className="stat-strip"
-          initial="hidden"
-          whileInView="show"
-          viewport={inView}
-          variants={stagger(0.1)}
-        >
-          {t.features.stats.map((stat) => (
-            <motion.li key={stat.label} variants={pop}>
+        <motion.ul className="stat-strip" initial="hidden" whileInView="show" viewport={inView} variants={stagger(0.1)}>
+          {t.features.stats.map((stat, i) => (
+            <motion.li key={i} variants={pop}>
               <Counter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
               <span className="stat-label">{stat.label}</span>
             </motion.li>
@@ -1070,12 +1322,7 @@ function HomePage({ t }) {
           variants={stagger(0.07)}
         >
           {t.features.items.map((f) => (
-            <motion.article
-              className="feature-card"
-              key={f.icon}
-              variants={pop}
-              whileHover={{ y: -8, rotate: -0.6 }}
-            >
+            <motion.article className="feature-card" key={f.icon} variants={pop} whileHover={{ y: -8, rotate: -0.6 }}>
               <span className="feature-icon" aria-hidden="true">
                 {f.icon}
               </span>
@@ -1094,7 +1341,7 @@ function HomePage({ t }) {
         </motion.div>
         <div className="carton-grid">
           {t.specs.rows.map((row, i) => (
-            <CartonCard key={row.name} row={row} pack={CARTON_PACKS[i]} headers={t.specs.headers} index={i} />
+            <CartonCard key={i} row={row} pack={CARTON_PACKS[i]} headers={t.specs.headers} index={i} />
           ))}
         </div>
       </section>
@@ -1206,7 +1453,10 @@ function ContactPage({ t }) {
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_ID}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
@@ -1266,11 +1516,7 @@ function ContactPage({ t }) {
               required
             />
           </label>
-          <button
-            type="submit"
-            className="btn btn--primary contact-submit"
-            disabled={status === 'sending'}
-          >
+          <button type="submit" className="btn btn--primary contact-submit" disabled={status === 'sending'}>
             {status === 'sending' ? c.formSending : c.formSend}
           </button>
           {status === 'success' && (
@@ -1325,6 +1571,25 @@ function App() {
   })
   const [route, setRoute] = useState(getRoute)
   const t = STRINGS[lang]
+  // the curtain shows once per session, and only when landing on the home page
+  const [ready, setReady] = useState(() => {
+    if (getRoute() !== 'home') return true
+    if (window.location.search.includes('curtain')) return false // QA: force it
+    try {
+      return !!sessionStorage.getItem(SEEN_KEY)
+    } catch {
+      return true
+    }
+  })
+  const lift = () => {
+    setReady(true)
+    try {
+      sessionStorage.setItem(SEEN_KEY, '1')
+    } catch {
+      /* private mode: the curtain simply shows again next time */
+    }
+    preloadQueue(LATER_VIDEOS, LATER_IMAGES)
+  }
 
   useEffect(() => {
     const wake = () => document.querySelectorAll('video[autoplay]').forEach((v) => v.play().catch(() => {}))
@@ -1352,14 +1617,7 @@ function App() {
           : route === 'contact'
             ? t.contact.lead
             : t.metaDescription
-    const path =
-      route === 'about'
-        ? ABOUT_PATH
-        : route === 'faq'
-          ? FAQ_PATH
-          : route === 'contact'
-            ? CONTACT_PATH
-            : '/'
+    const path = route === 'about' ? ABOUT_PATH : route === 'faq' ? FAQ_PATH : route === 'contact' ? CONTACT_PATH : '/'
     const setMeta = (selector, content) => {
       const el = document.head.querySelector(selector)
       if (el) el.setAttribute('content', content)
@@ -1404,7 +1662,6 @@ function App() {
         window.scrollTo(0, 0)
       }
     }
-
   }, [route])
 
   return (
@@ -1424,15 +1681,20 @@ function App() {
         ) : route === 'contact' ? (
           <ContactPage t={t} />
         ) : (
-          <HomePage t={t} />
+          <HomePage t={t} ready={ready} />
         )}
       </motion.div>
+      {!ready && <Curtain onDone={lift} t={t} />}
       <footer className="site-footer">
-        <img className="footer-logo" src="/logo.webp" alt="Jubbys" />
+        <img className="footer-logo" src="/logo.webp?v=2" alt="Jubbys" />
         <p className="footer-tag">{t.footer.tag}</p>
         <nav className="footer-nav" aria-label={t.navAria}>
-          <a href={FAQ_PATH} onClick={(e) => goTo(e, FAQ_PATH)}>{t.faq.kicker}</a>
-          <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>{t.nav.about}</a>
+          <a href={FAQ_PATH} onClick={(e) => goTo(e, FAQ_PATH)}>
+            {t.faq.kicker}
+          </a>
+          <a href={ABOUT_PATH} onClick={(e) => goTo(e, ABOUT_PATH)}>
+            {t.nav.about}
+          </a>
         </nav>
         <p className="footer-note">{t.footer.note}</p>
       </footer>

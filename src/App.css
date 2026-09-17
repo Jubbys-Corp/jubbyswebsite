@@ -1,3 +1,74 @@
+/* ---------- Curtain (first visit) ---------- */
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1.2rem;
+  overflow: hidden;
+  background: var(--cream);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.5) 3px, transparent 3px);
+  background-size: 44px 44px;
+  will-change: transform;
+}
+
+.curtain-ghosts {
+  opacity: 0.9;
+}
+
+/* stronger than in the opening: here they are the picture, not a backdrop */
+.curtain-ghosts .hero-ghost {
+  opacity: 0.42;
+}
+
+.curtain-logo {
+  position: relative;
+  z-index: 1;
+  width: min(52vw, 240px);
+  filter: drop-shadow(0 12px 22px rgba(74, 32, 23, 0.16));
+}
+
+/* a grey ghost of the logo, and on top of it the real one, uncovered from
+   the bottom up as the files arrive */
+.curtain-logo-ghost {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.18;
+  filter: grayscale(1);
+}
+
+.curtain-logo-live {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  will-change: clip-path;
+}
+
+.curtain-words {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.6em;
+  margin: 0;
+  font-size: clamp(1rem, 3.4vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.curtain-words span:nth-child(2) {
+  color: var(--red);
+}
+
+.curtain-words span:nth-child(3) {
+  color: var(--mango);
+}
+
 /* ---------- Header ---------- */
 
 .site-header {
@@ -343,7 +414,7 @@
 }
 
 .hero-ghost--p1 {
-  background-image: url('/products/doypack-karpuz.webp?v=13');
+  background-image: url('/products/ghost/doypack-karpuz.webp');
   width: 26%;
   left: 1%;
   bottom: 3%;
@@ -352,7 +423,7 @@
 }
 
 .hero-ghost--p2 {
-  background-image: url('/products/doypack-mango.webp?v=13');
+  background-image: url('/products/ghost/doypack-mango.webp');
   width: 19%;
   left: 22%;
   top: 0;
@@ -361,7 +432,7 @@
 }
 
 .hero-ghost--p3 {
-  background-image: url('/products/doypack-ananas.webp?v=13');
+  background-image: url('/products/ghost/doypack-ananas.webp');
   width: 22%;
   right: 7%;
   bottom: -2%;
@@ -370,7 +441,7 @@
 }
 
 .hero-ghost--p4 {
-  background-image: url('/products/doypack-mavi-ahududu.webp?v=4');
+  background-image: url('/products/ghost/doypack-mavi-ahududu.webp');
   width: 15%;
   right: 24%;
   top: 6%;
@@ -387,7 +458,7 @@
 }
 
 .hero-ghost--l7 {
-  background-image: url('/products/liquid-ananas.webp?v=5');
+  background-image: url('/products/ghost/liquid-ananas.webp');
   width: 17%;
   right: 42%;
   top: -4%;
@@ -396,7 +467,7 @@
 }
 
 .hero-ghost--l8 {
-  background-image: url('/products/liquid-gummy-mango.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-mango.webp');
   aspect-ratio: 1;
   width: 10%;
   right: 2%;
@@ -406,7 +477,7 @@
 }
 
 .hero-ghost--l9 {
-  background-image: url('/products/liquid-gummy-karpuz.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-karpuz.webp');
   aspect-ratio: 1;
   width: 9%;
   left: 4%;
@@ -416,7 +487,7 @@
 }
 
 .hero-ghost--l10 {
-  background-image: url('/products/liquid-gummy-muz.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-muz.webp');
   aspect-ratio: 1;
   width: 8%;
   right: 33%;
@@ -426,7 +497,7 @@
 }
 
 .hero-ghost--l11 {
-  background-image: url('/products/liquid-karpuz.webp?v=5');
+  background-image: url('/products/ghost/liquid-karpuz.webp');
   width: 14%;
   right: 56%;
   bottom: 4%;
@@ -435,7 +506,7 @@
 }
 
 .hero-ghost--l12 {
-  background-image: url('/products/liquid-gummy-muz.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-muz.webp');
   aspect-ratio: 1;
   width: 9%;
   right: 47%;
@@ -445,7 +516,7 @@
 }
 
 .hero-ghost--l13 {
-  background-image: url('/products/liquid-muz.webp?v=5');
+  background-image: url('/products/ghost/liquid-muz.webp');
   width: 13%;
   left: 30%;
   top: 6%;
@@ -454,7 +525,7 @@
 }
 
 .hero-ghost--l14 {
-  background-image: url('/products/liquid-gummy-karpuz.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-karpuz.webp');
   aspect-ratio: 1;
   width: 8%;
   right: 8%;
@@ -522,7 +593,7 @@
 }
 
 .hero-ghost--p5 {
-  background-image: url('/products/peelies-gummy-mango.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-mango.webp');
   width: 13%;
   left: 14%;
   bottom: 12%;
@@ -531,7 +602,7 @@
 }
 
 .hero-ghost--p6 {
-  background-image: url('/products/peelies-gummy-karpuz.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-karpuz.webp');
   width: 11%;
   right: 20%;
   top: 26%;
@@ -540,7 +611,7 @@
 }
 
 .hero-ghost--p7 {
-  background-image: url('/products/doypack-muz.webp?v=13');
+  background-image: url('/products/ghost/doypack-muz.webp');
   width: 17%;
   left: 41%;
   bottom: -4%;
@@ -549,7 +620,7 @@
 }
 
 .hero-ghost--p8 {
-  background-image: url('/products/peelies-gummy-ananas.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-ananas.webp');
   aspect-ratio: 1;
   width: 10%;
   left: 2%;
@@ -559,7 +630,7 @@
 }
 
 .hero-ghost--p9 {
-  background-image: url('/products/peelies-gummy-muz.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-muz.webp');
   aspect-ratio: 1;
   width: 9%;
   right: 3%;
@@ -569,7 +640,7 @@
 }
 
 .hero-ghost--p10 {
-  background-image: url('/products/peelies-gummy-mavi-ahududu.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-mavi-ahududu.webp');
   aspect-ratio: 1;
   width: 8%;
   left: 34%;
@@ -579,7 +650,7 @@
 }
 
 .hero-ghost--p11 {
-  background-image: url('/products/doypack-ananas.webp?v=13');
+  background-image: url('/products/ghost/doypack-ananas.webp');
   width: 14%;
   left: 56%;
   top: 4%;
@@ -588,7 +659,7 @@
 }
 
 .hero-ghost--p12 {
-  background-image: url('/products/peelies-gummy-karpuz.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-karpuz.webp');
   aspect-ratio: 1;
   width: 9%;
   left: 47%;
@@ -598,7 +669,7 @@
 }
 
 .hero-ghost--p13 {
-  background-image: url('/products/doypack-mavi-ahududu.webp?v=4');
+  background-image: url('/products/ghost/doypack-mavi-ahududu.webp');
   width: 13%;
   right: 30%;
   bottom: 6%;
@@ -607,7 +678,7 @@
 }
 
 .hero-ghost--p14 {
-  background-image: url('/products/peelies-gummy-mango.webp?v=1');
+  background-image: url('/products/ghost/peelies-gummy-mango.webp');
   aspect-ratio: 1;
   width: 8%;
   left: 8%;
@@ -617,7 +688,7 @@
 }
 
 .hero-ghost--l1 {
-  background-image: url('/products/liquid-mango.webp?v=5');
+  background-image: url('/products/ghost/liquid-mango.webp');
   width: 26%;
   right: 1%;
   top: 2%;
@@ -626,7 +697,7 @@
 }
 
 .hero-ghost--l2 {
-  background-image: url('/products/liquid-mavi-ahududu.webp?v=5');
+  background-image: url('/products/ghost/liquid-mavi-ahududu.webp');
   width: 20%;
   right: 24%;
   bottom: 0;
@@ -635,7 +706,7 @@
 }
 
 .hero-ghost--l3 {
-  background-image: url('/products/liquid-muz.webp?v=5');
+  background-image: url('/products/ghost/liquid-muz.webp');
   width: 22%;
   left: 5%;
   top: 0;
@@ -644,7 +715,7 @@
 }
 
 .hero-ghost--l4 {
-  background-image: url('/products/liquid-karpuz.webp?v=5');
+  background-image: url('/products/ghost/liquid-karpuz.webp');
   width: 15%;
   left: 22%;
   bottom: 4%;
@@ -653,7 +724,7 @@
 }
 
 .hero-ghost--l5 {
-  background-image: url('/products/liquid-gummy-mavi-ahududu.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-mavi-ahududu.webp');
   width: 12%;
   right: 15%;
   bottom: 14%;
@@ -662,7 +733,7 @@
 }
 
 .hero-ghost--l6 {
-  background-image: url('/products/liquid-gummy-ananas.webp?v=1');
+  background-image: url('/products/ghost/liquid-gummy-ananas.webp');
   width: 11%;
   left: 17%;
   top: 24%;
@@ -687,7 +758,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3; /* above both stacked players */
   background: radial-gradient(ellipse 50% 47% at 50% 52%, rgba(253, 243, 226, 0) 60%, var(--cream) 100%);
 }
 
@@ -1056,25 +1127,6 @@
   animation-delay: -1.1s;
 }
 
-/* the back row: smaller, dimmer, a touch out of focus - depth without 3D */
-.hero-ribbon-track--back {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  translate: 0 -50%;
-  z-index: 1;
-  opacity: 0.5;
-  filter: blur(1.3px) saturate(0.85);
-  pointer-events: none;
-}
-
-.hero-ribbon-track--back .hero-ribbon-pack {
-  height: calc(var(--pack-h) * 0.56);
-  margin-right: clamp(2.8rem, 6.5vw, 5.6rem);
-  margin-left: clamp(0.4rem, 1.4vw, 1.2rem);
-  filter: none;
-  animation-duration: 7s;
-}
 
 /* held down: the strip stops and the pack pops out of the juice */
 .hero-ribbon-pack.is-pressed {
@@ -1159,14 +1211,15 @@
 /* each act is tall so there is room to scroll through it while the panel
    inside stays pinned to the viewport */
 .story-act {
-  height: 200vh;
+  height: 220vh;
   position: relative;
 }
 
+/* pinned just under the sticky header, filling the rest of the screen */
 .story-panel {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: var(--header-h, 0px);
+  height: calc(100svh - var(--header-h, 0px));
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
@@ -1285,7 +1338,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   background: radial-gradient(ellipse 49% 46% at 50% 52%, rgba(253, 243, 226, 0) 58%, var(--cream) 100%);
 }
 
@@ -1304,7 +1357,7 @@
 
 @media (max-width: 760px) {
   .story-act {
-    height: 180vh;
+    height: 230vh;
   }
 
   .story-panel {
@@ -1483,7 +1536,7 @@
 }
 
 .shelf-title {
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  font-size: clamp(2rem, 3.6vw, 3rem);
   line-height: 1;
   font-weight: 800;
   color: var(--flavor);
@@ -1492,8 +1545,17 @@
 
 /* the title drips in after the scene has settled, then the copy rises under it */
 .drip {
+  display: inline;
+}
+
+.drip-word {
   display: inline-block;
-  white-space: pre-wrap;
+  white-space: nowrap;
+  margin-right: 0.28em;
+}
+
+.drip-word:last-child {
+  margin-right: 0;
 }
 
 .drip-letter {
@@ -1728,6 +1790,12 @@
     line-height: 1;
     box-shadow: 0 6px 14px rgba(74, 32, 23, 0.22);
     cursor: pointer;
+  }
+
+  .rail-arrow:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    box-shadow: none;
   }
 
   .rail-arrow--prev {
